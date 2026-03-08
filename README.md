@@ -56,6 +56,7 @@
 | Файл | Описание |
 |------|----------|
 | **SETUP-FULL.md** | **Полная настройка одним разом** — приложения, coins.json, Pool Config, кошельки, дашборд |
+| **guides/WEBUI-STATIC-AND-DATA-FLOW.md** | Где статика, куда подставляется coins.json, где добавляются wallet-адреса; Pool Dashboard (8561) без изменений |
 | **QUICK-FIX.md** | Кратко: нет панели/иконок, Referral/копирайт (букмарклет), монеты в Pool Configuration, запись в GitHub |
 | **guides/POOL-CONFIG-ACTIONS.md** | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, полный список монет, запись изменений в GitHub |
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
