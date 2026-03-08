@@ -13,4 +13,5 @@ desktop.ini
 # Local config (не коммитить секреты)
 config.json
 coins.json
+!templates/coins.json
 *.local.*

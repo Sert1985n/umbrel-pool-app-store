@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pool Config</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; background: #1a1a2e; color: #eee; }
+    .bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; padding: 0.5rem; background: #16213e; border-radius: 8px; }
+    .bar a { color: #7fdbff; text-decoration: none; }
+    .bar a:hover { text-decoration: underline; }
+    .btn { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; background: #e94560; color: #fff; }
+    .btn:hover { background: #c73e54; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    #msg { margin-left: 0.5rem; font-size: 0.9rem; }
+    iframe { width: 100%; height: calc(100vh - 60px); border: none; border-radius: 8px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a href="/panel/" target="_blank">Открыть панель в новой вкладке</a>
+    <button class="btn" id="restartBtn">Перезапустить MiningCore</button>
+    <span id="msg"></span>
+  </div>
+  <iframe src="/panel/" title="Pool Configuration"></iframe>
+  <script>
+    document.getElementById('restartBtn').onclick = function () {
+      var btn = this, msg = document.getElementById('msg');
+      btn.disabled = true;
+      msg.textContent = 'Отправка запроса…';
+      fetch('/restart', { method: 'POST' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          msg.textContent = d.ok ? 'Перезапуск MiningCore выполнен.' : ('Ошибка: ' + (d.error || 'неизвестно'));
+        })
+        .catch(function (e) {
+          msg.textContent = 'Ошибка: ' + e.message;
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    };
+  </script>
+</body>
+</html>

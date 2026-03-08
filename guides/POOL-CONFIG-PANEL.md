@@ -8,22 +8,17 @@
 
 ## Что делает эта панель
 
-- **Setup Database Schema** — создание таблиц БД для пула.
-- **Refresh Master Coin List** — обновление списка монет из **coins.json** на сервере.
-- **Generate Pool Config File** — генерация фрагментов **config.json** по выбранным монетам.
-- **Создание Wallet** — в интерфейсе можно задать/подставить адреса кошельков; плейсхолдер `"xxx"` в config заменяется на реальный адрес при настройке выплат.
-
-Всё это делается в браузере: **http://ВАШ-IP:8562** (Pool Config) → страница Pool Configuration.
+- **При первом запуске** приложения сервис `coins-init` подставляет **coins.json** с нашими монетами в `/home/umbrel/.miningcore/` (если файла ещё нет). Вручную копировать не нужно.
+- По адресу **http://ВАШ-IP:8562** открывается страница с iframe панели и кнопкой **«Перезапустить MiningCore»** (сверху).
+- В панели (как у Retro Mike): **Setup Database Schema**, **Refresh Master Coin List**, **Generate Pool Config File**, **Создание Wallet** — подстановка ваших адресов вместо "xxx". Включение/выключение монет — выбором в списке при генерации config.
+- Всё делается из браузера, без ручных правок на сервере.
 
 ---
 
 ## Откуда берётся список монет
 
-- В панели отображаются монеты из файла **/home/umbrel/.miningcore/coins.json** на Umbrel.
-- У Retro Mike в образе уже есть часть шаблонов; полный список можно собрать из [Miningcore](https://github.com/coinfoundry/miningcore) или взять за основу его магазин.
-- Наши монеты (см. **coins-reference.json**) нужно добавить в **coins.json** на сервере, затем нажать **Refresh Master Coin List** в панели — тогда они появятся в списке и будут доступны для Generate Pool Config File и создания Wallet.
-
-Подробнее: **POOL-CONFIGURATION-COINS.md**.
+- При первом запуске **coins-init** копирует наш **templates/coins.json** в **/home/umbrel/.miningcore/coins.json** (если файла нет). В панели нажмите **Refresh Master Coin List** — появятся наши монеты.
+- Если список пуст — см. **COINS-JSON-SETUP.md** (ручная подстановка и ссылка на готовый coins.json).
 
 ---
 

@@ -1,53 +1,35 @@
-# Как появились ваши монеты в Pool Config (порт 8562)
+# Монеты и панель Pool Config (порт 8562)
 
-Список монет в панели **Pool Config** (Setup Database Schema, Refresh Master Coin List, Generate Pool Config File) берётся **только** из файла **coins.json** на сервере Umbrel. Пока его нет или он пустой — ваших монет в списке не будет.
-
----
-
-## 1. Скачать готовый coins.json
-
-Скачайте файл с шаблонами монет (в нём уже есть bitcoin, bitcoin-cash, ecash, dogecoin, vertcoin и многие другие):
-
-**https://raw.githubusercontent.com/oliverw/miningcore/master/src/Miningcore/coins.json**
-
-Сохраните как `coins.json`.
+Всё делается **из панели**: список монет, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, создание Wallet (подстановка ваших адресов вместо "xxx"), включение/выключение монет, перезапуск MiningCore.
 
 ---
 
-## 2. Исправить XEC (обязательно для eCash)
+## Что делает панель
 
-Чтобы пул не падал с NullReferenceException по XEC, в скачанном coins.json найдите блок **"ecash"** и добавьте (или замените при наличии) эти поля в **false**:
+- **При первом запуске** приложения Pool Config сервис `coins-init` подставляет файл **coins.json** с нашими монетами в `/home/umbrel/.miningcore/coins.json` (если файла ещё нет). Ручная загрузка не нужна.
+- В интерфейсе открывается **MiningCore Web UI** (как у Retro Mike): Setup Database Schema, **Refresh Master Coin List**, Generate Pool Config File, создание Wallet — подстановка реальных адресов вместо "xxx".
+- **Включить/выключить монету** — в панели выбираете, какие монеты нужны при генерации config и в списке; ненужные просто не отмечаете.
+- Кнопка **«Перезапустить MiningCore»** на странице Pool Config отправляет запрос на перезапуск контейнера пула (нужен доступ к docker.sock на хосте).
 
-```json
-"hasCoinbaseStakingReward": false,
-"hasCoinbaseStakingRewards": false,
-"hasCommunity": false,
-"hasCoinbaseDevReward": false,
-"hasFoundation": false,
-"hasDataMining": false,
-"isPoS": false
-```
-
-Подробнее: **FIX-XEC-DAEMON.md** в корне репозитория.
+Откройте **http://ВАШ-IP:8562** → панель загружается в iframe; сверху есть ссылка «Открыть панель в новой вкладке» и кнопка «Перезапустить MiningCore».
 
 ---
 
-## 3. Скопировать на Umbrel
+## Если монет в списке нет (ручная подстановка coins.json)
 
-- Скопируйте готовый **coins.json** на сервер по пути:  
-  **/home/umbrel/.miningcore/coins.json**  
-  (через SCP, SMB или файловый менеджер Umbrel).
-- Перезапустите Miningcore:  
-  `docker restart sert-umbrel-pool-miningcore_server_1`
-- Откройте **Pool Config** в браузере: **http://ВАШ-IP:8562** → страница **Pool Configuration** → нажмите **Refresh Master Coin List**.
+Если по какой-то причине `coins-init` не сработал или список пуст:
 
-После этого в списке появятся монеты из coins.json. Для генерации config и создания Wallet используйте кнопки в этой же панели.
+1. Скачайте готовый **coins.json** с нашими монетами (XEC уже с нужными флагами):  
+   **https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/templates/coins.json**
+2. Скопируйте его на сервер: **/home/umbrel/.miningcore/coins.json**
+3. В панели нажмите **Refresh Master Coin List**.
+4. При необходимости перезапустите MiningCore кнопкой на странице или:  
+   `docker restart sert-umbrel-pool-miningcore_server_1`
+
+Подробнее про XEC: **FIX-XEC-DAEMON.md** в корне репозитория.
 
 ---
 
-## 4. Наши монеты (id в coins.json)
+## Наши монеты (id в coins.json)
 
-По **coins-reference.json** нужны шаблоны с такими id (или близкими по смыслу):  
-bitcoin, bitcoin-cash, bitcoin-ii, bitcoin-sv, bitcoin-silver, digibyte-sha256, dogecoin, ecash, neurai, peercoin, ravencoin, vertcoin, litecoin, groestlcoin, fractalbitcoin-sha, monero, ergo, ethereumclassic, ethereumpow, zephyr, spacecoin, xelis, octaspace, zcash, horizen, flux, firo, kaspa, nexa.
-
-Часть из них уже есть в скачанном coins.json; недостающие можно добавить по образцу существующих (скопировать блок другой монеты того же family и поменять name, symbol, id). Полный список — в **coins-reference.json**.
+По **coins-reference.json**: bitcoin, bitcoin-cash, bitcoin-ii, bitcoin-sv, bitcoin-silver, digibyte-sha256, dogecoin, ecash, neurai, peercoin, ravencoin, vertcoin, litecoin, groestlcoin, fractalbitcoin-sha, monero, ergo, ethereumclassic, ethereumpow, zephyr, spacecoin, xelis, octaspace, zcash, horizen, flux, firo, kaspa, nexa. Шаблоны для них лежат в **templates/coins.json**.

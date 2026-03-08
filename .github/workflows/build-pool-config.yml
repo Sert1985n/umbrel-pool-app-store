@@ -1,0 +1,52 @@
+name: Build Pool Config images (gateway + restart-helper)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sert-umbrel-pool-pool-config/**'
+      - 'templates/coins.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          context: ./sert-umbrel-pool-pool-config/gateway
+          file: ./sert-umbrel-pool-pool-config/gateway/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/sert1985n/pool-config-gateway:latest
+            ghcr.io/sert1985n/pool-config-gateway:${{ github.sha }}
+
+  build-restart-helper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          context: ./sert-umbrel-pool-pool-config/restart-helper
+          file: ./sert-umbrel-pool-pool-config/restart-helper/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/sert1985n/pool-config-restart:latest
+            ghcr.io/sert1985n/pool-config-restart:${{ github.sha }}

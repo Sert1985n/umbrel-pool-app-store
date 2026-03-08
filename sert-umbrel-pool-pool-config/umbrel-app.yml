@@ -1,13 +1,13 @@
 manifestVersion: 1
 id: sert-umbrel-pool-pool-config
 name: Pool Config
-tagline: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, создание Wallet (замена "xxx" на адрес)
+tagline: Всё из панели: монеты, Setup DB, Refresh Coin List, Generate Config, Wallet, кнопка перезапуска MiningCore
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8562
 description: |
-  Отдельная панель для добавления монет в пул: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Создание Wallet-адресов, подстановка реального адреса вместо "xxx" в config.json. Та же панель, что у Retro Mike (MiningCore Web UI). Монеты из coins.json на сервере (/home/umbrel/.miningcore/). Сначала установите MiningCore.
+  Всё из панели: при первом запуске подставляется coins.json с нашими монетами; Setup Database Schema, Refresh Master Coin List, Generate Pool Config File; создание Wallet и замена "xxx" на ваши адреса; включение/выключение монет; кнопка «Перезапустить MiningCore». Та же панель, что у Retro Mike (MiningCore Web UI). Сначала установите MiningCore.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
