@@ -1,0 +1,27 @@
+manifestVersion: 1
+id: sert-umbrel-pool-miningcore
+name: MiningCore
+tagline: MiningCore Mining Pool
+icon: https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+category: SOLO Crypto Mining
+version: "1.4.0"
+port: 8560
+description: |
+  MiningCore — пул для соло-майнинга. Для работы установите одну или несколько нод монет и настройте config.json (см. документацию в репозитории).
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://hub.docker.com/r/theretromike/miningcore
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+releaseNotes: |
+  На базе Retro Mike Miningcore. Конфиги: /home/umbrel/.miningcore/config.json и coins.json
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

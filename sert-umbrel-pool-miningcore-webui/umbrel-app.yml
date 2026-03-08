@@ -1,0 +1,27 @@
+manifestVersion: 1
+id: sert-umbrel-pool-miningcore-webui
+name: MiningCore Web UI
+tagline: Web UI для пула MiningCore
+icon: https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+category: SOLO Crypto Mining
+version: "2.5.0"
+port: 8559
+description: |
+  Web UI для MiningCore. Сначала установите приложение MiningCore.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://hub.docker.com/r/theretromike/miningcorewebui
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+releaseNotes: |
+  На базе Retro Mike Miningcore Web UI. Подключается к MiningCore из этого магазина.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

@@ -1,0 +1,27 @@
+manifestVersion: 1
+id: sert-umbrel-pool-btc-node
+name: Bitcoin (BTC) Node
+tagline: Нода Bitcoin для пула или соло-майнинга
+icon: https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5009
+description: |
+  Нода Bitcoin (BTC). Используется пулом MiningCore. В config.json укажите host: sert-umbrel-pool-btc-node_node_1, port: 9004.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/TheRetroMike/bitcoin
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png
+releaseNotes: |
+  На базе Retro Mike Bitcoin node. RPC 9004, ZMQ 7004.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

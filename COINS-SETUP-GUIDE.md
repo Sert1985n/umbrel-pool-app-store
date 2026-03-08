@@ -33,9 +33,10 @@
 - **coin** — каноническое имя (ecash, bitcoin, …).
 - **ports** — stratum (6001–6025 и т.д., см. coins-reference.json).
 - **daemons**:
-  - **host** — имя контейнера ноды в сети Umbrel, например:
-    - `retro-mike-xec-node_node_1`
-    - `retro-mike-ppc-node_node_1`
+  - **host** — имя контейнера ноды в сети Umbrel. Для приложений из этого магазина:
+    - `sert-umbrel-pool-xec-node_node_1`
+    - `sert-umbrel-pool-btc-node_node_1`
+    - и т.д. (префикс `sert-umbrel-pool-` + имя приложения + `_node_1` или `_server_1`)
   - Или `127.0.0.1`, если порты ноды проброшены на хост.
   - **port** — RPC-порт ноды (для XEC: 9007 и т.д.).
   - **user** / **password** — RPC (например pooluser / poolpassword).

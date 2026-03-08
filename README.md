@@ -6,12 +6,21 @@
 
 ## Структура проекта
 
-| Файл | Описание |
-|------|----------|
-| **README.md** | Этот файл — обзор проекта |
-| **COINS-SETUP-GUIDE.md** | Что настраивать при добавлении/включении монет (пути Umbrel, имена контейнеров) |
-| **FIX-XEC-DAEMON.md** | Исправление ошибок XEC (host, coinTemplates) на Umbrel |
-| **coins-reference.json** | Справочник монет: id, coin, stratum, rpcPort для конфигов |
+Как в [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): каждое приложение — папка с `umbrel-app.yml` и `docker-compose.yml`.
+
+| Приложение | Описание |
+|------------|----------|
+| **sert-umbrel-pool-miningcore** | MiningCore — пул для соло-майнинга |
+| **sert-umbrel-pool-miningcore-webui** | Web UI для пула |
+| **sert-umbrel-pool-xec-node** | Нода eCash (XEC) |
+| **sert-umbrel-pool-btc-node** | Нода Bitcoin (BTC) |
+| **sert-umbrel-pool-postgres** | PostgreSQL + pgAdmin (опционально) |
+
+| Документация | Описание |
+|--------------|----------|
+| **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel, имена контейнеров |
+| **FIX-XEC-DAEMON.md** | Исправление ошибок XEC (host, coinTemplates) |
+| **coins-reference.json** | Справочник монет: id, coin, stratum, rpcPort |
 
 ---
 

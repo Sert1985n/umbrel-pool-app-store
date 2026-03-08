@@ -10,7 +10,7 @@
 
 **Решение:** заменить **host** на реальное имя контейнера ноды, например:
 
-- `retro-mike-xec-node_node_1`
+- `sert-umbrel-pool-xec-node_node_1` (если установлен из этого магазина)
 
 или на `127.0.0.1`, если RPC ноды проброшен на хост.
 
@@ -28,7 +28,7 @@ docker ps --format '{{.Names}}' | grep -i xec
 ]
 ```
 
-После правки: `docker restart retro-mike-miningcore_server_1`.
+После правки: `docker restart sert-umbrel-pool-miningcore_server_1`.
 
 ---
 
