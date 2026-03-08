@@ -7,7 +7,7 @@ category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8561
 description: |
-  Кастомная панель пула (poolui): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Подключается к API MiningCore. Для полной работы установите MiningCore (приложения независимы). Без Referral/Support.
+  Панель пула (poolui): статистика, графики, кошелёк. Без привязки к MiningCore — ставится отдельно. API к MiningCore при наличии. Сборка из репо.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n

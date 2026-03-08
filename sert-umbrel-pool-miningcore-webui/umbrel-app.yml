@@ -7,11 +7,10 @@ category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8563
 description: |
-  Оригинальная панель MiningCore Web UI (theretromike/miningcorewebui). Для Setup Database Schema, Refresh Master Coin List, Generate Pool Config File и замены "xxx" на адреса кошельков. Список монет — из coins.json. Открывайте с панели «Pool Config» (8562).
+  MiningCore Web UI (theretromike/miningcorewebui). Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx". Без привязки к MiningCore — ставится отдельно. Список монет из coins.json.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
-dependencies:
-  - sert-umbrel-pool-miningcore
+dependencies: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""

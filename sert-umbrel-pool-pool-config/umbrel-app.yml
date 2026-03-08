@@ -7,16 +7,13 @@ category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8562
 description: |
-  Ваша панель: список всех ваших монет из coins.json (для добавления в пул). Кнопка открывает Pool Config Web UI на порту 8563 — там Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx" на адреса. Сборка из репозитория (build). Сначала установите MiningCore. coins.json — templates/coins.json и guides/COINS-JSON-SETUP.md.
+  Ваша панель: список ваших монет из coins.json. Кнопка открывает Web UI на 8563 (Setup DB, Generate Config, замена "xxx"). Без привязки к MiningCore — ставится отдельно. Сборка из репо. coins.json — templates/coins.json.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
-submitter: Sert1985n
-submission: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 releaseNotes: |
-  Ваша панель на 8562: список ваших монет из coins.json. Ссылка на 8563 для Setup DB / Generate Config. Сборка из репо.
-dependencies:
-  - sert-umbrel-pool-miningcore
+  Порт 8562. Без зависимости от MiningCore. Список монет, ссылка на 8563.
+dependencies: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""

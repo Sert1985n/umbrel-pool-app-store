@@ -13,7 +13,7 @@
 | **Pool Config (Web UI)** | 8563 | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx" |
 | **Pool Dashboard** | 8561 | Таблица пулов, статистика |
 
-Сначала установите MiningCore, затем Pool Config (8562), Pool Config Web UI (8563), Pool Dashboard (8561). Сборка идёт из репозитория (build на устройстве).
+Приложения **без привязки к MiningCore** — можно ставить в любом порядке. Pool Config (8562), Web UI (8563), Pool Dashboard (8561) — сборка из репо (build на устройстве).
 
 ---
 
