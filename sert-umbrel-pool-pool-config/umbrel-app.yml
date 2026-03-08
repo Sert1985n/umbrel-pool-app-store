@@ -10,10 +10,15 @@ description: |
   Ваша панель: список ваших монет из coins.json. Кнопка открывает Web UI на 8563 (Setup DB, Generate Config, замена "xxx"). Без привязки к MiningCore — ставится отдельно. Сборка из репо. coins.json — templates/coins.json.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
   Порт 8562. Без зависимости от MiningCore. Список монет, ссылка на 8563.
 dependencies: []
-path: ""
+path: "sert-umbrel-pool-pool-config"
 defaultUsername: ""
 defaultPassword: ""

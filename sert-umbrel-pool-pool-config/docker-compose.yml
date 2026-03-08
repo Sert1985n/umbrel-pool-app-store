@@ -6,12 +6,14 @@ services:
       APP_HOST: sert-umbrel-pool-pool-config_web_1
       APP_PORT: 8080
     depends_on:
-      - web
+      web:
+        condition: service_started
 
   web:
     build: .
     image: sert-umbrel-pool-pool-config:local
     restart: on-failure
+    init: true
     volumes:
       - /home/umbrel/.miningcore:/app/miningcore:ro
     environment:
