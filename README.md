@@ -34,14 +34,4 @@ btc, bch, bc2, bsv, dgb, doge, xec, xna, ppc, rvn, vtc, ltc, grs, fb, xmr, erg, 
 
 ## GitHub
 
-Репозиторий можно добавить на GitHub отдельно:
-
-1. Создайте новый репозиторий на [github.com](https://github.com/new) (например `umbrel-pool-project` или `umbrel-miningcore-setup`).
-2. В папке проекта выполните:
-
-```bash
-cd путь/к/Umbrel-Pool-Project
-git remote add origin https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПОЗИТОРИЯ.git
-git branch -M main
-git push -u origin main
-```
+Репозиторий готов к публикации на GitHub. Пошаговая инструкция — в **[GITHUB.md](GITHUB.md)**.
