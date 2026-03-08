@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: sert-umbrel-pool-custom-panel_web_1
+      APP_PORT: 8080
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/sert1985n/pool-custom-panel:latest
+    restart: on-failure
+    volumes:
+      - /home/umbrel/.miningcore:/app/miningcore:ro
+    environment:
+      - COINS_FILE=/app/miningcore/coins.json

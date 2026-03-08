@@ -1,0 +1,13 @@
+manifestVersion: 1
+id: sert-umbrel-pool-custom-panel
+name: Pool Config (наши монеты)
+tagline: Список всех 28 монет из coins.json — отдельная панель
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+category: SOLO Crypto Mining
+version: "1.0.0"
+port: 8563
+description: |
+  Отдельная панель: показывает все 28 монет из /home/umbrel/.miningcore/coins.json. Список обновляется по кнопке Refresh. Setup Database Schema и Generate Pool Config File — по ссылке в панели (MiningCore Web UI). Сначала установите MiningCore.
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+dependencies: []

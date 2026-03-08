@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (порт **8562**): та же панель 1 в 1 (MiningCore Web UI). Чтобы в списке были **все 28 монет** из репозитория — подставьте coins.json одной командой: **guides/COINS-JSON-SETUP.md**. **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (8562) или **«Pool Config (наши монеты)»** (порт **8563**): отдельная панель на порту 8563 читает **coins.json** с сервера и показывает **все 28 монет**; Refresh и ссылка на MiningCore Web UI для Setup DB / Generate Config. **guides/COINS-JSON-SETUP.md**. **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
@@ -15,7 +15,8 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — отдельная панель (MiningCore Web UI): Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet. Монеты из coins.json на сервере (шаблон в templates/ и guides/COINS-JSON-SETUP.md). |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — панель MiningCore Web UI: Setup DB, Refresh Coin List, Generate Config, Wallet. |
+| **sert-umbrel-pool-custom-panel** | 8563 | **Pool Config (наши монеты)** — отдельная панель: список **всех 28 монет** из coins.json, Refresh, ссылка на MiningCore Web UI. |
 | **sert-umbrel-pool-dashboard** | 8561 | **Pool Dashboard** — ваша панель (poolui): статистика, графики, кошелёк. Без Referral/Support. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |

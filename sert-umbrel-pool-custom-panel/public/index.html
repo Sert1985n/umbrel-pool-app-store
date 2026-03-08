@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pool Configuration — наши монеты</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #1e1e2e; color: #cdd6f4; }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar { width: 200px; background: #181825; padding: 1rem; }
+    .sidebar a { display: block; color: #89b4fa; text-decoration: none; padding: 0.5rem 0; }
+    .sidebar a:hover { text-decoration: underline; }
+    .sidebar .active { color: #f5c2e7; font-weight: bold; }
+    main { flex: 1; padding: 1.5rem; }
+    h1 { margin-top: 0; color: #f5c2e7; }
+    .buttons { margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn { padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; background: #45475a; color: #cdd6f4; }
+    .btn:hover { background: #585b70; }
+    .btn.primary { background: #89b4fa; color: #1e1e2e; }
+    .coin-list { background: #313244; border-radius: 8px; padding: 1rem; max-width: 500px; }
+    .coin-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid #45475a; }
+    .coin-item:last-child { border-bottom: none; }
+    .coin-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #a6e3a1; }
+    .note { margin-top: 1.5rem; padding: 1rem; background: #313244; border-radius: 8px; font-size: 0.9rem; color: #a6adc8; }
+    a.ext { color: #89b4fa; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <a href="#" class="active">Pool Configuration</a>
+      <a href="#" id="linkWebUi">MiningCore Web UI (оригинал)</a>
+    </nav>
+    <main>
+      <h1>Mining Pool Configuration</h1>
+      <p>Список монет из <strong>/home/umbrel/.miningcore/coins.json</strong> (все 28 монет из репозитория).</p>
+      <div class="buttons">
+        <button class="btn primary" id="refreshBtn">Refresh Master Coin List</button>
+        <a href="#" id="btnWebUi" target="_blank" class="btn">Setup Database Schema / Generate Pool Config File →</a>
+      </div>
+      <div id="loading">Загрузка списка монет…</div>
+      <div id="coinList" class="coin-list" style="display:none;"></div>
+      <div class="note">
+        <strong>Примечание.</strong> Setup Database Schema и Generate Pool Config File выполняются в панели MiningCore Web UI (кнопка выше). Здесь отображается актуальный список из вашего coins.json. После изменения coins.json на сервере нажмите «Refresh Master Coin List».
+      </div>
+    </main>
+  </div>
+  <script>
+    const coinListEl = document.getElementById('coinList');
+    const loadingEl = document.getElementById('loading');
+    const WEBUI_URL = 'http://' + window.location.hostname + ':8562';
+
+    function render(coins) {
+      if (!coins.length) {
+        coinListEl.innerHTML = '<p>Монеты не найдены. Проверьте путь к coins.json на сервере.</p>';
+      } else {
+        coinListEl.innerHTML = coins.map(c => `
+          <label class="coin-item">
+            <input type="checkbox" checked>
+            <span>${escapeHtml(c.name)} (${escapeHtml(c.symbol)})</span>
+          </label>
+        `).join('');
+      }
+      loadingEl.style.display = 'none';
+      coinListEl.style.display = 'block';
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+
+    function load() {
+      loadingEl.style.display = 'block';
+      coinListEl.style.display = 'none';
+      fetch('/api/coins')
+        .then(r => r.json())
+        .then(d => render(d.coins || []))
+        .catch(e => {
+          loadingEl.textContent = 'Ошибка: ' + e.message;
+          coinListEl.style.display = 'none';
+        });
+    }
+
+    document.getElementById('refreshBtn').onclick = load;
+    document.getElementById('linkWebUi').href = WEBUI_URL + '/PoolConfiguration';
+    document.getElementById('btnWebUi').href = WEBUI_URL + '/PoolConfiguration';
+    load();
+  </script>
+</body>
+</html>
