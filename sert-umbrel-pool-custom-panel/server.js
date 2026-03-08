@@ -9,8 +9,16 @@ const PORT = 8080;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Health check для Umbrel (быстрый 200)
+app.get('/health', (req, res) => {
+  res.status(200).send('ok');
+});
+
 app.get('/api/coins', (req, res) => {
   try {
+    if (!fs.existsSync(COINS_FILE)) {
+      return res.json({ coins: [], message: 'coins.json не найден. Скопируйте файл в /home/umbrel/.miningcore/ и нажмите Refresh.' });
+    }
     const raw = fs.readFileSync(COINS_FILE, 'utf8');
     const data = JSON.parse(raw);
     const list = Object.entries(data).map(([id, c]) => ({
@@ -20,7 +28,7 @@ app.get('/api/coins', (req, res) => {
     }));
     res.json({ coins: list });
   } catch (e) {
-    res.status(500).json({ error: String(e.message) });
+    res.json({ coins: [], error: String(e.message) });
   }
 });
 
