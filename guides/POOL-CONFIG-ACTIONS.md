@@ -1,6 +1,6 @@
 # Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
 
-Три действия для настройки пула Miningcore и управления монетами. **Все ваши монеты (новые и старые)** — в Master Coin List ниже; их можно включать/выключать в **config.json**, управлять через родную MiningCore Web UI (Pool Configuration). Изменения можно записывать в GitHub (раздел 4).
+Три действия для настройки пула Miningcore и управления монетами. **Все ваши монеты** — в **coins-reference.json**; их можно включать в **config.json** и в **coins.json** на сервере. Управление: приложение **«MiningCore Web UI»** (порт 8559) — Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Изменения можно записывать в GitHub (раздел 4).
 
 ---
 

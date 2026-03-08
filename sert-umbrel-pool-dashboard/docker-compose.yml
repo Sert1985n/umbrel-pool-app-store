@@ -10,5 +10,5 @@ services:
     image: nginx:alpine
     restart: on-failure
     volumes:
-      - ./poolui:/usr/share/nginx/html:ro
+      - ./www:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro

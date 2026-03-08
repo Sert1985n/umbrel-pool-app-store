@@ -1,15 +1,15 @@
 manifestVersion: 1
 id: sert-umbrel-pool-dashboard
-name: Pool Dashboard (Моя панель)
-tagline: Ваша панель пула: статистика, графики, кошелёк (public-pool-btc.ru)
+name: Pool Dashboard
+tagline: Ваша панель пула — статистика, графики, кошелёк (public-pool-btc.ru)
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8561
 description: |
-  Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики. Подключается к MiningCore этого магазина. Сначала установите MiningCore.
+  Кастомная панель пула (poolui): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Подключается к API MiningCore. Сначала установите MiningCore и MiningCore Web UI.
 
-  public-pool-btc.ru
+  Без Referral/Support — свой интерфейс. Для настройки пула (Setup Database Schema, Refresh Master Coin List, Generate Pool Config) используйте приложение «MiningCore Web UI».
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
@@ -17,11 +17,11 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
- - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Pool Dashboard — статистика, графики, кошелёк. Порт 8561.
+  Панель из poolui. Порт 8561. API проксируется к MiningCore.
 dependencies:
- - sert-umbrel-pool-miningcore
+  - sert-umbrel-pool-miningcore
 path: ""
 defaultUsername: ""
 defaultPassword: ""

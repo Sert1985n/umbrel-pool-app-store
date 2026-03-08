@@ -1,27 +1,61 @@
 manifestVersion: 1
 id: sert-umbrel-pool-miningcore-webui
-name: MiningCore Web UI (Моя панель)
-tagline: Ваша панель пула: статистика, графики, кошелёк. public-pool-btc.ru
-icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+name: MiningCore Web UI
+tagline: Web UI for the MiningCore Mining Pool — Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
+icon: https://raw.githubusercontent.com/TheRetroMike/retromike-umbrel-app-store/master/retro-mike-miningcore-webui/webui.png
 category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8559
 description: |
-  Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики. Подключается к MiningCore. Сначала установите MiningCore.
+  Родная панель MiningCore: Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Подключите coins.json и config.json на сервере (/home/umbrel/.miningcore/). Сначала установите MiningCore.
 
-  Для Pool Configuration (Setup Database Schema, Refresh Master Coin List) установите приложение «Pool Configuration».
+  Список монет для генерации — в coins.json на сервере; справочник монет в репозитории: coins-reference.json.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
 submission: https://github.com/Sert1985n/umbrel-pool-app-store
-repo: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://hub.docker.com/r/theretromike/miningcorewebui
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
- - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+  - https://raw.githubusercontent.com/TheRetroMike/retromike-umbrel-app-store/master/retro-mike-miningcore-webui/webui.png
 releaseNotes: |
-  Панель из папки poolui. Без Referral/Support — свой интерфейс. Порт 8559.
+  На базе Retro Mike MiningCore Web UI. Порт 8559. Referral/Support — в оригинальном образе; для своей панели используйте приложение «Pool Dashboard».
 dependencies:
- - sert-umbrel-pool-miningcore
+  - sert-umbrel-pool-miningcore
+widgets:
+  - id: "page1"
+    type: "list"
+    refresh: "5s"
+    endpoint: "web:8080/api/PoolStatsWidget/0"
+    link: ""
+    example:
+      type: "list"
+      link: ""
+      items:
+        - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+          subtext: "Last Synced Block: 01/12/2026 10:12:34"
+  - id: "page2"
+    type: "list"
+    refresh: "5s"
+    endpoint: "web:8080/api/PoolStatsWidget/1"
+    link: ""
+    example:
+      type: "list"
+      link: ""
+      items:
+        - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+          subtext: "Last Synced Block: 01/12/2026 10:12:34"
+  - id: "page3"
+    type: "list"
+    refresh: "5s"
+    endpoint: "web:8080/api/PoolStatsWidget/2"
+    link: ""
+    example:
+      type: "list"
+      link: ""
+      items:
+        - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+          subtext: "Last Synced Block: 01/12/2026 10:12:34"
 path: ""
 defaultUsername: ""
 defaultPassword: ""
