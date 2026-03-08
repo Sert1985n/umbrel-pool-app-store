@@ -7,7 +7,8 @@
 | Приложение | Порт | Назначение |
 |------------|------|------------|
 | **sert-umbrel-pool-miningcore** | 8560 | Dozzle (логи). API MiningCore — внутренний 4000 |
-| **sert-umbrel-pool-miningcore-webui** | 8559 | Родной MiningCore Web UI: Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
+| **sert-umbrel-pool-miningcore-webui** | 8559 | Родной MiningCore Web UI (та же панель конфигурации) |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — отдельная панель: Setup DB, Refresh Coin List, Generate Config, Wallet |
 | **sert-umbrel-pool-dashboard** | 8561 | Ваша панель (poolui): статистика, графики, кошелёк |
 
 ## Имена контейнеров (для config.json и прокси)

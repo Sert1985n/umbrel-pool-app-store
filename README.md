@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Родной Web UI** (Setup Database Schema, Refresh Master Coin List, Generate Pool Config) — приложение **«MiningCore Web UI»** (порт **8559**). **Ваша панель** (статистика, графики, кошелёк) — приложение **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель добавления монет** (Setup DB, Refresh Coin List, Generate Config, Wallet) — приложение **«Pool Config»** (порт **8562**) или «MiningCore Web UI» (8559). **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
@@ -15,7 +15,8 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-miningcore-webui** | 8559 | **MiningCore Web UI** — родная панель: Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
+| **sert-umbrel-pool-miningcore-webui** | 8559 | **MiningCore Web UI** — родная панель конфигурации (то же, что у Retro Mike) |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — отдельная панель: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, создание Wallet, замена "xxx" на адрес. Ищите в магазине по имени «Pool Config». |
 | **sert-umbrel-pool-dashboard** | 8561 | **Pool Dashboard** — ваша панель (poolui): статистика, графики, кошелёк. Без Referral/Support. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |

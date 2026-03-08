@@ -1,6 +1,9 @@
 # Отдельная панель: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
 
-Как в [Retro Mike MiningCore Web UI](https://github.com/TheRetroMike/retromike-umbrel-app-store/tree/master/retro-mike-miningcore-webui): у нас отдельное приложение **«MiningCore Web UI»** (порт **8559**) — это и есть панель для добавления монет, создания Wallet и генерации config.
+Как в [Retro Mike MiningCore Web UI](https://github.com/TheRetroMike/retromike-umbrel-app-store/tree/master/retro-mike-miningcore-webui). У нас **два** приложения с этой панелью (одна и та же панель, разный порт и название в магазине):
+
+- **«Pool Config»** (порт **8562**) — отдельная панель, **ищите в магазине по имени «Pool Config»**.
+- **«MiningCore Web UI»** (порт **8559**) — та же панель.
 
 ---
 
@@ -29,7 +32,8 @@
 
 | Приложение              | Порт | Назначение |
 |-------------------------|------|------------|
-| **MiningCore Web UI**   | 8559 | Панель конфигурации: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet. |
+| **Pool Config**         | 8562 | **Отдельная панель** для добавления монет: Setup DB, Refresh Coin List, Generate Config, Wallet. Ищите в магазине «Pool Config». |
+| **MiningCore Web UI**   | 8559 | Та же панель конфигурации (альтернативный вход). |
 | **Pool Dashboard**      | 8561 | Ваша панель: статистика, Current Price, Reward, графики. |
 
 Оба приложения независимы; для работы панели конфигурации нужен установленный **MiningCore** (пул), чтобы API был доступен.
