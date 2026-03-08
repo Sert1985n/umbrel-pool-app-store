@@ -4,6 +4,14 @@
 
 ---
 
+## Где моя панель? Где иконки?
+
+**Моя панель** — это приложение **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard»). Оно есть в списке приложений магазина **Umbrel Pool**: установите его, откройте по выданному порту (8560) — это и есть ваша панель с 4 блоками статистики, Your Wallet и графиками.
+
+**Иконки** приложений берутся из полей `icon` и `gallery` в каждом `umbrel-app.yml`. Если иконки не отображаются в Umbrel, проверьте доступ в интернет с устройства; для вашей панели и пула добавлены иконки из репозитория в папке **icons/** — в манифестах используются ссылки на `raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/...`, чтобы они грузились с вашего GitHub.
+
+---
+
 ## Приложения (как в [Retro Mike Store](https://github.com/TheRetroMike/retromike-umbrel-app-store))
 
 Каждое приложение — папка с `umbrel-app.yml` и `docker-compose.yml`. Иконки — по возможности те же (cryptologos, bitcoincash.org и т.д.).
@@ -12,7 +20,7 @@
 |------------|----------|
 | **sert-umbrel-pool-miningcore** | MiningCore — пул |
 | **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (родная)** — Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, управление монетами (новые и старые), запись изменений в GitHub |
-| **sert-umbrel-pool-poolui** | **Pool Dashboard (My Web UI)** — дашборд: статистика в реальном времени, графики hashrate, проверка кошелька (Your Wallet). Ваша панель на новом порту |
+| **sert-umbrel-pool-poolui** | **Моя панель — Pool Dashboard** — ваша панель: статистика, графики, кошелёк (порт 8560). Иконка в **icons/pool-dashboard.svg** |
 | **sert-umbrel-pool-btc-node** | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | Нода Bitcoin SV |

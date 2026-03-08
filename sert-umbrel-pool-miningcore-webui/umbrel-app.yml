@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-miningcore-webui
 name: MiningCore Web UI (родная)
 tagline: Родная панель MiningCore — Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
-icon: https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/webui-native.svg
 category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8559
@@ -18,6 +18,7 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://hub.docker.com/r/theretromike/miningcorewebui
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/webui-native.svg
   - https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
 releaseNotes: |
   Родная панель MiningCore (Retro Mike). Подключается к MiningCore из этого магазина. Монеты управляются через Setup Database Schema, Refresh Master Coin List, Generate Pool Config File; изменения можно записывать в GitHub.
