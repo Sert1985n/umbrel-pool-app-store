@@ -25,6 +25,11 @@ docker restart sert-umbrel-pool-pool-config_web_1
 ```
 Подождите ещё 10–15 секунд.
 
+**Вариант: скрипт с GitHub** (загрузка coins.json + оба перезапуска). На Umbrel по SSH:
+```bash
+curl -sSL -o /tmp/install-coins-json.sh "https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/scripts/install-coins-json.sh" && sh /tmp/install-coins-json.sh
+```
+
 **Шаг 2 — обновление списка в панели:**
 1. Откройте **http://ВАШ-IP:8562** → **Pool Configuration** (или «Открыть панель в новой вкладке»).
 2. Нажмите **Refresh Master Coin List** — должны появиться все 28 монет.
