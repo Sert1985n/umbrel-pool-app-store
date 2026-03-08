@@ -1,10 +1,11 @@
 {
-  "description": "Справочник монет для Umbrel (config.json / daemons). host: sert-umbrel-pool-<id>-node_node_1 (DGB: _digibyted_1)",
+  "description": "Master Coin List для Setup Database Schema / Refresh Master Coin List / Generate Pool Config File. Справочник монет для Umbrel (config.json / daemons). host: sert-umbrel-pool-<id>-node_node_1 (DGB: _digibyted_1)",
   "coins": [
     { "id": "btc", "coin": "bitcoin", "stratum": 6004, "rpcPort": 9004 },
     { "id": "bch", "coin": "bitcoin-cash", "stratum": 6002, "rpcPort": 9002 },
     { "id": "bc2", "coin": "bitcoin-ii", "stratum": 6006, "rpcPort": 9006 },
     { "id": "bsv", "coin": "bitcoin-sv", "stratum": 6005, "rpcPort": 9005 },
+    { "id": "btcs", "coin": "bitcoin-silver", "stratum": 6015, "rpcPort": 9015 },
     { "id": "dgb", "coin": "digibyte-sha256", "stratum": 6001, "rpcPort": 9001 },
     { "id": "doge", "coin": "dogecoin", "stratum": 6003, "rpcPort": 9003 },
     { "id": "xec", "coin": "ecash", "stratum": 6007, "rpcPort": 9007 },

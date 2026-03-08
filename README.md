@@ -43,10 +43,11 @@
 
 | Файл | Описание |
 |------|----------|
+| **guides/POOL-CONFIG-ACTIONS.md** | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, полный список монет, запись изменений в GitHub |
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
-| **coins-reference.json** | Справочник: id, coin, stratum, rpcPort |
+| **coins-reference.json** | Master Coin List: id, coin, stratum, rpcPort (для панели и скриптов) |
 
 ---
 
@@ -71,4 +72,5 @@ btc, bch, bc2, bsv, dgb, doge, xec, xna, ppc, rvn, vtc, ltc, grs, fb, xmr, erg, 
 
 Репозиторий: **https://github.com/Sert1985n/umbrel-pool-app-store**
 
-Дальнейшие обновления: `git add .` → `git commit -m "..."` → `git push`. Подробнее — в [GITHUB.md](GITHUB.md).
+- Обновления кода и документации: `git add .` → `git commit -m "..."` → `git push`. Подробнее — в [GITHUB.md](GITHUB.md).
+- Запись изменений **config.json** и **coins.json** (бэкап с сервера) — в [guides/POOL-CONFIG-ACTIONS.md](guides/POOL-CONFIG-ACTIONS.md) (раздел «Записать изменения в GitHub»).
