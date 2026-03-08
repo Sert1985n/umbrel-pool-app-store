@@ -4,7 +4,7 @@ name: Pool Dashboard (моя панель)
 tagline: Статистика, графики, кошелёк — ваша панель пула
 icon: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/speedometer2.svg
 category: SOLO Crypto Mining
-version: "1.0.0"
+version: "1.0.1"
 port: 8561
 description: |
   Ваша личная панель пула. POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Контент из sert-umbrel-pool-dashboard/www. Для работы с данными установите MiningCore.
