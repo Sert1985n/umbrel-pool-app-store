@@ -7,14 +7,16 @@
 | Приложение | Порт | Назначение |
 |------------|------|------------|
 | **sert-umbrel-pool-miningcore** | 8560 | Dozzle (логи). API MiningCore — внутренний 4000 |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — панель конфигурации: Setup DB, Refresh Coin List, Generate Config, Wallet |
-| **sert-umbrel-pool-dashboard** | 8561 | Ваша панель (poolui): статистика, графики, кошелёк |
+| **sert-umbrel-pool-poolui** | 8561 | **Моя панель** (poolui): статистика, графики, Your Wallet |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — список монет, ссылка на Web UI (8563) |
+| **sert-umbrel-pool-miningcore-webui** | 8563 | **Web UI** — Setup DB, Refresh Coin List, Generate Config |
 
 ## Имена контейнеров (для config.json и прокси)
 
 - **MiningCore API:** `sert-umbrel-pool-miningcore_server_1` (порт 4000)
-- **Pool Config (панель конфигурации):** `sert-umbrel-pool-pool-config_web_1` (порт 8080)
-- **Pool Dashboard (ваша панель):** `sert-umbrel-pool-dashboard_server_1` (порт 80)
+- **Pool Config:** `sert-umbrel-pool-pool-config_web_1` (порт 8080)
+- **Моя панель (poolui):** `sert-umbrel-pool-poolui_web_1` (порт 80)
+- **Web UI:** `sert-umbrel-pool-miningcore-webui_web_1`
 
 Ноды монет (для daemons в config.json):
 
