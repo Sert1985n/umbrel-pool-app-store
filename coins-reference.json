@@ -1,0 +1,33 @@
+{
+  "description": "Справочник монет для Umbrel (config.json / daemons). host на Umbrel: retro-mike-<id>-node_node_1",
+  "coins": [
+    { "id": "btc", "coin": "bitcoin", "stratum": 6004, "rpcPort": 9004 },
+    { "id": "bch", "coin": "bitcoin-cash", "stratum": 6002, "rpcPort": 9002 },
+    { "id": "bc2", "coin": "bitcoin-ii", "stratum": 6006, "rpcPort": 9006 },
+    { "id": "bsv", "coin": "bitcoin-sv", "stratum": 6005, "rpcPort": 9005 },
+    { "id": "dgb", "coin": "digibyte-sha256", "stratum": 6001, "rpcPort": 9001 },
+    { "id": "doge", "coin": "dogecoin", "stratum": 6003, "rpcPort": 9003 },
+    { "id": "xec", "coin": "ecash", "stratum": 6007, "rpcPort": 9007 },
+    { "id": "xna", "coin": "neurai", "stratum": 6011, "rpcPort": 9011 },
+    { "id": "ppc", "coin": "peercoin", "stratum": 6012, "rpcPort": 9012 },
+    { "id": "rvn", "coin": "ravencoin", "stratum": 6010, "rpcPort": 9010 },
+    { "id": "vtc", "coin": "vertcoin", "stratum": 6008, "rpcPort": 9008 },
+    { "id": "ltc", "coin": "litecoin", "stratum": 6020, "rpcPort": 9020 },
+    { "id": "grs", "coin": "groestlcoin", "stratum": 6013, "rpcPort": 9013 },
+    { "id": "fb", "coin": "fractalbitcoin-sha", "stratum": 6014, "rpcPort": 9021 },
+    { "id": "xmr", "coin": "monero", "stratum": 6009, "rpcPort": 18081 },
+    { "id": "erg", "coin": "ergo", "stratum": 6015, "rpcPort": 9050 },
+    { "id": "etc", "coin": "ethereumclassic", "stratum": 6016, "rpcPort": 8545 },
+    { "id": "ethw", "coin": "ethereumpow", "stratum": 6017, "rpcPort": 8546 },
+    { "id": "zeph", "coin": "zephyr", "stratum": 6018, "rpcPort": 38081 },
+    { "id": "space", "coin": "spacecoin", "stratum": 6019, "rpcPort": 9133 },
+    { "id": "xel", "coin": "xelis", "stratum": 6021, "rpcPort": 8080 },
+    { "id": "octa", "coin": "octaspace", "stratum": 6022, "rpcPort": 8547 },
+    { "id": "zec", "coin": "zcash", "stratum": 6023, "rpcPort": 8232 },
+    { "id": "zen", "coin": "horizen", "stratum": 6024, "rpcPort": 8231 },
+    { "id": "flux", "coin": "flux", "stratum": 6025, "rpcPort": 16124 },
+    { "id": "firo", "coin": "firo", "stratum": 6026, "rpcPort": 8888 },
+    { "id": "kas", "coin": "kaspa", "stratum": 6027, "rpcPort": 16110 },
+    { "id": "nexa", "coin": "nexa", "stratum": 6028, "rpcPort": 7227 }
+  ]
+}
