@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: sert-umbrel-pool-miningcore-webui_web_1
+      APP_PORT: 8080
+    depends_on:
+      - web
+
+  web:
+    image: theretromike/miningcorewebui
+    restart: on-failure
+    volumes:
+      - /home/umbrel/.miningcore:/app/miningcore
+    user: "1000:1000"
+    environment:
+      - POOL_NAME=Self-Hosted Mining Pool
+      - STRATUM_HOST=umbrel.local
+      - API_BASE_URL=http://sert-umbrel-pool-miningcore_server_1:4000/api
+      - PLATFORM=UMBREL

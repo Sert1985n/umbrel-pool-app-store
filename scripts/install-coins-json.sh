@@ -14,4 +14,5 @@ echo "Coins.json updated. Restarting MiningCore, Pool Config and Pool Config (н
 docker restart sert-umbrel-pool-miningcore_server_1 2>/dev/null || true
 sleep 15
 docker restart sert-umbrel-pool-pool-config_web_1 2>/dev/null || true
-echo "Done. Open http://YOUR-IP:8562 → Pool Configuration → Refresh Master Coin List. Full guide: SETUP-FULL.md in repo."
+docker restart sert-umbrel-pool-miningcore-webui_web_1 2>/dev/null || true
+echo "Done. Open http://YOUR-IP:8562 (ваша панель), then 8563 for Setup DB / Generate Config. SETUP-FULL.md in repo."

@@ -721,9 +721,6 @@ async function renderPools(){
   setHeaderBadges(totalBlocks, totalMiners);
 
   const rows = poolsTableRows();
-  const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
-    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Откройте <a href="http://' + window.location.hostname + ':8562/" target="_blank" rel="noopener">Pool Config (8562)</a> → Pool Configuration → Refresh Master Coin List → Setup Database Schema → Generate Pool Config File → замените "xxx" на адреса кошельков → перезапустите MiningCore в Umbrel.</td></tr>'
-    : (rows || '<tr><td colspan="8">—</td></tr>');
 
   $('#app').innerHTML=`
     <section class="surface">
@@ -737,7 +734,7 @@ async function renderPools(){
             <th>Pool</th><th>Algorithm</th><th>Miners</th><th>Hashrate</th>
             <th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Reward</th>
           </tr></thead>
-          <tbody id="poolsTbody">${emptyMsg}</tbody>
+          <tbody id="poolsTbody">${rows || '<tr><td colspan="8">—</td></tr>'}</tbody>
         </table>
       </div>
     </section>
@@ -768,11 +765,7 @@ function poolsTableRows(){
 function updatePoolsDOM(){
   const tb = $('#poolsTbody');
   if(!tb) return;
-  const rows = poolsTableRows();
-  const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
-    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> <a href="http://' + window.location.hostname + ':8562/" target="_blank" rel="noopener">Pool Config (8562)</a> → Setup DB → Refresh Coin List → Generate Config.</td></tr>'
-    : (rows || '<tr><td colspan="8">—</td></tr>');
-  tb.innerHTML = emptyMsg;
+  tb.innerHTML = poolsTableRows() || '<tr><td colspan="8">—</td></tr>';
 }
 
 async function renderCoin(poolId){

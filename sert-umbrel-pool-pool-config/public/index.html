@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pool Config — мои монеты</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #1e1e2e; color: #cdd6f4; }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 1.5rem; }
+    h1 { color: #f5c2e7; }
+    .coins { background: #313244; border-radius: 8px; padding: 1rem; margin: 1rem 0; max-height: 60vh; overflow-y: auto; }
+    .coin { padding: 0.5rem 0; border-bottom: 1px solid #45475a; }
+    .coin:last-child { border-bottom: none; }
+    .btn { display: inline-block; padding: 0.6rem 1.2rem; margin: 0.5rem 0.5rem 0 0; border-radius: 8px; background: #89b4fa; color: #1e1e2e; text-decoration: none; font-weight: 600; border: none; cursor: pointer; font-size: 1rem; }
+    .btn:hover { background: #b4befe; }
+    .btn.second { background: #45475a; color: #cdd6f4; }
+    .btn.second:hover { background: #585b70; }
+    .note { margin-top: 1.5rem; padding: 1rem; background: #313244; border-radius: 8px; color: #a6adc8; font-size: 0.9rem; }
+    .note a { color: #89b4fa; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Pool Config — мои монеты</h1>
+    <p>Список монет из <strong>coins.json</strong> (все мои монеты для добавления в пул).</p>
+    <button class="btn" id="refreshBtn">Refresh Master Coin List</button>
+    <a class="btn second" href="#" id="linkWebUi" target="_blank" rel="noopener">Setup Database Schema / Generate Pool Config File → открыть на порту 8563</a>
+    <div id="loading">Загрузка…</div>
+    <div id="coinList" class="coins" style="display:none;"></div>
+    <div class="note">
+      Добавление монет и генерация config: откройте по кнопке выше <strong>порт 8563</strong> (MiningCore Web UI). Там: Refresh Master Coin List → Setup Database Schema → Generate Pool Config File → замените "xxx" на адреса кошельков.
+    </div>
+  </div>
+  <script>
+    const host = window.location.hostname;
+    const WEBUI_8563 = 'http://' + host + ':8563/';
+    const coinList = document.getElementById('coinList');
+    const loading = document.getElementById('loading');
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function render(coins) {
+      if (!coins.length) {
+        coinList.innerHTML = '<p>Монеты не найдены. Загрузите coins.json в /home/umbrel/.miningcore/ и нажмите Refresh.</p>';
+      } else {
+        coinList.innerHTML = coins.map(c => '<div class="coin">' + esc(c.name) + ' (' + esc(c.symbol) + ')</div>').join('');
+      }
+      loading.style.display = 'none';
+      coinList.style.display = 'block';
+    }
+
+    function load() {
+      loading.style.display = 'block';
+      coinList.style.display = 'none';
+      fetch('/api/coins').then(r => r.json()).then(d => render(d.coins || [])).catch(e => {
+        loading.textContent = 'Ошибка: ' + e.message;
+        coinList.style.display = 'none';
+      });
+    }
+
+    document.getElementById('refreshBtn').onclick = load;
+    document.getElementById('linkWebUi').href = WEBUI_8563;
+    load();
+  </script>
+</body>
+</html>

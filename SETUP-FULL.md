@@ -1,32 +1,25 @@
-# Полная настройка пула — один раз, всё работает
+# Полная настройка пула
 
-Одна панель конфигурации (8562). Установка приложений → загрузка монет → настройка пулов и кошельков → дашборд 8561.
-
----
-
-## 1. Установить приложения в Umbrel
-
-В **App Store** установите по порядку:
-
-| Приложение | Порт | Зачем |
-|------------|------|--------|
-| **MiningCore** | 8560 | Ядро пула (API на 4000) |
-| **Pool Config (MiningCore Web UI)** | 8562 | **Одна панель**: Setup DB, Refresh Coin List, Generate Config, кошельки. Без сборки — только образ theretromike/miningcorewebui. |
-| **Pool Dashboard** | 8561 | Таблица пулов, статистика, графики |
-
-При необходимости установите ноды нужных монет (BTC, BCH, XEC и т.д.) — см. README.
+**8562** — ваша панель с вашими монетами. **8563** — Web UI для Setup DB / Generate Config. **8561** — дашборд (таблица пулов).
 
 ---
 
-## 2. Один раз: загрузить список монет
+## 1. Установить приложения
 
-По **SSH на Umbrel** выполните одну команду:
+| Приложение | Порт | Назначение |
+|------------|------|------------|
+| **MiningCore** | 8560 | Ядро пула |
+| **Pool Config (мои монеты)** | 8562 | Ваша панель — список ваших монет из coins.json |
+| **Pool Config (Web UI)** | 8563 | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx" |
+| **Pool Dashboard** | 8561 | Таблица пулов, статистика |
 
-```bash
-curl -sSL -o /tmp/install-coins-json.sh "https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/scripts/install-coins-json.sh" && sh /tmp/install-coins-json.sh
-```
+Сначала установите MiningCore, затем Pool Config (8562), Pool Config Web UI (8563), Pool Dashboard (8561). Сборка идёт из репозитория (build на устройстве).
 
-Либо вручную:
+---
+
+## 2. Загрузить coins.json
+
+По SSH на Umbrel:
 
 ```bash
 mkdir -p /home/umbrel/.miningcore
@@ -34,27 +27,25 @@ curl -sSL -o /home/umbrel/.miningcore/coins.json "https://raw.githubusercontent.
 docker restart sert-umbrel-pool-miningcore_server_1
 sleep 15
 docker restart sert-umbrel-pool-pool-config_web_1
+docker restart sert-umbrel-pool-miningcore-webui_web_1
 ```
 
-Подождите 15–20 секунд.
+Либо скрипт:  
+`curl -sSL -o /tmp/install-coins-json.sh "https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/scripts/install-coins-json.sh" && sh /tmp/install-coins-json.sh`
 
 ---
 
-## 3. Настроить пулы и кошельки (одна панель — 8562)
+## 3. Настроить пулы
 
-1. Откройте **http://ВАШ-IP:8562** — откроется MiningCore Web UI.
-2. Перейдите в **Pool Configuration**. Выполните по порядку:
-   - **Refresh Master Coin List** — подтянутся монеты из `coins.json`.
-   - **Setup Database Schema** — если ещё не делали.
-   - **Generate Pool Config File** — создаётся `config.json` с пулами.
-3. В сгенерированном конфиге замените **"xxx"** на ваши адреса кошельков. Сохраните конфиг.
-4. В Umbrel: **Apps → MiningCore → Restart**. Подождите 10–15 секунд.
+1. Откройте **http://ВАШ-IP:8562** — ваша панель с вашими монетами.
+2. Нажмите **«Setup Database Schema / Generate Pool Config File → открыть на порту 8563»** — откроется **http://ВАШ-IP:8563** (MiningCore Web UI).
+3. На 8563: **Refresh Master Coin List** → **Setup Database Schema** → **Generate Pool Config File** → замените "xxx" на адреса кошельков → сохраните.
+4. В Umbrel: **Apps → MiningCore → Restart**.
 
 ---
 
-## 4. Проверить результат
+## 4. Проверка
 
-- **http://ВАШ-IP:8561** — **Pool Dashboard**: таблица пулов. Если пусто — выполните шаг 3 и перезапустите MiningCore.
-- **http://ВАШ-IP:8562** — единственная панель конфигурации (Setup DB, Refresh, Generate Config, кошельки).
-
-Конфиги на сервере: **/home/umbrel/.miningcore/config.json** и **coins.json**. Ноды — **guides/CONFIG-DAEMONS.md**.
+- **http://ВАШ-IP:8561** — Pool Dashboard (таблица пулов).
+- **http://ВАШ-IP:8562** — ваша панель (мои монеты).
+- **http://ВАШ-IP:8563** — Web UI (Setup DB, Generate Config).

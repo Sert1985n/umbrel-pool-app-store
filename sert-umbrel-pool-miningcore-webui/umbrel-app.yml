@@ -1,0 +1,17 @@
+manifestVersion: 1
+id: sert-umbrel-pool-miningcore-webui
+name: Pool Config (Web UI — Setup DB / Generate Config)
+tagline: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+category: SOLO Crypto Mining
+version: "1.0.0"
+port: 8563
+description: |
+  Оригинальная панель MiningCore Web UI (theretromike/miningcorewebui). Для Setup Database Schema, Refresh Master Coin List, Generate Pool Config File и замены "xxx" на адреса кошельков. Список монет — из coins.json. Открывайте с панели «Pool Config» (8562).
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+dependencies:
+  - sert-umbrel-pool-miningcore
+path: ""
+defaultUsername: ""
+defaultPassword: ""

@@ -1,24 +1,22 @@
 manifestVersion: 1
 id: sert-umbrel-pool-pool-config
-name: Pool Config (MiningCore Web UI)
-tagline: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet
+name: Pool Config (мои монеты)
+tagline: Список всех моих монет для добавления в пул, ссылка на Web UI
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
-version: "2.5.0"
+version: "1.0.0"
 port: 8562
 description: |
-  Одна панель конфигурации (MiningCore Web UI, образ theretromike/miningcorewebui). Устанавливается без сборки — только образ. Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx" на адреса кошельков. Список монет — из coins.json на сервере (/home/umbrel/.miningcore/). Сначала установите MiningCore. Шаблон coins.json — templates/coins.json и guides/COINS-JSON-SETUP.md.
+  Ваша панель: список всех ваших монет из coins.json (для добавления в пул). Кнопка открывает Pool Config Web UI на порту 8563 — там Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx" на адреса. Сборка из репозитория (build). Сначала установите MiningCore. coins.json — templates/coins.json и guides/COINS-JSON-SETUP.md.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
 submission: https://github.com/Sert1985n/umbrel-pool-app-store
-repo: https://hub.docker.com/r/theretromike/miningcorewebui
 support: https://github.com/Sert1985n/umbrel-pool-app-store
-gallery:
-  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Панель конфигурации пула (образ theretromike/miningcorewebui). Порт 8562. Список монет из coins.json на сервере; наши 28 монет — templates/coins.json и guides/COINS-JSON-SETUP.md. Внутри образа: wwwroot (статика), pooltemplate.json и *template.json по монетам, запись в /app/miningcore/ (config.json, coins.json).
-dependencies: []
+  Ваша панель на 8562: список ваших монет из coins.json. Ссылка на 8563 для Setup DB / Generate Config. Сборка из репо.
+dependencies:
+  - sert-umbrel-pool-miningcore
 path: ""
 defaultUsername: ""
 defaultPassword: ""

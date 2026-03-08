@@ -9,13 +9,10 @@ services:
       - web
 
   web:
-    image: theretromike/miningcorewebui
+    build: .
+    image: sert-umbrel-pool-pool-config:local
     restart: on-failure
     volumes:
-      - /home/umbrel/.miningcore:/app/miningcore
-    user: "1000:1000"
+      - /home/umbrel/.miningcore:/app/miningcore:ro
     environment:
-      - POOL_NAME=Self-Hosted Mining Pool
-      - STRATUM_HOST=umbrel.local
-      - API_BASE_URL=http://sert-umbrel-pool-miningcore_server_1:4000/api
-      - PLATFORM=UMBREL
+      - COINS_FILE=/app/miningcore/coins.json
