@@ -1,18 +1,18 @@
 # Umbrel Pool App Store
 
-Магазин приложений для майнинг-пула на **Umbrel**. **Pool Config (8562)** — панель конфигурации монет; **8563** — родная MiningCore Web UI (Setup DB / Generate Config); **8560** — ваша панель Pool Dashboard (poolui): статистика, графики, кошелёк.
+Магазин приложений для майнинг-пула на **Umbrel**. Две панели: **8563** — родная MiningCore Web UI (Setup DB / Generate Config); **8561** — ваша WEB UI (Pool Dashboard): статистика, графики, кошелёк. Панель «мои монеты» удалена — всё в 8563.
 
 ---
 
 ## Полная настройка (один раз, всё работает)
 
-**См. [SETUP-FULL.md](SETUP-FULL.md)** — одна инструкция: установка приложений → загрузка coins.json (одна команда) → Pool Config (8562): Setup DB, Refresh, Generate Config, кошельки → перезапуск MiningCore → дашборд 8561 с таблицей пулов.
+**См. [SETUP-FULL.md](SETUP-FULL.md)** — установка приложений → coins.json → **8563** (MiningCore Web UI): Setup DB, Refresh, Generate Config → перезапуск MiningCore → **8561** (ваша панель) — статистика, графики.
 
 ---
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Pool Config (8562)** — панель конфигурации монет. **8563** — родная MiningCore Web UI. **8560** — ваша панель Pool Dashboard (poolui). **guides/COINS-JSON-SETUP.md**. Сеть и порты: **guides/NETWORK-PORTS.md**.
+См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **8563** — родная MiningCore Web UI (Setup DB, Generate Config). **8561** — ваша WEB UI (Pool Dashboard). **guides/COINS-JSON-SETUP.md**. Сеть и порты: **guides/NETWORK-PORTS.md**.
 
 ---
 
@@ -21,9 +21,8 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config (мои монеты)** — ваша панель: список ваших монет из coins.json, ссылка на 8563. |
-| **sert-umbrel-pool-miningcore-webui** | 8563 | **MiningCore Web UI (родная)** — Setup DB, Refresh Coin List, Generate Config. Иконка: ETH. |
-| **sert-umbrel-pool-poolui** | 8560 | **Моя панель — Pool Dashboard** — статистика, графики, кошелёк (ваша WEB UI). Иконка: LTC. |
+| **sert-umbrel-pool-miningcore-webui** | 8563 | **MiningCore Web UI (родная)** — Setup DB, Refresh Coin List, Generate Config. Иконка: шестерёнка. |
+| **sert-umbrel-pool-poolui** | 8561 | **Моя WEB UI — Pool Dashboard** — статистика, графики, кошелёк. Иконка: дашборд. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | — | Нода Bitcoin SV |

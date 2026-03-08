@@ -1,12 +1,12 @@
 manifestVersion: 1
 id: sert-umbrel-pool-poolui
-name: Моя панель — Pool Dashboard
-tagline: Ваша панель пула: статистика, графики, кошелёк (public-pool-btc.ru)
-# Ваша WEB UI — иконка отличная от родной MiningCore Web UI
-icon: https://cryptologos.cc/logos/litecoin-ltc-logo.svg
+name: Моя WEB UI — Pool Dashboard
+tagline: Ваша панель: статистика, графики, кошелёк. Отдельно от 8563.
+# Иконка: дашборд/спидометр (не крипто)
+icon: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/speedometer2.svg
 category: SOLO Crypto Mining
 version: "1.0.0"
-port: 8560
+port: 8561
 description: |
   Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики. Подключается к MiningCore этого магазина. Сначала установите MiningCore.
 
@@ -18,9 +18,9 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
- - https://cryptologos.cc/logos/litecoin-ltc-logo.svg
+ - https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/speedometer2.svg
 releaseNotes: |
-  Pool Dashboard — статистика, графики, кошелёк. Порт 8560.
+  Моя WEB UI — статистика, графики, кошелёк. Порт 8561. Контент из sert-umbrel-pool-dashboard/www.
 dependencies:
  - sert-umbrel-pool-miningcore
 path: ""

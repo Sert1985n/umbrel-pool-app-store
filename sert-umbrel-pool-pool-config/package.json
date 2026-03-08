@@ -1,8 +1,0 @@
-{
-  "name": "pool-config-my-coins",
-  "version": "1.0.0",
-  "main": "server.js",
-  "dependencies": {
-    "express": "^4.18.0"
-  }
-}
