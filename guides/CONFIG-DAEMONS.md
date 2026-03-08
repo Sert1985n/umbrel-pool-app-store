@@ -35,6 +35,8 @@
 
 **Важно:** не используйте старые имена вида `retro-mike-ppc-node_node_1` или просто `xec` — иначе будет «Name or service not known».
 
+**Stratum-порты** (без конфликтов): у каждой монеты свой порт 6001–6029; ERG — 6029, BTCS — 6015. Полный список — **coins-reference.json**. RPC ноды XMR в этом магазине — **9009** (не 18081).
+
 Пример для XEC в config.json:
 
 ```json

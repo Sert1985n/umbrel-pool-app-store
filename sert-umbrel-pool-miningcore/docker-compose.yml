@@ -15,10 +15,10 @@ services:
       - /home/umbrel/.miningcore/config.json:/app/config.json
       - /home/umbrel/umbrel/app-data/sert-umbrel-pool-vtc-node/.vertcoin:/.vertcoin
     ports:
-      - 6001-6028:6001-6028
-      - 6201-6228:6201-6228
-      - 6301-6328:6301-6328
-      - 6401-6428:6401-6428
+      - 6001-6029:6001-6029
+      - 6201-6229:6201-6229
+      - 6301-6329:6301-6329
+      - 6401-6429:6401-6429
       - 4000:4000
   web:
     image: amir20/dozzle:v8.12.8@sha256:8ff3115c9c9dd7576839df6f2575de345ca7cafa398cf2496f1f19c31d862ac1
