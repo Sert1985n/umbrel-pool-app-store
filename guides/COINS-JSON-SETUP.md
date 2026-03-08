@@ -10,19 +10,21 @@
 curl -sSL -o /home/umbrel/.miningcore/coins.json "https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/templates/coins.json"
 ```
 
-**Важно:** после загрузки файла нужно **обновить список в панели**:
+**Обязательно после загрузки файла:** список монет в панели берётся из MiningCore (пул), который читает `coins.json` при старте. Поэтому нужно **сначала перезапустить MiningCore**, затем обновить список в панели.
 
-1. Откройте **http://ВАШ-IP:8562** (если включён gateway — сверху будет кнопка «Перезапустить MiningCore» и iframe с панелью).
-2. Перейдите в **Pool Configuration** (или откройте панель в новой вкладке по ссылке сверху).
-3. Нажмите **Refresh Master Coin List** — в списке должны появиться все 28 монет.
+**Шаг 1 — перезапуск MiningCore (по SSH):**
+```bash
+docker restart sert-umbrel-pool-miningcore_server_1
+```
+Подождите 10–20 секунд, пока контейнер поднимется.
 
-Если список по-прежнему старый (15 монет):
+**Шаг 2 — обновление списка в панели:**
+1. Откройте **http://ВАШ-IP:8562** → **Pool Configuration** (или панель в новой вкладке).
+2. Нажмите **Refresh Master Coin List** — должны появиться все 28 монет.
 
-- Проверьте, что файл записался:  
-  `ls -la /home/umbrel/.miningcore/coins.json` и  
-  `head -5 /home/umbrel/.miningcore/coins.json` (должен быть JSON с "bitcoin" и т.д.).
-- В Umbrel: **Apps** → приложение **Pool Config** → **Restart**. Затем снова откройте панель и нажмите **Refresh Master Coin List**.
-- Либо перезапустите MiningCore (кнопка «Перезапустить MiningCore» на странице Pool Config или в Umbrel → MiningCore → Restart), затем снова **Refresh Master Coin List**.
+Если список всё ещё старый:
+- Убедитесь, что шаг 1 выполнен (MiningCore перезапущен).
+- Перезапустите приложение **Pool Config** в Umbrel (Apps → Pool Config → Restart), затем снова откройте панель и нажмите **Refresh Master Coin List**.
 
 ---
 
