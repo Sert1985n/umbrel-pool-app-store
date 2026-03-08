@@ -1,0 +1,35 @@
+# Отдельная панель: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
+
+Как в [Retro Mike MiningCore Web UI](https://github.com/TheRetroMike/retromike-umbrel-app-store/tree/master/retro-mike-miningcore-webui): у нас отдельное приложение **«MiningCore Web UI»** (порт **8559**) — это и есть панель для добавления монет, создания Wallet и генерации config.
+
+---
+
+## Что делает эта панель
+
+- **Setup Database Schema** — создание таблиц БД для пула.
+- **Refresh Master Coin List** — обновление списка монет из **coins.json** на сервере.
+- **Generate Pool Config File** — генерация фрагментов **config.json** по выбранным монетам.
+- **Создание Wallet** — в интерфейсе можно задать/подставить адреса кошельков; плейсхолдер `"xxx"` в config заменяется на реальный адрес при настройке выплат.
+
+Всё это делается в браузере по адресу: **http://ВАШ-IP:8559** (страница Pool Configuration и т.д.).
+
+---
+
+## Откуда берётся список монет
+
+- В панели отображаются монеты из файла **/home/umbrel/.miningcore/coins.json** на Umbrel.
+- У Retro Mike в образе уже есть часть шаблонов; полный список можно собрать из [Miningcore](https://github.com/coinfoundry/miningcore) или взять за основу его магазин.
+- Наши монеты (см. **coins-reference.json**) нужно добавить в **coins.json** на сервере, затем нажать **Refresh Master Coin List** в панели — тогда они появятся в списке и будут доступны для Generate Pool Config File и создания Wallet.
+
+Подробнее: **POOL-CONFIGURATION-COINS.md**.
+
+---
+
+## Приложение в магазине
+
+| Приложение              | Порт | Назначение |
+|-------------------------|------|------------|
+| **MiningCore Web UI**   | 8559 | Панель конфигурации: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet. |
+| **Pool Dashboard**      | 8561 | Ваша панель: статистика, Current Price, Reward, графики. |
+
+Оба приложения независимы; для работы панели конфигурации нужен установленный **MiningCore** (пул), чтобы API был доступен.

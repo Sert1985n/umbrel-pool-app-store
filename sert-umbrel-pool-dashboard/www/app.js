@@ -186,48 +186,91 @@ function setHeaderBadges(blocks, miners){
 }
 
 /* ---------- prices + rewards ---------- */
-function poolSymbol(pool){ return (pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toLowerCase(); }
+function poolSymbol(pool){ return (pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toLowerCase().replace(/\s+/g,''); }
 
-// Только BC2/XEC/BCH/FB — reward/price маппинг подстраивается под этот список
-const META = {
-  bc2: { gecko: "bitcoinii" },
-  bch: { gecko: "bitcoin-cash" },
-  xec: { gecko: "ecash" },
-  fb:  { gecko: "french-connection-finance" },
+// Маппинг pool id/symbol/type -> CoinGecko id (для Current Price). Все монеты пула.
+const COINGECKO_BY_KEY = {
+  btc: "bitcoin", bitcoin: "bitcoin",
+  bch: "bitcoin-cash", "bitcoin-cash": "bitcoin-cash",
+  bc2: "bitcoinii", "bitcoin-ii": "bitcoinii",
+  bsv: "bitcoin-sv", "bitcoin-sv": "bitcoin-sv",
+  btcs: "bitcoin-silver", "bitcoin-silver": "bitcoin-silver",
+  dgb: "digibyte", digibyte: "digibyte", "digibyte-sha256": "digibyte",
+  doge: "dogecoin", dogecoin: "dogecoin",
+  xec: "ecash", ecash: "ecash",
+  xna: "neurai", neurai: "neurai",
+  ppc: "peercoin", peercoin: "peercoin",
+  rvn: "ravencoin", ravencoin: "ravencoin",
+  vtc: "vertcoin", vertcoin: "vertcoin",
+  ltc: "litecoin", litecoin: "litecoin",
+  grs: "groestlcoin", groestlcoin: "groestlcoin",
+  fb: "french-connection-finance", "fractalbitcoin-sha": "french-connection-finance",
+  xmr: "monero", monero: "monero",
+  erg: "ergo", ergo: "ergo",
+  etc: "ethereum-classic", ethereumclassic: "ethereum-classic",
+  ethw: "ethereum-pow", ethereumpow: "ethereum-pow",
+  zeph: "zephyr-protocol", zephyr: "zephyr-protocol",
+  space: "spacecoin", spacecoin: "spacecoin",
+  xel: "xelis", xelis: "xelis",
+  octa: "octaspace", octaspace: "octaspace",
+  zec: "zcash", zcash: "zcash",
+  zen: "horizen", horizen: "horizen",
+  flux: "zel",
+  firo: "firo", firo: "firo",
+  kas: "kaspa", kaspa: "kaspa",
+  nexa: "nexa", nexa: "nexa",
 };
 
+// Block reward fallback (монета -> значение), если API не отдаёт
 const BLOCK_REWARD_FALLBACK = {
-  bc2: 50,
-  bch: 3.125,
-  xec: 1812500,
-  fb:  6.25,
+  btc: 3.125, bitcoin: 3.125,
+  bch: 3.125, "bitcoin-cash": 3.125,
+  bc2: 50, "bitcoin-ii": 50,
+  bsv: 6.25, "bitcoin-sv": 6.25,
+  btcs: 6.25, "bitcoin-silver": 6.25,
+  dgb: 720, digibyte: 720, "digibyte-sha256": 720,
+  doge: 10000, dogecoin: 10000,
+  xec: 1812500, ecash: 1812500,
+  xna: 50, neurai: 50,
+  ppc: 2, peercoin: 2,
+  rvn: 2500, ravencoin: 2500,
+  vtc: 25, vertcoin: 25,
+  ltc: 6.25, litecoin: 6.25,
+  grs: 5, groestlcoin: 5,
+  fb: 6.25, "fractalbitcoin-sha": 6.25,
+  xmr: 0.6, monero: 0.6,
+  erg: 67.5, ergo: 67.5,
+  zec: 1.25, zcash: 1.25,
+  zen: 6.25, horizen: 6.25,
+  flux: 37.5, firo: 6.25, kas: 100, nexa: 50,
 };
 
 async function refreshPrices(){
-  const ids = POOLS.map(p=>META[poolSymbol(p)]?.gecko || null).filter(Boolean);
-  const uniq=[...new Set(ids)];
-  if(!uniq.length){ PRICE_CACHE={}; return; }
-  const url=`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,${encodeURIComponent(uniq.join(','))}&vs_currencies=usd&include_24hr_change=true`;
-  try{
+  const ids = (POOLS || []).map(p => COINGECKO_BY_KEY[poolSymbol(p)] || null).filter(Boolean);
+  const uniq = [...new Set(ids)];
+  if (!uniq.length) { PRICE_CACHE = {}; return; }
+  const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,${encodeURIComponent(uniq.join(','))}&vs_currencies=usd&include_24hr_change=true`;
+  try {
     const data = await fetchJson(url);
     PRICE_CACHE = data && typeof data === 'object' ? data : {};
-  }catch(e){ PRICE_CACHE={}; }
+  } catch (e) { PRICE_CACHE = {}; }
 }
 function priceForPool(pool){
-  const gid=META[poolSymbol(pool)]?.gecko || null;
-  const g=gid?PRICE_CACHE[gid]:null;
+  const sym = poolSymbol(pool);
+  const gid = COINGECKO_BY_KEY[sym] || COINGECKO_BY_KEY[pool?.id] || null;
+  const g = gid ? PRICE_CACHE[gid] : null;
   const btcUsd = PRICE_CACHE?.bitcoin?.usd;
   const usd = g?.usd ?? null;
   const btc = (usd != null && btcUsd != null && btcUsd > 0) ? (usd / btcUsd) : null;
   return { usd, chg: g?.usd_24h_change ?? null, btc };
 }
 function getBlockReward(pool){
-  const sym=poolSymbol(pool);
-  const ns=pool?.networkStats||{};
-  const ps=pool?.poolStats||{};
+  const sym = poolSymbol(pool);
+  const ns = pool?.networkStats || {};
+  const ps = pool?.poolStats || {};
   const v = asNumberOrNull(pool?.coin?.blockReward ?? ns.blockReward ?? ps.blockReward ?? null);
-  if(v!=null) return v;
-  return BLOCK_REWARD_FALLBACK[sym] ?? null;
+  if (v != null) return v;
+  return BLOCK_REWARD_FALLBACK[sym] ?? BLOCK_REWARD_FALLBACK[pool?.id] ?? null;
 }
 function fmtReward(pool){
   const symU = (pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toUpperCase();

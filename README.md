@@ -52,6 +52,7 @@
 | **guides/POOL-CONFIG-ACTIONS.md** | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, полный список монет, запись изменений в GitHub |
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **guides/NODES-AND-XEC.md** | Ноды без конфликтов, ссылка на документ «как добавили XEC», что проверить |
+| **guides/POOL-CONFIG-PANEL.md** | Отдельная панель (MiningCore Web UI, порт 8559): Setup DB, Refresh Coin List, Generate Config, Wallet |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
 | **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; заменить копирайт на public-pool-btc.ru (userscript/букмарклет) |
