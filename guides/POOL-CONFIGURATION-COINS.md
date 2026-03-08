@@ -1,4 +1,4 @@
-# Монеты в Pool Configuration (http://ВАШ-IP:8559/PoolConfiguration)
+# Монеты в Pool Configuration (http://ВАШ-IP:8562/PoolConfiguration)
 
 Страница **Pool Configuration** в MiningCore Web UI показывает список монет из файла **coins.json** на сервере Umbrel. От этого списка зависят Setup Database Schema, Refresh Master Coin List, создание Wallet и Generate Pool Config File.
 
@@ -18,7 +18,7 @@
 2. Скопируйте файл на сервер в `/home/umbrel/.miningcore/coins.json` (через SCP, SMB или файловый доступ Umbrel).
 3. Перезапустите Miningcore:  
    `docker restart sert-umbrel-pool-miningcore_server_1`
-4. Откройте в браузере **http://ВАШ-IP:8559/PoolConfiguration** и нажмите **Refresh Master Coin List**.
+4. Откройте **http://ВАШ-IP:8562** (Pool Config) → Pool Configuration и нажмите **Refresh Master Coin List**.
 
 После этого в списке появятся монеты из coins.json; их можно отмечать и использовать для создания Wallet и генерации config.
 

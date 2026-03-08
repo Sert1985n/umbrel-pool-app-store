@@ -1,9 +1,8 @@
 # Отдельная панель: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
 
-Как в [Retro Mike MiningCore Web UI](https://github.com/TheRetroMike/retromike-umbrel-app-store/tree/master/retro-mike-miningcore-webui). У нас **два** приложения с этой панелью (одна и та же панель, разный порт и название в магазине):
+Как в [Retro Mike MiningCore Web UI](https://github.com/TheRetroMike/retromike-umbrel-app-store/tree/master/retro-mike-miningcore-webui). У нас **одно** приложение с этой панелью:
 
-- **«Pool Config»** (порт **8562**) — отдельная панель, **ищите в магазине по имени «Pool Config»**.
-- **«MiningCore Web UI»** (порт **8559**) — та же панель.
+- **«Pool Config»** (порт **8562**) — панель конфигурации. Дубликата «MiningCore Web UI» больше нет, чтобы не перенаправляло на старую панель.
 
 ---
 
@@ -14,7 +13,7 @@
 - **Generate Pool Config File** — генерация фрагментов **config.json** по выбранным монетам.
 - **Создание Wallet** — в интерфейсе можно задать/подставить адреса кошельков; плейсхолдер `"xxx"` в config заменяется на реальный адрес при настройке выплат.
 
-Всё это делается в браузере по адресу: **http://ВАШ-IP:8559** (страница Pool Configuration и т.д.).
+Всё это делается в браузере: **http://ВАШ-IP:8562** (Pool Config) → страница Pool Configuration.
 
 ---
 
@@ -32,8 +31,7 @@
 
 | Приложение              | Порт | Назначение |
 |-------------------------|------|------------|
-| **Pool Config**         | 8562 | **Отдельная панель** для добавления монет: Setup DB, Refresh Coin List, Generate Config, Wallet. Ищите в магазине «Pool Config». |
-| **MiningCore Web UI**   | 8559 | Та же панель конфигурации (альтернативный вход). |
+| **Pool Config**         | 8562 | Панель конфигурации: Setup DB, Refresh Coin List, Generate Config, Wallet. Монеты из coins.json — см. **COINS-JSON-SETUP.md**. |
 | **Pool Dashboard**      | 8561 | Ваша панель: статистика, Current Price, Reward, графики. |
 
 Оба приложения независимы; для работы панели конфигурации нужен установленный **MiningCore** (пул), чтобы API был доступен.
