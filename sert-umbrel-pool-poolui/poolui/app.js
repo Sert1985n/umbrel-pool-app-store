@@ -83,6 +83,15 @@ function fmtPct(p){
   const s=x>0?'+':'';
   return `${s}${x.toFixed(2)}%`;
 }
+/** Status from MiningCore API (e.g. "Block maturation requires new blocks in the network") → short label for table */
+function formatBlockStatus(s){
+  if(s==null||s==='') return '—';
+  const t=String(s).trim();
+  if(/maturation|pending|confirming/i.test(t)) return 'Pending';
+  if(/confirmed|orphan|unlocked/i.test(t)) return t;
+  if(t.length>40) return t.slice(0,38)+'…';
+  return t;
+}
 function fmtCoinAmt(v){
   const x=asNumberOrNull(v); if(x==null) return '—';
   if(Math.abs(x) >= 1000) return fmtNumber(Math.round(x));
@@ -900,7 +909,8 @@ async function renderBlocks(poolIdMaybe){
 
   const rows = blocks.length ? blocks.map(b=>{
     const height = b.blockHeight ?? b.height ?? '—';
-    const status = b.status ?? b.state ?? '—';
+    const statusRaw = b.status ?? b.state ?? '—';
+    const status = formatBlockStatus(statusRaw);
     const time = b.created ?? b.createdAt ?? b.time ?? '—';
     const miner = b.miner ?? b.minerAddress ?? b.worker ?? '—';
     const effort = b.effort ?? b.effortPercent ?? '—';
@@ -908,7 +918,7 @@ async function renderBlocks(poolIdMaybe){
     const reward = b.reward ?? b.blockReward ?? '—';
     return `<tr>
       <td>${fmtNumber(height)}</td>
-      <td>${status}</td>
+      <td title="${(typeof statusRaw==='string'&&statusRaw.length>30)?String(statusRaw).replace(/"/g,'&quot;'):''}">${status}</td>
       <td class="mono">${time}</td>
       <td class="mono">${miner}</td>
       <td>${effort}</td>
