@@ -9,6 +9,5 @@ services:
       - server
 
   server:
-    build: .
-    image: sert-umbrel-pool-poolui:latest
+    image: ghcr.io/sert1985n/pool-dashboard:latest
     restart: on-failure
