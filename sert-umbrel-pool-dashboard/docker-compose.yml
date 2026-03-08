@@ -3,8 +3,10 @@ version: "3.7"
 services:
 
   app_proxy:
+    depends_on:
+      - web
     environment:
-      APP_HOST: sert-umbrel-pool-dashboard_web_1
+      APP_HOST: ${APP_ID}_web_1
       APP_PORT: 80
   web:
     image: nginx:alpine
