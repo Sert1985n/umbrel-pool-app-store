@@ -1,8 +1,9 @@
 # Родная MiningCore Web UI — убрать Referral Links, Support Me, свой копирайт
 
-В интерфейсе родной MiningCore Web UI (образ theretromike/miningcorewebui) по умолчанию есть пункты меню **Referral Links** и **Support Me**, а внизу — **Copyright © 2025 Retro Mike Tech All rights reserved.**
+В интерфейсе родной MiningCore Web UI (образ theretromike/miningcorewebui) по умолчанию есть пункты меню **Referral Links** и **Support Me**, а внизу — **Copyright © 2025 Retro Mike Tech All rights reserved.**  
+Страницу из Docker-образа мы не меняем — только скрываем элементы и меняем текст **в браузере** (букмарклет или Tampermonkey).
 
-Чтобы **удалить** эти надписи и заменить копирайт на **public-pool-btc.ru All rights reserved.**, используйте один из способов ниже.
+**Важно:** ни Referral/Support Me, ни копирайт не исчезнут сами. Нужно **один раз настроить** букмарклет или скрипт и потом **каждый раз при открытии страницы** нажимать закладку (букмарклет) или держать включённым скрипт (Tampermonkey).
 
 ---
 
@@ -30,7 +31,7 @@
 javascript:(function(){var c='Copyright © 2025 public-pool-btc.ru All rights reserved.';document.querySelectorAll('a[href="/ReferralLinks"]').forEach(function(a){var li=a.closest('li.nav-item');if(li)li.remove();});document.querySelectorAll('a[href="/SupportMe"]').forEach(function(a){var li=a.closest('li.nav-item');if(li)li.remove();});var f=document.querySelector('footer.main-footer');if(f){var s=f.querySelector('strong');if(s&&/Retro Mike|All rights/i.test(s.textContent))s.textContent=c;}});
 ```
 
-4. Каждый раз при открытии страницы Pool Configuration или главной Web UI нажимайте эту закладку — пункты Referral Links и Support Me удалятся, копирайт сменится на public-pool-btc.ru.
+4. **Каждый раз**, когда открываете http://192.168.0.244:8559/ или Pool Configuration, **нажмите эту закладку** в панели закладок. Только после нажатия пропадут Referral Links и Support Me и сменится копирайт. Без нажатия закладки ничего не изменится.
 
 Скрипт срабатывает при загрузке страницы и при изменении DOM (SPA).
 

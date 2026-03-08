@@ -1,37 +1,51 @@
-# Монеты в Pool Configuration (http://IP:8559/PoolConfiguration)
+# Монеты в Pool Configuration (http://192.168.0.244:8559/PoolConfiguration)
 
-Страница **Pool Configuration** в родной MiningCore Web UI (порт 8559) показывает список монет для **Setup Database Schema**, **Refresh Master Coin List**, **Generate Pool Config File** и для создания **Wallet** и записи в **config.json**. Список монет берётся из **Miningcore** (файл **coins.json** и встроенные шаблоны).
-
----
-
-## Почему моих монет нет в списке?
-
-Родная панель (образ [theretromike/miningcorewebui](https://hub.docker.com/r/theretromike/miningcorewebui)) получает список монет через API Miningcore или из примонтированного **coins.json**. Если ваших монет нет:
-
-1. **Убедитесь, что Miningcore видит coins.json.**  
-   В приложении **sert-umbrel-pool-miningcore-webui** в docker-compose смонтирован каталог:
-   - `/home/umbrel/.miningcore` → `/app/miningcore`  
-   В нём должны лежать актуальные **config.json** и **coins.json**.
-
-2. **Добавьте шаблоны монет в coins.json на сервере.**  
-   Путь на Umbrel: **`/home/umbrel/.miningcore/coins.json`**.  
-   Формат — массив объектов (coinTemplates). Примеры шаблонов можно взять из [Retro Mike store](https://github.com/TheRetroMike/retromike-umbrel-app-store) (в образе Miningcore или в репозитории), из вашего **coins-reference.json** и из гайда **guides/POOL-CONFIG-ACTIONS.md** (таблица Master Coin List).
-
-3. **Нажмите «Refresh Master Coin List»** на странице Pool Configuration.  
-   Панель запросит у Miningcore обновление списка; после этого ваши монеты из coins.json должны появиться в интерфейсе для выбора Wallet и генерации config.
-
-4. **Проверьте, что запущен именно ваш Miningcore.**  
-   Контейнер пула: **sert-umbrel-pool-miningcore_server_1**. Web UI должен быть настроен на его API (переменная `API_BASE_URL` в образе miningcorewebui указывает на этот контейнер).
+Страница **Pool Configuration** показывает список монет из **Miningcore** (файл **coins.json** на сервере). Чтобы в списке были **все ваши монеты** и можно было создавать Wallet и генерировать config:
 
 ---
 
-## Как добавить монеты «как в Retro Mike»
+## Шаг 1: Положить на сервер полный coins.json
 
-В [retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store) приложения Miningcore и Web UI используют общие **config.json** и **coins.json** с хоста. У вас то же самое: один каталог `/home/umbrel/.miningcore/` для пула и для панели.
+Список чекбоксов (Bitcoin, eCash, NeurAI и т.д.) берётся из **coinTemplates** в файле **coins.json**, который читает Miningcore.
 
-- Скопируйте или соберите **coins.json** с нужными coinTemplates (id, symbol, name, algorithm и т.д.) и положите в `/home/umbrel/.miningcore/coins.json`.
-- Перезапустите Miningcore (чтобы он подхватил новый coins.json):  
-  `docker restart sert-umbrel-pool-miningcore_server_1`
-- Откройте http://192.168.0.244:8559/PoolConfiguration и нажмите **Refresh Master Coin List**. Дальше выбирайте монеты для создания Wallet и **Generate Pool Config File**.
+- **Путь на Umbrel:** `/home/umbrel/.miningcore/coins.json`
+- Файл должен быть **объектом** с ключами-ид монет (например `"bitcoin"`, `"ecash"`, `"neurai"`) и описанием шаблона (name, symbol, family, hashers, explorer links и т.д.).
 
-Полный перечень ваших монет (id, coin, stratum, rpcPort) — в **coins-reference.json** и в таблице Master Coin List в **guides/POOL-CONFIG-ACTIONS.md**.
+**Откуда взять готовый coins.json с вашими монетами:**
+
+1. В репозитории [Miningcore](https://github.com/coinfoundry/miningcore) в папке с шаблонами монет, или  
+2. Из вашего проекта CasaOS: `Apps/postgres/templates/coins.json` — скопировать на сервер Umbrel в `/home/umbrel/.miningcore/coins.json`.
+
+На Windows скопировать можно так (если есть доступ по SSH к Umbrel):
+
+```bash
+scp /path/to/coins.json umbrel@192.168.0.244:/home/umbrel/.miningcore/coins.json
+```
+
+Или через SMB/файловый менеджер Umbrel, если есть доступ к папке `.miningcore`.
+
+---
+
+## Шаг 2: Перезапустить Miningcore
+
+Чтобы пул подхватил новый coins.json:
+
+```bash
+docker restart sert-umbrel-pool-miningcore_server_1
+```
+
+(Выполнить на сервере Umbrel по SSH или через Docker.)
+
+---
+
+## Шаг 3: Обновить список в интерфейсе
+
+1. Откройте в браузере: **http://192.168.0.244:8559/PoolConfiguration**
+2. Нажмите кнопку **«Refresh Master Coin List»**.
+3. В списке должны появиться все монеты из coins.json; отметьте нужные и используйте **Generate Pool Config File** / создание Wallet.
+
+---
+
+## Ваши монеты (id для coins.json)
+
+По **coins-reference.json** ваши монеты: btc, bch, bc2, bsv, btcs, dgb, doge, xec, xna, ppc, rvn, vtc, ltc, grs, fb, xmr, erg, etc, ethw, zeph, space, xel, octa, zec, zen, flux, firo, kas, nexa. Убедитесь, что в coins.json есть шаблоны с такими id (или canonical name), иначе они не появятся в списке.

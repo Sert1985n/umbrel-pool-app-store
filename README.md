@@ -4,6 +4,12 @@
 
 ---
 
+## Краткая шпаргалка по типичным проблемам
+
+См. **QUICK-FIX.md** — там по шагам: почему нет «Моей панели» и иконок, как убрать Referral/Support Me и сменить копирайт (букмарклет), как добавить монеты в список Pool Configuration. **Все правки из репозитория записываются в GitHub** (commit + push); чтобы Umbrel подтянул приложения и иконки, в настройках магазина нажмите **Update** / **Refresh**.
+
+---
+
 ## Где моя панель? Где иконки?
 
 **Моя панель** — приложение **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard»). Оно входит в магазин **Umbrel Pool**.
@@ -11,10 +17,10 @@
 **Если «Моя панель — Pool Dashboard» не появилась в Umbrel:**  
 1. В Umbrel откройте **Settings → Community App Stores**.  
 2. Добавьте источник: `https://github.com/Sert1985n/umbrel-pool-app-store` (если ещё нет).  
-3. Нажмите **Update** / **Refresh** у магазина Umbrel Pool.  
+3. Нажмите **Update** / **Refresh** у магазина Umbrel Pool (или удалите источник и добавьте снова).  
 4. В списке приложений магазина должно появиться приложение **«Моя панель — Pool Dashboard»** — установите его, откройте по порту 8560.
 
-**Иконки** в манифестах указаны с [cryptologos.cc](https://cryptologos.cc/) и, где есть, из папки **icons/** в репозитории. Если иконки не грузятся, проверьте доступ в интернет с устройства Umbrel.
+**Иконки** в манифестах указаны с [cryptologos.cc](https://cryptologos.cc/) и, где есть, из папки **icons/** в репозитории. Если иконки не грузятся, обновите магазин (Update/Refresh) и проверьте доступ в интернет с устройства Umbrel.
 
 ---
 
@@ -58,6 +64,7 @@
 
 | Файл | Описание |
 |------|----------|
+| **QUICK-FIX.md** | Кратко: нет панели/иконок, Referral/копирайт (букмарклет), монеты в Pool Configuration, запись в GitHub |
 | **guides/POOL-CONFIG-ACTIONS.md** | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, полный список монет, запись изменений в GitHub |
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
