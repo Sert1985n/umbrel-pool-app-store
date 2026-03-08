@@ -7,19 +7,21 @@ category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8561
 description: |
-  Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики hashrate. Подключается к MiningCore этого магазина. Установите MiningCore перед установкой.
+  Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики. Подключается к MiningCore этого магазина. Сначала установите MiningCore.
 
+  public-pool-btc.ru
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
+ - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Pool Dashboard — ваша панель для пула. Порт 8561.
+  Pool Dashboard — статистика, графики, кошелёк. Порт 8561.
 dependencies:
-  - sert-umbrel-pool-miningcore
+ - sert-umbrel-pool-miningcore
 path: ""
 defaultUsername: ""
 defaultPassword: ""

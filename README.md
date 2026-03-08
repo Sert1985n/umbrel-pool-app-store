@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md** — там по шагам: почему нет панели и иконок, как добавить монеты в список Pool Configuration. **Referral Links и Support Me** в родной Web UI теперь удаляются автоматически, копирайт заменён на public-pool-btc.ru (прокси в приложении MiningCore Web UI). **Все правки записываются в GitHub**; чтобы Umbrel подтянул приложения, нажмите **Update** / **Refresh** у магазина.
+См. **QUICK-FIX.md**. **MiningCore Web UI** взят полностью из [retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store) — та же структура, без изменений образа; так же работает. Referral Links / Support Me / копирайт — только через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. CasaOS не используем; монеты в Pool Configuration — через coins.json на сервере (см. guides). **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
@@ -31,7 +31,7 @@
 | Приложение | Описание |
 |------------|----------|
 | **sert-umbrel-pool-miningcore** | MiningCore — пул |
-| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (родная)** — порт 8559. Referral Links и Support Me удалены, копирайт заменён на public-pool-btc.ru (автоматически через прокси). Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
+| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI** — как у [Retro Mike](https://github.com/TheRetroMike/retromike-umbrel-app-store). Порт 8559. Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
 | **sert-umbrel-pool-poolui** | **Моя панель — Pool Dashboard** — ваша панель (порт 8560): статистика, графики, кошелёк |
 | **sert-umbrel-pool-dashboard** | **Pool Dashboard (Моя панель)** — то же приложение панели на порту 8561 (отдельная запись в магазине) |
 | **sert-umbrel-pool-btc-node** | Нода Bitcoin |
@@ -70,7 +70,7 @@
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
-| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Резервный вариант: userscript/букмарклет, если прокси не применился (Referral/Support/копирайт) |
+| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; заменить копирайт на public-pool-btc.ru (userscript/букмарклет) |
 | **templates/README.md** | Инструкция по копированию coins.json для списка монет в Pool Configuration |
 | **guides/POOL-CONFIGURATION-COINS.md** | Почему в Pool Configuration нет ваших монет; как добавить монеты для Wallet и config (coins.json, Refresh Master Coin List) |
 | **coins-reference.json** | Master Coin List: id, coin, stratum, rpcPort (для панели и скриптов) |

@@ -2,20 +2,16 @@
 
 ## coins.json — список монет в Pool Configuration
 
-Чтобы в **Pool Configuration** (родная Web UI) отображались все ваши монеты и можно было создавать Wallet и генерировать config:
+Список монет на странице **Pool Configuration** (Web UI, порт 8559) берётся из файла **coins.json** на сервере Umbrel.
 
-1. **Скопируйте полный файл coins.json** на сервер Umbrel по пути:  
-   **`/home/umbrel/.miningcore/coins.json`**
+- **Путь:** `/home/umbrel/.miningcore/coins.json`
+- Формат — объект с ключами-ид монет (bitcoin, ecash, neurai и т.д.) и шаблонами. Описание формата и примеры — в репозитории [Miningcore](https://github.com/coinfoundry/miningcore).
 
-2. **Откуда взять файл:**  
-   - Из вашего проекта CasaOS: папка `Apps/postgres/templates/coins.json` (если вы скачивали CasaOS app store с Miningcore).  
-   - Либо из репозитория [Miningcore](https://github.com/coinfoundry/miningcore) (шаблоны монет).
+**Как добавить монеты в список:**
 
-3. **После копирования:**  
-   - Перезапустите Miningcore:  
-     `docker restart sert-umbrel-pool-miningcore_server_1`  
-   - Откройте http://ВАШ-IP:8559/PoolConfiguration и нажмите **Refresh Master Coin List**.
-
-В полном coins.json уже есть шаблоны для: bitcoin, bitcoin-cash, bitcoin-ii, bitcoin-sv, dogecoin, ecash, neurai, ravencoin, monero, ergo, ethereumclassic, ethereum-pow (ETHW), zephyr, xelis, octaspace, zcash, flux, firo, kaspa, nexa и др. После обновления списка ваши монеты будут доступны для настройки и создания Wallet.
+1. Подготовьте или возьмите **coins.json** с нужными coinTemplates (из [Miningcore](https://github.com/coinfoundry/miningcore) или соберите по документации пула).
+2. Скопируйте файл на сервер в `/home/umbrel/.miningcore/coins.json`.
+3. Перезапустите Miningcore: `docker restart sert-umbrel-pool-miningcore_server_1`
+4. Откройте http://ВАШ-IP:8559/PoolConfiguration и нажмите **Refresh Master Coin List**.
 
 Подробнее: **guides/POOL-CONFIGURATION-COINS.md**.

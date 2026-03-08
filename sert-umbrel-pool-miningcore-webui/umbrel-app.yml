@@ -1,27 +1,59 @@
 manifestVersion: 1
 id: sert-umbrel-pool-miningcore-webui
-name: MiningCore Web UI (родная)
-tagline: Родная панель MiningCore — Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
+name: MiningCore Web UI
+tagline: Web UI for the MiningCore Mining Pool App (public-pool-btc.ru)
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8559
 description: |
-  Родная MiningCore Web UI. Управление пулом: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, монеты (новые и старые) — всё в одном месте. Сначала установите MiningCore.
+  Web UI for the MiningCore Mining Pool App. Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Install MiningCore first.
 
-  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
-
+  public-pool-btc.ru
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
-submission: https://github.com/Sert1985n/umbrel-pool-app-store
+submission: https://hub.docker.com/r/theretromike/miningcorewebui
 repo: https://hub.docker.com/r/theretromike/miningcorewebui
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
-  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/webui-native.svg
+ - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Родная панель MiningCore (Retro Mike). Подключается к MiningCore из этого магазина. Монеты управляются через Setup Database Schema, Refresh Master Coin List, Generate Pool Config File; изменения можно записывать в GitHub.
+  Same as Retro Mike Web UI. Referral/Support/copyright: use userscript in guides/NATIVE-WEBUI-CUSTOMIZE.md
+widgets:
+ - id: "page1"
+   type: "list"
+   refresh: "5s"
+   endpoint: "web:8080/api/PoolStatsWidget/0"
+   link: ""
+   example:
+     type: "list"
+     link: ""
+     items:
+     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+       subtext: "Last Synced Block: 01/12/2026 10:12:34"
+ - id: "page2"
+   type: "list"
+   refresh: "5s"
+   endpoint: "web:8080/api/PoolStatsWidget/1"
+   link: ""
+   example:
+     type: "list"
+     link: ""
+     items:
+     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+       subtext: "Last Synced Block: 01/12/2026 10:12:34"
+ - id: "page3"
+   type: "list"
+   refresh: "5s"
+   endpoint: "web:8080/api/PoolStatsWidget/2"
+   link: ""
+   example:
+     type: "list"
+     link: ""
+     items:
+     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
+       subtext: "Last Synced Block: 01/12/2026 10:12:34"
 dependencies: []
 path: ""
 defaultUsername: ""

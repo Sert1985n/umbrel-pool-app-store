@@ -21,11 +21,9 @@
 
 ## 2. Referral Links и Support Me не удалены, копирайт не изменился
 
-**Сейчас:** в приложении **MiningCore Web UI (родная)** из этого магазина стоит **прокси**, который автоматически удаляет пункты Referral Links и Support Me и подменяет копирайт на **public-pool-btc.ru All rights reserved.** Ничего вручную нажимать не нужно.
+**MiningCore Web UI** взят полностью из [Retro Mike store](https://github.com/TheRetroMike/retromike-umbrel-app-store) — тот же образ и структура, без правок. Образ Docker менять нельзя, поэтому Referral Links, Support Me и копирайт убираются **только в браузере** — через userscript или букмарклет.
 
-**Если вы уже устанавливали Web UI раньше:** обновите приложение (переустановите MiningCore Web UI из магазина Umbrel Pool), чтобы подтянулся новый docker-compose с прокси. После этого при открытии http://ВАШ-IP:8559 пункты и копирайт будут исправлены автоматически.
-
-Если по какой-то причине прокси не сработал — можно по-прежнему использовать букмарклет или Tampermonkey: **guides/NATIVE-WEBUI-CUSTOMIZE.md**.
+**Что сделать:** откройте **guides/NATIVE-WEBUI-CUSTOMIZE.md** и установите Tampermonkey + скрипт или добавьте букмарклет. После этого при открытии http://ВАШ-IP:8559 пункты и копирайт будут скрыты/заменены.
 
 ---
 
@@ -35,7 +33,7 @@
 
 **Что сделать:**
 
-1. Положить на сервер **полный coins.json** в `/home/umbrel/.miningcore/coins.json` (например скопировать из CasaOS `Apps/postgres/templates/coins.json` или из репозитория Miningcore).
+1. Положить на сервер **coins.json** в `/home/umbrel/.miningcore/coins.json` (формат и шаблоны — из репозитория [Miningcore](https://github.com/coinfoundry/miningcore)).
 2. Перезапустить Miningcore:  
    `docker restart sert-umbrel-pool-miningcore_server_1`
 3. Открыть http://192.168.0.244:8559/PoolConfiguration и нажать **Refresh Master Coin List**.
