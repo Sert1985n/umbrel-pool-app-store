@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (порт **8562**): отдельная панель (MiningCore Web UI) — Setup DB, Refresh Coin List, Generate Config, Wallet. Список монет из coins.json на сервере (шаблон в репозитории). **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (порт **8562**): та же панель 1 в 1 (MiningCore Web UI). Чтобы в списке были **все 28 монет** из репозитория — подставьте coins.json одной командой: **guides/COINS-JSON-SETUP.md**. **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
