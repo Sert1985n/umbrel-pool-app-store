@@ -13,8 +13,8 @@
 
 **Откуда взять готовый coins.json с вашими монетами:**
 
-1. В репозитории [Miningcore](https://github.com/coinfoundry/miningcore) в папке с шаблонами монет, или  
-2. Из вашего проекта CasaOS: `Apps/postgres/templates/coins.json` — скопировать на сервер Umbrel в `/home/umbrel/.miningcore/coins.json`.
+1. **Рекомендуется:** из вашего проекта CasaOS (ZimaOS/CasaOS app store с Miningcore): файл **`Apps/postgres/templates/coins.json`** — скопируйте его целиком на сервер в `/home/umbrel/.miningcore/coins.json`. В нём уже есть шаблоны для Bitcoin, eCash, NeurAI, Ergo, Kaspa, Nexa, Flux, Zcash, Ethereum Classic, EthereumPoW (ethereum-pow), Zephyr, Xelis, OctaSpace и др.
+2. Либо из репозитория [Miningcore](https://github.com/coinfoundry/miningcore) (папка с шаблонами монет).
 
 На Windows скопировать можно так (если есть доступ по SSH к Umbrel):
 

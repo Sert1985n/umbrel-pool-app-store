@@ -6,19 +6,19 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md** — там по шагам: почему нет «Моей панели» и иконок, как убрать Referral/Support Me и сменить копирайт (букмарклет), как добавить монеты в список Pool Configuration. **Все правки из репозитория записываются в GitHub** (commit + push); чтобы Umbrel подтянул приложения и иконки, в настройках магазина нажмите **Update** / **Refresh**.
+См. **QUICK-FIX.md** — там по шагам: почему нет панели и иконок, как добавить монеты в список Pool Configuration. **Referral Links и Support Me** в родной Web UI теперь удаляются автоматически, копирайт заменён на public-pool-btc.ru (прокси в приложении MiningCore Web UI). **Все правки записываются в GitHub**; чтобы Umbrel подтянул приложения, нажмите **Update** / **Refresh** у магазина.
 
 ---
 
 ## Где моя панель? Где иконки?
 
-**Моя панель** — приложение **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard»). Оно входит в магазин **Umbrel Pool**.
+**Моя панель** — приложения **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard», порт 8560) и **sert-umbrel-pool-dashboard** («Pool Dashboard (Моя панель)», порт 8561). Оба показывают одну и ту же панель пула.
 
-**Если «Моя панель — Pool Dashboard» не появилась в Umbrel:**  
+**Если панель не появилась в магазине:**  
 1. В Umbrel откройте **Settings → Community App Stores**.  
 2. Добавьте источник: `https://github.com/Sert1985n/umbrel-pool-app-store` (если ещё нет).  
 3. Нажмите **Update** / **Refresh** у магазина Umbrel Pool (или удалите источник и добавьте снова).  
-4. В списке приложений магазина должно появиться приложение **«Моя панель — Pool Dashboard»** — установите его, откройте по порту 8560.
+4. Установите **«Моя панель — Pool Dashboard»** (порт 8560) или **«Pool Dashboard (Моя панель)»** (порт 8561).
 
 **Иконки** в манифестах указаны с [cryptologos.cc](https://cryptologos.cc/) и, где есть, из папки **icons/** в репозитории. Если иконки не грузятся, обновите магазин (Update/Refresh) и проверьте доступ в интернет с устройства Umbrel.
 
@@ -31,8 +31,9 @@
 | Приложение | Описание |
 |------------|----------|
 | **sert-umbrel-pool-miningcore** | MiningCore — пул |
-| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (родная)** — Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, управление монетами (новые и старые), запись изменений в GitHub |
-| **sert-umbrel-pool-poolui** | **Моя панель — Pool Dashboard** — ваша панель: статистика, графики, кошелёк (порт 8560). Иконка в **icons/pool-dashboard.svg** |
+| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (родная)** — порт 8559. Referral Links и Support Me удалены, копирайт заменён на public-pool-btc.ru (автоматически через прокси). Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
+| **sert-umbrel-pool-poolui** | **Моя панель — Pool Dashboard** — ваша панель (порт 8560): статистика, графики, кошелёк |
+| **sert-umbrel-pool-dashboard** | **Pool Dashboard (Моя панель)** — то же приложение панели на порту 8561 (отдельная запись в магазине) |
 | **sert-umbrel-pool-btc-node** | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | Нода Bitcoin SV |
@@ -69,7 +70,8 @@
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
-| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; копирайт public-pool-btc.ru (userscript или букмарклет) |
+| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Резервный вариант: userscript/букмарклет, если прокси не применился (Referral/Support/копирайт) |
+| **templates/README.md** | Инструкция по копированию coins.json для списка монет в Pool Configuration |
 | **guides/POOL-CONFIGURATION-COINS.md** | Почему в Pool Configuration нет ваших монет; как добавить монеты для Wallet и config (coins.json, Refresh Master Coin List) |
 | **coins-reference.json** | Master Coin List: id, coin, stratum, rpcPort (для панели и скриптов) |
 
