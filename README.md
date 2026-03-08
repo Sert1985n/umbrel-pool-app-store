@@ -1,6 +1,6 @@
 # Umbrel Pool App Store
 
-Магазин приложений для майнинг-пула на **Umbrel**. **Моя панель** (poolui) — статистика, графики, кошелёк. **Pool Config (8562)** — список ваших монет; **8563** — **Web UI** (Setup DB, Refresh Coin List, Generate Config).
+Магазин приложений для майнинг-пула на **Umbrel**. **Pool Config (8562)** — панель конфигурации монет; **8563** — родная MiningCore Web UI (Setup DB / Generate Config); **8560** — ваша панель Pool Dashboard (poolui): статистика, графики, кошелёк.
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Моя панель** (sert-umbrel-pool-poolui) — дашборд пула. **Pool Config (8562)** — список монет, ссылка на Web UI. **8563** — **Web UI** (Setup DB, Refresh Coin List, Generate Config). **guides/COINS-JSON-SETUP.md**. Порты: **guides/NETWORK-PORTS.md**.
+См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Pool Config (8562)** — панель конфигурации монет. **8563** — родная MiningCore Web UI. **8560** — ваша панель Pool Dashboard (poolui). **guides/COINS-JSON-SETUP.md**. Сеть и порты: **guides/NETWORK-PORTS.md**.
 
 ---
 
@@ -21,9 +21,9 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-poolui** | 8561 | **Моя панель** — Pool Dashboard: статистика, графики, Your Wallet (poolui). |
-| **sert-umbrel-pool-miningcore-webui** | 8563 | **Web UI** — Setup DB, Refresh Coin List, Generate Config (родная панель MiningCore). |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config (мои монеты)** — список монет из coins.json, ссылка на Web UI (8563). |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config (мои монеты)** — ваша панель: список ваших монет из coins.json, ссылка на 8563. |
+| **sert-umbrel-pool-miningcore-webui** | 8563 | **MiningCore Web UI (родная)** — Setup DB, Refresh Coin List, Generate Config. Иконка: ETH. |
+| **sert-umbrel-pool-poolui** | 8560 | **Моя панель — Pool Dashboard** — статистика, графики, кошелёк (ваша WEB UI). Иконка: LTC. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | — | Нода Bitcoin SV |
