@@ -722,7 +722,7 @@ async function renderPools(){
 
   const rows = poolsTableRows();
   const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
-    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Настройте пулы: откройте <a href="http://' + window.location.hostname + ':8562/PoolConfiguration" target="_blank" rel="noopener">Pool Config (8562)</a> или <a href="http://' + window.location.hostname + ':8563/" target="_blank" rel="noopener">Pool Config наши монеты (8563)</a> → Setup Database Schema → Refresh Master Coin List → Generate Pool Config File, затем перезапустите MiningCore.</td></tr>'
+    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Откройте <a href="http://' + window.location.hostname + ':8562/" target="_blank" rel="noopener">Pool Config (8562)</a> → Pool Configuration → Refresh Master Coin List → Setup Database Schema → Generate Pool Config File → замените "xxx" на адреса кошельков → перезапустите MiningCore в Umbrel.</td></tr>'
     : (rows || '<tr><td colspan="8">—</td></tr>');
 
   $('#app').innerHTML=`
@@ -770,7 +770,7 @@ function updatePoolsDOM(){
   if(!tb) return;
   const rows = poolsTableRows();
   const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
-    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Настройте пулы: <a href="http://' + window.location.hostname + ':8562/PoolConfiguration" target="_blank" rel="noopener">8562</a> или <a href="http://' + window.location.hostname + ':8563/" target="_blank" rel="noopener">8563</a> → Setup Database Schema → Generate Pool Config File → перезапуск MiningCore.</td></tr>'
+    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> <a href="http://' + window.location.hostname + ':8562/" target="_blank" rel="noopener">Pool Config (8562)</a> → Setup DB → Refresh Coin List → Generate Config.</td></tr>'
     : (rows || '<tr><td colspan="8">—</td></tr>');
   tb.innerHTML = emptyMsg;
 }

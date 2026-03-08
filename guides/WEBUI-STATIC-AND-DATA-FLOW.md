@@ -12,9 +12,7 @@
 |------------|------|----------------------|------------------|
 | **Pool Dashboard** | 8561 | Nginx: обычный сайт из папки | В образе: `COPY www /usr/share/nginx/html/` → index.html, app.js, site.css, assets/ в `/usr/share/nginx/html`. Запросы `/api/` проксируются на MiningCore :4000. **Статика — как в обычном сайте.** |
 | **Pool Config** | 8562 | Образ theretromike/miningcorewebui | **Статика НЕ лежит как в обычном сайте.** Внутри контейнера: `/app/wwwroot/` — css/site.css, js/site.js, img/, lib/, MiningCoreWebUI.styles.css. Файла index.html нет — HTML отдаёт сервер (Razor/ASP.NET). Страницы (Index, PoolConfiguration и т.д.) — серверные маршруты. Править стили/логотип можно только внутри образа (wwwroot) или пересборкой; конфиги пишутся в /app/miningcore/ (монтировано с хоста). |
-| **Pool Config (наши монеты)** | 8563 | Express: `express.static('public')` + один API | В образе: папка `public/` (index.html и др.). Запросы к `/api/coins` обрабатывает server.js, читает файл с диска. Статика через Express + один динамический маршрут. |
-
-Итого: у **Dashboard (8561)** статика — как в обычном сайте (nginx, одна папка). У **Pool Config (8562)** статика в `/app/wwwroot`, индекс и страницы — серверные, не файл index.html. У **8563** — статика в `public/` + API.
+Итого: у **Dashboard (8561)** статика — как в обычном сайте (nginx, одна папка). У **Pool Config (8562)** статика в `/app/wwwroot`, индекс и страницы — серверные, не файл index.html.
 
 ### Как устроен Pool Config (8562) внутри образа
 
@@ -29,7 +27,7 @@
 - **Единственное место на сервере:** `/home/umbrel/.miningcore/coins.json` (хост Umbrel).
 
 **Кто его подменяет/записывает:**
-- Не приложения 8561/8562/8563. Замену делаете вы:
+- Не приложения 8561/8562. Замену делаете вы:
   - **Скрипт:**  
     `curl -sSL -o /tmp/install-coins-json.sh "https://raw.githubusercontent.com/.../scripts/install-coins-json.sh" && sh /tmp/install-coins-json.sh`  
     Скрипт скачивает `templates/coins.json` из репозитория и записывает в `/home/umbrel/.miningcore/coins.json`, затем перезапускает MiningCore, Pool Config и Pool Config (наши монеты).
@@ -40,7 +38,6 @@
 **Кто читает:**
 - **MiningCore** — монтирует файл как `/app/build/coins.json`, использует для списка монет и конфигурации пулов.
 - **Pool Config (8562)** — монтирует каталог `/home/umbrel/.miningcore` в `/app/miningcore`, читает оттуда coins.json для Refresh Master Coin List и генерации config.
-- **Pool Config наши монеты (8563)** — тот же каталог монтируется в контейнер как `/app/miningcore` (read-only). `server.js` читает `/app/miningcore/coins.json`, фильтрует по списку 28 монет и отдаёт их через `/api/coins`. Само приложение 8563 **ничего не записывает** в coins.json.
 
 ---
 
@@ -85,6 +82,5 @@
 
 MiningCore (8560)     читает coins.json + config.json
 Pool Config (8562)    читает/пишет оба файла (папка .miningcore), подстановка "xxx"
-Pool Config 8563      только читает coins.json, отдаёт /api/coins (28 монет)
 Pool Dashboard (8561)  только API MiningCore, статика из www/ — без изменений
 ```

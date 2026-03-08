@@ -1,6 +1,6 @@
 # Umbrel Pool App Store
 
-Магазин приложений для майнинг-пула на **Umbrel**. Проект переписан по [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): Miningcore и родной MiningCore Web UI сохранены, порты и имена контейнеров — под **sert-umbrel-pool**. Добавлена панель **Pool Dashboard** (poolui) и **Pool Config (наши монеты)** со списком 28 монет.
+Магазин приложений для майнинг-пула на **Umbrel**. Одна панель конфигурации — **Pool Config (8562)** (MiningCore Web UI, образ theretromike). **Pool Dashboard** (8561) — таблица пулов и статистика.
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (8562) или **«Pool Config (наши монеты)»** (порт **8563**): отдельная панель на порту 8563 читает **coins.json** с сервера и показывает **все 28 монет**; Refresh и ссылка на MiningCore Web UI для Setup DB / Generate Config. **guides/COINS-JSON-SETUP.md**. **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Одна панель конфигурации** — **Pool Config** (8562), образ theretromike/miningcorewebui, без сборки. **guides/COINS-JSON-SETUP.md**. **Pool Dashboard** (8561) — статистика и таблица пулов. Сеть и порты: **guides/NETWORK-PORTS.md**.
 
 ---
 
@@ -21,9 +21,8 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — панель MiningCore Web UI: Setup DB, Refresh Coin List, Generate Config, Wallet. |
-| **sert-umbrel-pool-custom-panel** | 8563 | **Pool Config (наши монеты)** — отдельная панель: список **всех 28 монет** из coins.json, Refresh, ссылка на MiningCore Web UI. |
-| **sert-umbrel-pool-dashboard** | 8561 | **Pool Dashboard** — ваша панель (poolui): статистика, графики, кошелёк. Без Referral/Support. |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config (MiningCore Web UI)** — одна панель: Setup DB, Refresh Coin List, Generate Config, Wallet. Без сборки. |
+| **sert-umbrel-pool-dashboard** | 8561 | **Pool Dashboard** — таблица пулов, статистика, графики, кошелёк. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | — | Нода Bitcoin SV |
