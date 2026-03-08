@@ -7,9 +7,6 @@ services:
       APP_PORT: 8080
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: ghcr.io/sert1985n/pool-custom-panel:latest
     restart: on-failure
     volumes:
