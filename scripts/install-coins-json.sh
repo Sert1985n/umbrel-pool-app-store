@@ -10,8 +10,9 @@ if [ -f "$TARGET" ]; then
   cp -a "$TARGET" "${TARGET}.bak.$(date +%Y%m%d%H%M%S)"
 fi
 curl -sSL -o "$TARGET" "$COINS_URL"
-echo "Coins.json updated. Restarting MiningCore and Pool Config..."
+echo "Coins.json updated. Restarting MiningCore, Pool Config and Pool Config (наши монеты)..."
 docker restart sert-umbrel-pool-miningcore_server_1 2>/dev/null || true
 sleep 15
 docker restart sert-umbrel-pool-pool-config_web_1 2>/dev/null || true
-echo "Done. Open http://YOUR-IP:8562 → Pool Configuration → Refresh Master Coin List."
+docker restart sert-umbrel-pool-custom-panel_web_1 2>/dev/null || true
+echo "Done. Open http://YOUR-IP:8562 → Pool Configuration → Refresh Master Coin List. Full guide: SETUP-FULL.md in repo."

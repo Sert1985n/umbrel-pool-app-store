@@ -1,6 +1,12 @@
 # Umbrel Pool App Store
 
-Магазин приложений для майнинг-пула на **Umbrel**. Проект переписан по [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): Miningcore и родной MiningCore Web UI сохранены, порты и имена контейнеров — под **sert-umbrel-pool**. Добавлена ваша панель **Pool Dashboard** (poolui). **Приложения независимы** — MiningCore Web UI и Pool Dashboard можно ставить без обязательной установки MiningCore (как у Retro Mike). Настройка daemons и XEC — по документу «как мы добавили монету XEC в приложение umbrel».
+Магазин приложений для майнинг-пула на **Umbrel**. Проект переписан по [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): Miningcore и родной MiningCore Web UI сохранены, порты и имена контейнеров — под **sert-umbrel-pool**. Добавлена панель **Pool Dashboard** (poolui) и **Pool Config (наши монеты)** со списком 28 монет.
+
+---
+
+## Полная настройка (один раз, всё работает)
+
+**См. [SETUP-FULL.md](SETUP-FULL.md)** — одна инструкция: установка приложений → загрузка coins.json (одна команда) → Pool Config (8562): Setup DB, Refresh, Generate Config, кошельки → перезапуск MiningCore → дашборд 8561 с таблицей пулов.
 
 ---
 
@@ -49,6 +55,7 @@
 
 | Файл | Описание |
 |------|----------|
+| **SETUP-FULL.md** | **Полная настройка одним разом** — приложения, coins.json, Pool Config, кошельки, дашборд |
 | **QUICK-FIX.md** | Кратко: нет панели/иконок, Referral/копирайт (букмарклет), монеты в Pool Configuration, запись в GitHub |
 | **guides/POOL-CONFIG-ACTIONS.md** | Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, полный список монет, запись изменений в GitHub |
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
