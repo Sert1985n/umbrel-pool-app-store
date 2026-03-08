@@ -10,8 +10,7 @@ services:
         condition: service_started
 
   web:
-    build: .
-    image: sert-umbrel-pool-pool-config:local
+    image: ghcr.io/sert1985n/pool-config:latest
     restart: on-failure
     init: true
     volumes:
