@@ -7,7 +7,7 @@ category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8562
 description: |
-  Отдельная панель конфигурации (MiningCore Web UI, как у Retro Mike): Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, создание Wallet и замена "xxx" на ваши адреса. Список монет — из coins.json на сервере (/home/umbrel/.miningcore/). Сначала установите MiningCore. Шаблон coins.json с нашими монетами — в репозитории (templates/coins.json) и в guides/COINS-JSON-SETUP.md.
+  Отдельная панель конфигурации (MiningCore Web UI, образ Retro Mike): Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, создание Wallet и замена "xxx" на ваши адреса. Список монет — из coins.json на сервере (/home/umbrel/.miningcore/). Статика UI не лежит «как в обычном сайте» — внутри образа /app/wwwroot, страницы серверные. Сначала установите MiningCore. Шаблон coins.json и инструкция — templates/coins.json и guides/COINS-JSON-SETUP.md.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
@@ -17,7 +17,7 @@ support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Панель конфигурации пула (образ Retro Mike). Порт 8562. Шаблоны монет — из репозитория Retro Mike или Miningcore; наши монеты в coins-reference.json.
+  Панель конфигурации пула (образ theretromike/miningcorewebui). Порт 8562. Список монет из coins.json на сервере; наши 28 монет — templates/coins.json и guides/COINS-JSON-SETUP.md. Внутри образа: wwwroot (статика), pooltemplate.json и *template.json по монетам, запись в /app/miningcore/ (config.json, coins.json).
 dependencies: []
 path: ""
 defaultUsername: ""

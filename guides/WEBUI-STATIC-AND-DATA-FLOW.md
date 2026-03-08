@@ -2,17 +2,25 @@
 
 Как устроены статические файлы, куда кладётся и кто читает coins.json, где добавляются wallet-адреса. **Pool Dashboard (8561) остаётся как есть** — только показывает данные из API.
 
+По документу **«веб-UI пула) статические файлы не лежат как в обычном сайте»**: у MiningCore Web UI нет простой папки с index.html + .js/.css — страницы отдаёт сервер, статика лежит внутри образа в `/app/wwwroot`.
+
 ---
 
 ## 1. Где лежат статические файлы
 
 | Приложение | Порт | Как отдаётся статика | Где лежат файлы |
 |------------|------|----------------------|------------------|
-| **Pool Dashboard** | 8561 | Nginx: обычный сайт из папки | В образе: `COPY www /usr/share/nginx/html/` → index.html, app.js, site.css, assets/ и т.д. в `/usr/share/nginx/html`. Запросы `/api/` проксируются на MiningCore :4000. |
-| **Pool Config** | 8562 | Образ theretromike/miningcorewebui | Статика и логика внутри образа. Снаружи только gateway (nginx), который отдаёт UI и проксирует на web:8080. |
-| **Pool Config (наши монеты)** | 8563 | Express: `express.static('public')` + один API | В образе: папка `public/` (index.html и др.). Запросы к `/api/coins` обрабатывает server.js, читает файл с диска. Не «как один статический сайт в одной папке» — статика через Express, плюс один динамический маршрут. |
+| **Pool Dashboard** | 8561 | Nginx: обычный сайт из папки | В образе: `COPY www /usr/share/nginx/html/` → index.html, app.js, site.css, assets/ в `/usr/share/nginx/html`. Запросы `/api/` проксируются на MiningCore :4000. **Статика — как в обычном сайте.** |
+| **Pool Config** | 8562 | Образ theretromike/miningcorewebui | **Статика НЕ лежит как в обычном сайте.** Внутри контейнера: `/app/wwwroot/` — css/site.css, js/site.js, img/, lib/, MiningCoreWebUI.styles.css. Файла index.html нет — HTML отдаёт сервер (Razor/ASP.NET). Страницы (Index, PoolConfiguration и т.д.) — серверные маршруты. Править стили/логотип можно только внутри образа (wwwroot) или пересборкой; конфиги пишутся в /app/miningcore/ (монтировано с хоста). |
+| **Pool Config (наши монеты)** | 8563 | Express: `express.static('public')` + один API | В образе: папка `public/` (index.html и др.). Запросы к `/api/coins` обрабатывает server.js, читает файл с диска. Статика через Express + один динамический маршрут. |
 
-Итого: у **Dashboard (8561)** статика лежит «как в обычном сайте» — nginx отдаёт файлы из одной директории. У **8563** — статика в `public/`, но есть серверный маршрут `/api/coins`.
+Итого: у **Dashboard (8561)** статика — как в обычном сайте (nginx, одна папка). У **Pool Config (8562)** статика в `/app/wwwroot`, индекс и страницы — серверные, не файл index.html. У **8563** — статика в `public/` + API.
+
+### Как устроен Pool Config (8562) внутри образа
+
+- В контейнере: `/app/wwwroot/` — статика (css, js, img, lib). Страницы рендерятся сервером, нет «обычного» index.html.
+- Шаблоны пулов: `/app/pooltemplate.json` и по монетам — `/app/btctemplate.json`, `/app/dogetemplate.json`, `/app/xectemplate.json` и т.д. Панель собирает из них итоговый конфиг.
+- Результат пишется в **/app/miningcore/** (на хосте это `/home/umbrel/.miningcore/`): `config.json` и при необходимости `coins.json`. Список монет для чекбоксов и кнопка **Refresh Master Coin List** берутся из coins.json на сервере. Подробнее — **guides/COINS-JSON-SETUP.md**.
 
 ---
 
@@ -62,7 +70,13 @@
 
 ---
 
-## 5. Краткая схема
+## 5. Fee wallet и rewardRecipients (как в «панели 83»)
+
+В вашем документе **«панель 83, где fee wallet и fee % (0.05) в rewardRecipients, кнопка Auto Wallet»** описан отдельный Node-сервис с доступом на запись к каталогу config MiningCore. Он монтирует этот каталог как `/mc:rw` и может править `config.json` (добавлять fee wallet, rewardRecipients с percentage 0.05, подставлять адрес пула). В текущем Umbrel-наборе такой панели нет: Pool Config (8562) — это только образ theretromike/miningcorewebui (Generate Config, замена «xxx» вручную). Добавить fee/rewardRecipients можно вручную в config.json или реализовать отдельное приложение по аналогии с панелью 83 (Node + rw mount к `/home/umbrel/.miningcore`).
+
+---
+
+## 6. Краткая схема
 
 ```
 [Хост Umbrel]
