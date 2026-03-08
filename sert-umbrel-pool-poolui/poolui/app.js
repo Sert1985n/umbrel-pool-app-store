@@ -98,6 +98,10 @@ function fmtBlockStatus(s){
   if(t.length > 24) return 'Pending';
   return s;
 }
+function getBlockConfirmations(pool){
+  const n = asNumberOrNull(pool?.networkStats?.confirmations ?? pool?.coin?.confirmations ?? pool?.confirmations);
+  return n != null ? n : 120;
+}
 
 /* ---------- API helpers ---------- */
 const FETCH_TIMEOUT_MS = 12000;
@@ -950,39 +954,61 @@ async function renderBlocks(poolIdMaybe){
   const arr = Array.isArray(data?.blocks) ? data.blocks : (Array.isArray(data)?data:(Array.isArray(data?.results)?data.results:[]));
   const blocks = arr.slice(0,50);
 
+  const orphanCount = asNumberOrNull(pool?.poolStats?.orphanBlocks ?? pool?.blockStats?.orphan ?? 0) ?? 0;
+  const statsRows = `<tr><td>${fmtNumber(n.blocks)}</td><td>${n.effort != null ? n.effort.toFixed(0) + '%' : '—'}</td><td>${fmtNumber(orphanCount)}</td></tr>`;
+
   const rows = blocks.length ? blocks.map(b=>{
     const height = b.blockHeight ?? b.height ?? '—';
+    const type = b.type ?? '—';
     const status = fmtBlockStatus(b.status ?? b.state);
     const time = b.created ?? b.createdAt ?? b.time ?? '—';
+    const server = b.server ?? '—';
     const miner = b.miner ?? b.minerAddress ?? b.worker ?? '—';
     const effort = b.effort ?? b.effortPercent ?? '—';
     const sol = b.solution ?? b.shareDifficulty ?? '—';
     const reward = b.reward ?? b.blockReward ?? '—';
     return `<tr>
       <td>${fmtNumber(height)}</td>
-      <td>${status}</td>
+      <td>${type}</td>
       <td class="mono">${time}</td>
+      <td class="mono">${server}</td>
       <td class="mono">${miner}</td>
       <td>${effort}</td>
       <td>${sol}</td>
+      <td>${status}</td>
       <td>${reward}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="7">—</td></tr>`;
+  }).join('') : `<tr><td colspan="9">—</td></tr>`;
 
   $('#app').innerHTML=`
     <section class="surface">
       ${coinMenu(poolId,'blocks')}
       <div class="surface__head">
-        <h1>${iconImg(pool)} ${pool.coin?.name||poolId} — Blocks</h1>
+        <h1>${iconImg(pool)} ${pool.coin?.name||poolId} — Статистика блоков</h1>
         <div class="hint"></div>
       </div>
-      <div class="table-wrap">
-        <table class="table">
-          <thead><tr>
-            <th>Height</th><th>Status</th><th>Time</th><th>Miner</th><th>Effort</th><th>Solution</th><th>Reward</th>
-          </tr></thead>
-          <tbody>${rows}</tbody>
+      <div class="blocks-summary-wrap">
+        <table class="table blocks-summary-table">
+          <thead><tr><th>Blocks</th><th>Effort</th><th>Orphan</th></tr></thead>
+          <tbody>${statsRows}</tbody>
         </table>
+        <p class="blocks-maturation">Для подтверждения блока требуется ${getBlockConfirmations(pool)} новых блоков в сети.</p>
+      </div>
+      <div class="expander" aria-expanded="false">
+        <div class="expander__head" onclick="toggleExpander(this.parentElement)">
+          <div class="title">Список блоков (Latest 50)</div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="expander__body">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr>
+                <th>Height</th><th>Type</th><th>Time</th><th>Server</th><th>Miner</th><th>Effort</th><th>Solution</th><th>Status</th><th>Reward</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
   `;
