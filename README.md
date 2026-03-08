@@ -34,4 +34,6 @@ btc, bch, bc2, bsv, dgb, doge, xec, xna, ppc, rvn, vtc, ltc, grs, fb, xmr, erg, 
 
 ## GitHub
 
-Репозиторий готов к публикации на GitHub. Пошаговая инструкция — в **[GITHUB.md](GITHUB.md)**.
+Репозиторий: **https://github.com/Sert1985n/umbrel-pool-app-store**
+
+Дальнейшие обновления: `git add .` → `git commit -m "..."` → `git push`. Подробнее — в [GITHUB.md](GITHUB.md).
