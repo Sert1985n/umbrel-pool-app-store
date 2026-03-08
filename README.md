@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (порт **8562**): монеты подставляются при первом запуске; Setup DB, Refresh Coin List, Generate Config, Wallet (подстановка адресов вместо "xxx"), включение/выключение монет, кнопка перезапуска MiningCore. **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Панель конфигурации** — **«Pool Config»** (порт **8562**): отдельная панель (MiningCore Web UI) — Setup DB, Refresh Coin List, Generate Config, Wallet. Список монет из coins.json на сервере (шаблон в репозитории). **Ваша панель** (статистика, графики) — **«Pool Dashboard»** (порт **8561**). Referral/Support/копирайт в родном Web UI — через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
@@ -15,7 +15,7 @@
 | Приложение | Порт | Описание |
 |------------|------|----------|
 | **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — всё из панели: монеты (coins.json подставляется при первом запуске), Setup DB, Refresh Coin List, Generate Config, Wallet, включение/выключение монет, кнопка перезапуска MiningCore. |
+| **sert-umbrel-pool-pool-config** | 8562 | **Pool Config** — отдельная панель (MiningCore Web UI): Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet. Монеты из coins.json на сервере (шаблон в templates/ и guides/COINS-JSON-SETUP.md). |
 | **sert-umbrel-pool-dashboard** | 8561 | **Pool Dashboard** — ваша панель (poolui): статистика, графики, кошелёк. Без Referral/Support. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |

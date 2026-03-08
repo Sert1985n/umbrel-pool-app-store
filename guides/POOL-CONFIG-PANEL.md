@@ -8,17 +8,19 @@
 
 ## Что делает эта панель
 
-- **При первом запуске** приложения сервис `coins-init` подставляет **coins.json** с нашими монетами в `/home/umbrel/.miningcore/` (если файла ещё нет). Вручную копировать не нужно.
-- По адресу **http://ВАШ-IP:8562** открывается страница с iframe панели и кнопкой **«Перезапустить MiningCore»** (сверху).
-- В панели (как у Retro Mike): **Setup Database Schema**, **Refresh Master Coin List**, **Generate Pool Config File**, **Создание Wallet** — подстановка ваших адресов вместо "xxx". Включение/выключение монет — выбором в списке при генерации config.
-- Всё делается из браузера, без ручных правок на сервере.
+- **Setup Database Schema** — создание таблиц БД для пула.
+- **Refresh Master Coin List** — обновление списка монет из **coins.json** на сервере (/home/umbrel/.miningcore/).
+- **Generate Pool Config File** — генерация фрагментов **config.json** по выбранным монетам.
+- **Создание Wallet** — в интерфейсе можно задать/подставить адреса кошельков; плейсхолдер "xxx" в config заменяется на реальный адрес.
+
+Откройте **http://ВАШ-IP:8562** → страница Pool Configuration и остальные разделы панели (как у Retro Mike).
 
 ---
 
 ## Откуда берётся список монет
 
-- При первом запуске **coins-init** копирует наш **templates/coins.json** в **/home/umbrel/.miningcore/coins.json** (если файла нет). В панели нажмите **Refresh Master Coin List** — появятся наши монеты.
-- Если список пуст — см. **COINS-JSON-SETUP.md** (ручная подстановка и ссылка на готовый coins.json).
+- В панели отображаются монеты из файла **/home/umbrel/.miningcore/coins.json** на Umbrel.
+- Чтобы появились наши монеты — скопируйте **templates/coins.json** на сервер (или скачайте по ссылке из репозитория) и нажмите в панели **Refresh Master Coin List**. Подробно: **COINS-JSON-SETUP.md**.
 
 ---
 
