@@ -1,6 +1,6 @@
 # Setup Database Schema, Refresh Master Coin List, Generate Pool Config File
 
-Три действия для настройки пула Miningcore и управления монетами. Все монеты из списка ниже можно включать/выключать в **config.json**; изменения можно сохранять в GitHub.
+Три действия для настройки пула Miningcore и управления монетами. **Все ваши монеты (новые и старые)** — в Master Coin List ниже; их можно включать/выключать в **config.json**, управлять через родную MiningCore Web UI (Pool Configuration). Изменения можно записывать в GitHub (раздел 4).
 
 ---
 

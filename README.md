@@ -11,8 +11,8 @@
 | Приложение | Описание |
 |------------|----------|
 | **sert-umbrel-pool-miningcore** | MiningCore — пул |
-| **sert-umbrel-pool-miningcore-webui** | **Родная** MiningCore Web UI (Retro Mike) — порт в Umbrel у приложения. Setup Database Schema, Refresh Master Coin List, Generate Pool Config File — через эту панель / Pool Configuration |
-| **sert-umbrel-pool-poolui** | **Ваша панель** Pool Dashboard (poolui) на новом порту: 4 ячейки POOL/BLOCK/PRICE/NETWORK, Your Wallet, графики. Устанавливается полностью с вашим WEB UI |
+| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (родная)** — Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, управление монетами (новые и старые), запись изменений в GitHub |
+| **sert-umbrel-pool-poolui** | **Pool Dashboard (My Web UI)** — дашборд: статистика в реальном времени, графики hashrate, проверка кошелька (Your Wallet). Ваша панель на новом порту |
 | **sert-umbrel-pool-btc-node** | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | Нода Bitcoin SV |
