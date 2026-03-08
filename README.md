@@ -6,19 +6,13 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. **MiningCore Web UI** взят полностью из [retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store) — та же структура, без изменений образа; так же работает. Referral Links / Support Me / копирайт — только через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. CasaOS не используем; монеты в Pool Configuration — через coins.json на сервере (см. guides). **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. **Моя панель** — это приложение **«MiningCore Web UI»** (порт 8559): в нём раздаётся ваш poolui из папки `sert-umbrel-pool-miningcore-webui/www`. Отдельного приложения «Моя панель» в списке нет. Referral/Support/копирайт в родном Web UI — только через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Подробно: **guides/POOLUI-ИЗМЕНЕНИЯ.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 
-## Где моя панель? Где иконки?
+## Где моя панель?
 
-**Моя панель** — приложения **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard», порт 8560) и **sert-umbrel-pool-dashboard** («Pool Dashboard (Моя панель)», порт 8561). Оба показывают одну и ту же панель пула.
-
-**Если панель не появилась в магазине:**  
-1. В Umbrel откройте **Settings → Community App Stores**.  
-2. Добавьте источник: `https://github.com/Sert1985n/umbrel-pool-app-store` (если ещё нет).  
-3. Нажмите **Update** / **Refresh** у магазина Umbrel Pool (или удалите источник и добавьте снова).  
-4. Установите **«Моя панель — Pool Dashboard»** (порт 8560) или **«Pool Dashboard (Моя панель)»** (порт 8561).
+**Моя панель** — приложение **«MiningCore Web UI (Моя панель)»** в магазине Umbrel Pool. После установки открывается по порту **8559** — это ваш дашборд (файлы из `C:\Users\WIN-10\Desktop\www\poolui`, скопированы в репозиторий в `sert-umbrel-pool-miningcore-webui/www`). Для Pool Configuration (Setup Database Schema, Refresh Master Coin List) установите приложение **«Pool Configuration»** (порт 8560).
 
 **Иконки** в манифестах указаны с [cryptologos.cc](https://cryptologos.cc/) и, где есть, из папки **icons/** в репозитории. Если иконки не грузятся, обновите магазин (Update/Refresh) и проверьте доступ в интернет с устройства Umbrel.
 
@@ -31,9 +25,8 @@
 | Приложение | Описание |
 |------------|----------|
 | **sert-umbrel-pool-miningcore** | MiningCore — пул |
-| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI** — как у [Retro Mike](https://github.com/TheRetroMike/retromike-umbrel-app-store). Порт 8559. Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
-| **sert-umbrel-pool-poolui** | **Моя панель — Pool Dashboard** — ваша панель (порт 8560): статистика, графики, кошелёк |
-| **sert-umbrel-pool-dashboard** | **Pool Dashboard (Моя панель)** — то же приложение панели на порту 8561 (отдельная запись в магазине) |
+| **sert-umbrel-pool-miningcore-webui** | **MiningCore Web UI (Моя панель)** — ваша панель poolui (порт 8559): статистика, графики, кошелёк. Без Referral/Support. |
+| **sert-umbrel-pool-pool-config** | **Pool Configuration** — родной Web UI (порт 8560): Setup Database Schema, Refresh Master Coin List, Generate Pool Config File |
 | **sert-umbrel-pool-btc-node** | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | Нода Bitcoin SV |
@@ -73,6 +66,7 @@
 | **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; заменить копирайт на public-pool-btc.ru (userscript/букмарклет) |
 | **templates/README.md** | Инструкция по копированию coins.json для списка монет в Pool Configuration |
 | **guides/POOL-CONFIGURATION-COINS.md** | Почему в Pool Configuration нет ваших монет; как добавить монеты для Wallet и config (coins.json, Refresh Master Coin List) |
+| **guides/POOLUI-ИЗМЕНЕНИЯ.md** | Что сделано с poolui; какие изменения вносить в Desktop\\www\\poolui; Referral/копирайт; список монет и недостающих нод |
 | **coins-reference.json** | Master Coin List: id, coin, stratum, rpcPort (для панели и скриптов) |
 
 ---

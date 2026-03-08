@@ -1,60 +1,27 @@
 manifestVersion: 1
 id: sert-umbrel-pool-miningcore-webui
-name: MiningCore Web UI
-tagline: Web UI for the MiningCore Mining Pool App (public-pool-btc.ru)
+name: MiningCore Web UI (Моя панель)
+tagline: Ваша панель пула: статистика, графики, кошелёк. public-pool-btc.ru
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8559
 description: |
-  Web UI for the MiningCore Mining Pool App. Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Install MiningCore first.
+  Ваша панель пула (Pool Dashboard): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS; Your Wallet; графики. Подключается к MiningCore. Сначала установите MiningCore.
 
-  public-pool-btc.ru
+  Для Pool Configuration (Setup Database Schema, Refresh Master Coin List) установите приложение «Pool Configuration».
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
-submission: https://hub.docker.com/r/theretromike/miningcorewebui
-repo: https://hub.docker.com/r/theretromike/miningcorewebui
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
-  Same as Retro Mike Web UI. Referral/Support/copyright: use userscript in guides/NATIVE-WEBUI-CUSTOMIZE.md
-widgets:
- - id: "page1"
-   type: "list"
-   refresh: "5s"
-   endpoint: "web:8080/api/PoolStatsWidget/0"
-   link: ""
-   example:
-     type: "list"
-     link: ""
-     items:
-     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
-       subtext: "Last Synced Block: 01/12/2026 10:12:34"
- - id: "page2"
-   type: "list"
-   refresh: "5s"
-   endpoint: "web:8080/api/PoolStatsWidget/1"
-   link: ""
-   example:
-     type: "list"
-     link: ""
-     items:
-     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
-       subtext: "Last Synced Block: 01/12/2026 10:12:34"
- - id: "page3"
-   type: "list"
-   refresh: "5s"
-   endpoint: "web:8080/api/PoolStatsWidget/2"
-   link: ""
-   example:
-     type: "list"
-     link: ""
-     items:
-     - text: "Bitcoin | 1.2 TH/s | 1 Blocks"
-       subtext: "Last Synced Block: 01/12/2026 10:12:34"
-dependencies: []
+  Панель из папки poolui. Без Referral/Support — свой интерфейс. Порт 8559.
+dependencies:
+ - sert-umbrel-pool-miningcore
 path: ""
 defaultUsername: ""
 defaultPassword: ""
