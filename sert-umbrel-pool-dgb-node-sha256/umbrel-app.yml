@@ -1,0 +1,26 @@
+manifestVersion: 1
+id: sert-umbrel-pool-dgb-node-sha256
+name: Digibyte (DGB) Node - SHA256
+tagline: Нода Digibyte (SHA256) для пула или соло-майнинга
+icon: https://github.com/DigiByte-Core/digibyte-logos/blob/master/Logos%20Bitmap/transparent%20bg/ClearBg%20DigiByte.png?raw=true
+category: Mining Nodes
+version: "1.0.1"
+port: 5006
+description: |
+  Нода Digibyte (SHA256). В config.json пула укажите host: sert-umbrel-pool-dgb-node-sha256_digibyted_1, port: 9001.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/TheRetroMike/digibyte
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://github.com/DigiByte-Core/digibyte-logos/blob/master/Logos%20Bitmap/transparent%20bg/ClearBg%20DigiByte.png?raw=true
+releaseNotes: "На базе Retro Mike. RPC 9001, ZMQ 7001. Сервис в compose: digibyted."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

@@ -1,0 +1,26 @@
+manifestVersion: 1
+id: sert-umbrel-pool-ppc-node
+name: Peercoin (PPC) Node
+tagline: Нода Peercoin для пула или соло-майнинга
+icon: https://cryptologos.cc/logos/peercoin-ppc-logo.png
+category: Mining Nodes
+version: "1.0.1"
+port: 5016
+description: |
+  Нода Peercoin. В config.json пула укажите host: sert-umbrel-pool-ppc-node_node_1, port: 9012. Избегайте старых hostname — иначе «Name or service not known».
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store (FIX-XEC-DAEMON.md)
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/TheRetroMike/peercoin
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cryptologos.cc/logos/peercoin-ppc-logo.png
+releaseNotes: "На базе Retro Mike. RPC 9012, ZMQ 7012."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

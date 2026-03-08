@@ -1,0 +1,26 @@
+manifestVersion: 1
+id: sert-umbrel-pool-vtc-node
+name: Vertcoin (VTC) Node
+tagline: Нода Vertcoin для пула или соло-майнинга
+icon: https://cryptologos.cc/logos/vertcoin-vtc-logo.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5013
+description: |
+  Нода Vertcoin. В config.json пула укажите host: sert-umbrel-pool-vtc-node_node_1, port: 9008. Для VTC нужен verthash.dat (монтируется в Miningcore из app-data этой ноды).
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/TheRetroMike/vertcoin-core
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cryptologos.cc/logos/vertcoin-vtc-logo.png
+releaseNotes: "На базе Retro Mike. RPC 9008, ZMQ 7008."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

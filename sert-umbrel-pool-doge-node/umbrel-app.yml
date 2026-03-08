@@ -1,0 +1,26 @@
+manifestVersion: 1
+id: sert-umbrel-pool-doge-node
+name: Dogecoin (DOGE) Node
+tagline: Нода Dogecoin для пула или соло-майнинга
+icon: https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5008
+description: |
+  Нода Dogecoin. В config.json пула укажите host: sert-umbrel-pool-doge-node_node_1, port: 9003.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/TheRetroMike/dogecoin
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png
+releaseNotes: "На базе Retro Mike. RPC 9003, ZMQ 7003."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

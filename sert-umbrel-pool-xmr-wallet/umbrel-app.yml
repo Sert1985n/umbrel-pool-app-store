@@ -1,0 +1,26 @@
+manifestVersion: 1
+id: sert-umbrel-pool-xmr-wallet
+name: Monero (XMR) Wallet
+tagline: Monero Wallet RPC для выплат пула (нужна нода XMR из этого магазина)
+icon: https://cryptologos.cc/logos/monero-xmr-logo.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5015
+description: |
+  Monero Wallet RPC. Работает вместе с приложением «Monero (XMR) Node» из этого магазина (sert-umbrel-pool-xmr-node). Подключается к ноде по имени контейнера — конфликтов с другими магазинами нет.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/TheRetroMike/monero
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cryptologos.cc/logos/monero-xmr-logo.png
+releaseNotes: "На базе Retro Mike. Подключение к sert-umbrel-pool-xmr-node_node_1:9009."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

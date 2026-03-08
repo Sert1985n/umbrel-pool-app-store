@@ -1,35 +1,51 @@
-# Umbrel — проект пула Miningcore (Retro Mike)
+# Umbrel Pool App Store
 
-Отдельный проект для настройки майнинг-пула на **Umbrel** с Miningcore и нодами монет из App Store Retro Mike.
+Магазин приложений для майнинг-пула на **Umbrel**: Miningcore, ноды монет, Web UI. Все имена контейнеров с префиксом **sert-umbrel-pool-** — конфликтов с другими магазинами нет. Настройка daemons и исправление XEC — по документу «как мы добавили монету XEC в приложение umbrel».
 
 ---
 
-## Структура проекта
+## Приложения (как в [Retro Mike Store](https://github.com/TheRetroMike/retromike-umbrel-app-store))
 
-Как в [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): каждое приложение — папка с `umbrel-app.yml` и `docker-compose.yml`.
+Каждое приложение — папка с `umbrel-app.yml` и `docker-compose.yml`. Иконки — по возможности те же (cryptologos, bitcoincash.org и т.д.).
 
 | Приложение | Описание |
 |------------|----------|
-| **sert-umbrel-pool-miningcore** | MiningCore — пул для соло-майнинга |
-| **sert-umbrel-pool-miningcore-webui** | Web UI для пула |
+| **sert-umbrel-pool-miningcore** | MiningCore — пул |
+| **sert-umbrel-pool-miningcore-webui** | Web UI пула |
+| **sert-umbrel-pool-btc-node** | Нода Bitcoin |
+| **sert-umbrel-pool-bch-node** | Нода Bitcoin Cash |
+| **sert-umbrel-pool-bsv-node** | Нода Bitcoin SV |
+| **sert-umbrel-pool-bc2-node** | Нода Bitcoin II |
+| **sert-umbrel-pool-btcs-node** | Нода Bitcoin Silver |
+| **sert-umbrel-pool-dgb-node-sha256** | Нода Digibyte (SHA256) |
+| **sert-umbrel-pool-doge-node** | Нода Dogecoin |
 | **sert-umbrel-pool-xec-node** | Нода eCash (XEC) |
-| **sert-umbrel-pool-btc-node** | Нода Bitcoin (BTC) |
-| **sert-umbrel-pool-postgres** | PostgreSQL + pgAdmin (опционально) |
+| **sert-umbrel-pool-ppc-node** | Нода Peercoin |
+| **sert-umbrel-pool-vtc-node** | Нода Vertcoin |
+| **sert-umbrel-pool-xmr-node** | Нода Monero |
+| **sert-umbrel-pool-xmr-wallet** | Monero Wallet RPC (подключение к ноде этого магазина) |
+| **sert-umbrel-pool-postgres** | PostgreSQL + pgAdmin |
+| **sert-umbrel-pool-dozzle** | Просмотр логов контейнеров |
 
-| Документация | Описание |
-|--------------|----------|
-| **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel, имена контейнеров |
-| **FIX-XEC-DAEMON.md** | Исправление ошибок XEC (host, coinTemplates) |
-| **coins-reference.json** | Справочник монет: id, coin, stratum, rpcPort |
+---
+
+## Документация и настройка без конфликтов
+
+| Файл | Описание |
+|------|----------|
+| **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
+| **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
+| **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
+| **coins-reference.json** | Справочник: id, coin, stratum, rpcPort |
 
 ---
 
 ## Конфиги на Umbrel
 
-- **config.json** — `/home/umbrel/.miningcore/config.json` (монтируется в контейнер Miningcore)
-- **coins.json** — `/home/umbrel/.miningcore/coins.json` (шаблоны монет, coinTemplates)
-- Контейнер Miningcore: **retro-mike-miningcore_server_1** (образ theretromike/miningcore)
-- Ноды: контейнеры вида **retro-mike-&lt;coin&gt;-node_node_1** (например retro-mike-xec-node_node_1)
+- **config.json** — `/home/umbrel/.miningcore/config.json`
+- **coins.json** — `/home/umbrel/.miningcore/coins.json`
+- Контейнер пула: **sert-umbrel-pool-miningcore_server_1**
+- Ноды: **sert-umbrel-pool-&lt;монета&gt;-node_node_1** (DGB: **sert-umbrel-pool-dgb-node-sha256_digibyted_1**). Полная таблица — в **guides/CONFIG-DAEMONS.md**.
 
 ---
 
