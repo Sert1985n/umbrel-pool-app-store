@@ -3,8 +3,20 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: sert-umbrel-pool-pool-config_web_1
-      APP_PORT: 8080
+      APP_HOST: sert-umbrel-pool-pool-config_gateway_1
+      APP_PORT: 80
+    depends_on:
+      - gateway
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    image: ghcr.io/sert1985n/pool-config-gateway:latest
+    restart: on-failure
+    depends_on:
+      - web
+      - restart-helper
 
   web:
     image: theretromike/miningcorewebui
@@ -17,3 +29,14 @@ services:
       - STRATUM_HOST=umbrel.local
       - API_BASE_URL=http://sert-umbrel-pool-miningcore_server_1:4000/api
       - PLATFORM=UMBREL
+
+  restart-helper:
+    build:
+      context: ./restart-helper
+      dockerfile: Dockerfile
+    image: ghcr.io/sert1985n/pool-config-restart:latest
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MININGCORE_CONTAINER=sert-umbrel-pool-miningcore_server_1
