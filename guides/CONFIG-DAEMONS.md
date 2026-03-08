@@ -17,10 +17,20 @@
 | DGB    | sert-umbrel-pool-dgb-node-sha256_digibyted_1 | 9001 |
 | DOGE   | sert-umbrel-pool-doge-node_node_1       | 9003 |
 | XEC    | sert-umbrel-pool-xec-node_node_1        | 9007 |
+| XNA    | sert-umbrel-pool-xna-node_node_1        | 9011 |
 | PPC    | sert-umbrel-pool-ppc-node_node_1        | 9012 |
-| RVN    | — (ноды в этом магазине пока нет)       | 9010 |
+| RVN    | sert-umbrel-pool-rvn-node_node_1        | 9010 |
 | VTC    | sert-umbrel-pool-vtc-node_node_1        | 9008 |
+| LTC    | sert-umbrel-pool-ltc-node_node_1        | 9020 |
+| GRS    | sert-umbrel-pool-grs-node_node_1        | 9013 |
+| FB     | sert-umbrel-pool-fb-node_node_1         | 9021 |
 | XMR    | sert-umbrel-pool-xmr-node_node_1        | 9009 |
+| ERG    | sert-umbrel-pool-erg-node_node_1        | 9050 |
+| ZEN    | sert-umbrel-pool-zen-node_node_1        | 8231 |
+| FLUX   | — (ноды в магазине нет, образ при необходимости) | 16124 |
+| FIRO   | sert-umbrel-pool-firo-node_node_1       | 8888 |
+| KAS    | sert-umbrel-pool-kas-node_node_1        | 16110 |
+| NEXA   | sert-umbrel-pool-nexa-node_node_1       | 7227 |
 | BTCS   | sert-umbrel-pool-btcs-node_node_1       | 9015 |
 
 **Важно:** не используйте старые имена вида `retro-mike-ppc-node_node_1` или просто `xec` — иначе будет «Name or service not known».

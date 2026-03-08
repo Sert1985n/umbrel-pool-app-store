@@ -1,0 +1,25 @@
+manifestVersion: 1
+id: sert-umbrel-pool-rvn-node
+name: Ravencoin (RVN) Node
+tagline: Нода Ravencoin для пула или соло-майнинга
+icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/rvn.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5019
+description: |
+  Нода Ravencoin. В config.json пула укажите host: sert-umbrel-pool-rvn-node_node_1, port: 9010.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/rvn.png
+releaseNotes: "RPC 9010, ZMQ 7010. Образ theretromike/nodes:ravencoin."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

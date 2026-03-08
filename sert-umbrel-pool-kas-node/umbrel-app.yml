@@ -1,0 +1,25 @@
+manifestVersion: 1
+id: sert-umbrel-pool-kas-node
+name: Kaspa (KAS) Node
+tagline: Нода Kaspa для пула или соло-майнинга
+icon: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/250px-Kaspa-logo.svg.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5024
+description: |
+  Нода Kaspa. В config.json пула укажите host: sert-umbrel-pool-kas-node_node_1, port: 16110. Образ kaspanet/rusty-kaspad — проверьте порт в документации.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/250px-Kaspa-logo.svg.png
+releaseNotes: "Образ kaspanet/rusty-kaspad. RPC 16110."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

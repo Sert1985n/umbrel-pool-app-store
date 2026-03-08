@@ -1,0 +1,25 @@
+manifestVersion: 1
+id: sert-umbrel-pool-fb-node
+name: Fractal Bitcoin (FB) Node
+tagline: Нода Fractal Bitcoin для пула или соло-майнинга
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5027
+description: |
+  Нода Fractal Bitcoin (FB). В config.json пула укажите host: sert-umbrel-pool-fb-node_node_1, port: 9021. Образ unisat/fractal.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cryptologos.cc/logos/bitcoin-btc-logo.png
+releaseNotes: "Образ unisat/fractal. RPC 9021, ZMQ 7021."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

@@ -24,6 +24,16 @@
 | **sert-umbrel-pool-vtc-node** | Нода Vertcoin |
 | **sert-umbrel-pool-xmr-node** | Нода Monero |
 | **sert-umbrel-pool-xmr-wallet** | Monero Wallet RPC (подключение к ноде этого магазина) |
+| **sert-umbrel-pool-ltc-node** | Litecoin (LTC) |
+| **sert-umbrel-pool-rvn-node** | Ravencoin (RVN) |
+| **sert-umbrel-pool-grs-node** | Groestlcoin (GRS) |
+| **sert-umbrel-pool-xna-node** | NeurAI (XNA) |
+| **sert-umbrel-pool-zen-node** | Horizen (ZEN) |
+| **sert-umbrel-pool-firo-node** | Firo (FIRO) |
+| **sert-umbrel-pool-kas-node** | Kaspa (KAS) |
+| **sert-umbrel-pool-nexa-node** | Nexa (NEXA) |
+| **sert-umbrel-pool-erg-node** | Ergo (ERG) |
+| **sert-umbrel-pool-fb-node** | Fractal Bitcoin (FB) |
 | **sert-umbrel-pool-postgres** | PostgreSQL + pgAdmin |
 | **sert-umbrel-pool-dozzle** | Просмотр логов контейнеров |
 

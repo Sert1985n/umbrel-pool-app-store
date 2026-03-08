@@ -1,0 +1,25 @@
+manifestVersion: 1
+id: sert-umbrel-pool-xna-node
+name: NeurAI (XNA) Node
+tagline: Нода Neurai для пула или соло-майнинга
+icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/xna.png
+category: Mining Nodes
+version: "1.0.0"
+port: 5021
+description: |
+  Нода Neurai (XNA). В config.json пула укажите host: sert-umbrel-pool-xna-node_node_1, port: 9011.
+
+  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery:
+  - https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/xna.png
+releaseNotes: "RPC 9011, ZMQ 7011. Образ theretromike/nodes:neurai."
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

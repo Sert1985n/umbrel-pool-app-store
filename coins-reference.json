@@ -1,5 +1,5 @@
 {
-  "description": "Справочник монет для Umbrel (config.json / daemons). host на Umbrel: retro-mike-<id>-node_node_1",
+  "description": "Справочник монет для Umbrel (config.json / daemons). host: sert-umbrel-pool-<id>-node_node_1 (DGB: _digibyted_1)",
   "coins": [
     { "id": "btc", "coin": "bitcoin", "stratum": 6004, "rpcPort": 9004 },
     { "id": "bch", "coin": "bitcoin-cash", "stratum": 6002, "rpcPort": 9002 },
