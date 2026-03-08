@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-xmr-node
 name: Monero (XMR) Node
 tagline: Нода Monero для пула или соло-майнинга
-icon: https://cryptologos.cc/logos/monero-xmr-logo.png
+icon: https://cryptologos.cc/logos/monero-xmr-logo.svg
 category: Mining Nodes
 version: "1.0.3"
 port: 5014

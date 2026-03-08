@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-poolui
 name: Моя панель — Pool Dashboard
 tagline: Ваша панель пула: статистика, графики, кошелёк (public-pool-btc.ru)
-icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/pool-dashboard.svg
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8560
@@ -16,8 +16,8 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
+  - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
   - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/pool-dashboard.svg
-  - https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
 releaseNotes: |
   Удобный дашборд: 4 ячейки статистики, Your Wallet, графики. Устанавливается с вашим WEB UI.
 dependencies:

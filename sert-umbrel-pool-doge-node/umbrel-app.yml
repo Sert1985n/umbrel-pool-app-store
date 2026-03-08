@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-doge-node
 name: Dogecoin (DOGE) Node
 tagline: Нода Dogecoin для пула или соло-майнинга
-icon: https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png
+icon: https://cryptologos.cc/logos/dogecoin-doge-logo.svg
 category: Mining Nodes
 version: "1.0.0"
 port: 5008
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/dogecoin
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png
+  - https://cryptologos.cc/logos/dogecoin-doge-logo.svg
 releaseNotes: "На базе Retro Mike. RPC 9003, ZMQ 7003."
 dependencies: []
 path: ""

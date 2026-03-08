@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-bsv-node
 name: Bitcoin SV (BSV) Node
 tagline: Нода Bitcoin SV для пула или соло-майнинга
-icon: https://cryptologos.cc/logos/bitcoin-sv-bsv-logo.png
+icon: https://cryptologos.cc/logos/bitcoin-sv-bsv-logo.svg
 category: Mining Nodes
 version: "1.0.4"
 port: 5010

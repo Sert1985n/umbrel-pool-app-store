@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-miningcore
 name: MiningCore
 tagline: MiningCore Mining Pool
-icon: https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "1.4.0"
 port: 8560

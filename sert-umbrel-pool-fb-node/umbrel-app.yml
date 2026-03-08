@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-fb-node
 name: Fractal Bitcoin (FB) Node
 tagline: Нода Fractal Bitcoin для пула или соло-майнинга
-icon: https://cryptologos.cc/logos/bitcoin-btc-logo.png
+icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: Mining Nodes
 version: "1.0.0"
 port: 5027

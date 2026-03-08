@@ -8,6 +8,7 @@
 // @match        *://localhost/*
 // @match        *://127.0.0.1/*
 // @match        *://*.local/*
+// @match        *://192.168.*/*
 // @grant        none
 // @run-at       document-idle
 // ==/UserScript==

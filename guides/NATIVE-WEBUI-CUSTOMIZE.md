@@ -2,7 +2,7 @@
 
 В интерфейсе родной MiningCore Web UI (образ theretromike/miningcorewebui) по умолчанию есть пункты меню **Referral Links** и **Support Me**, а внизу — **Copyright © 2025 Retro Mike Tech All rights reserved.**
 
-Чтобы **удалить** эти надписи и заменить копирайт на **public-pool-btc.ru All rights reserved.**, можно использовать пользовательский скрипт (userscript).
+Чтобы **удалить** эти надписи и заменить копирайт на **public-pool-btc.ru All rights reserved.**, используйте один из способов ниже.
 
 ---
 
@@ -16,7 +16,21 @@
    - удалит пункты меню **Referral Links** и **Support Me**;
    - заменит текст в футере на **Copyright © 2025 public-pool-btc.ru All rights reserved.**
 
-Скрипт по умолчанию запускается на `umbrel.local`, `localhost`, `127.0.0.1`, `*.local`. Если родная Web UI открыта по другому адресу (например IP), в Tampermonkey добавьте в блок `// @match` строку: `// @match        *://ВАШ-ХОСТ/*` и сохраните скрипт.
+Скрипт по умолчанию запускается на `umbrel.local`, `localhost`, `127.0.0.1`, `*.local`, `192.168.*`. Если родная Web UI открыта по другому адресу, в Tampermonkey добавьте в блок `// @match` строку: `// @match        *://ВАШ-IP/*` и сохраните скрипт.
+
+---
+
+## Вариант 2: Букмарклет (без Tampermonkey)
+
+1. Откройте родную Web UI (например http://192.168.0.244:8559/).
+2. Добавьте в закладки браузера новую закладку.
+3. В поле «URL» вставьте этот код (одной строкой) и сохраните:
+
+```
+javascript:(function(){var c='Copyright © 2025 public-pool-btc.ru All rights reserved.';document.querySelectorAll('a[href="/ReferralLinks"]').forEach(function(a){var li=a.closest('li.nav-item');if(li)li.remove();});document.querySelectorAll('a[href="/SupportMe"]').forEach(function(a){var li=a.closest('li.nav-item');if(li)li.remove();});var f=document.querySelector('footer.main-footer');if(f){var s=f.querySelector('strong');if(s&&/Retro Mike|All rights/i.test(s.textContent))s.textContent=c;}});
+```
+
+4. Каждый раз при открытии страницы Pool Configuration или главной Web UI нажимайте эту закладку — пункты Referral Links и Support Me удалятся, копирайт сменится на public-pool-btc.ru.
 
 Скрипт срабатывает при загрузке страницы и при изменении DOM (SPA).
 

@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-erg-node
 name: Ergo (ERG) Node
 tagline: Нода Ergo для пула или соло-майнинга
-icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/erg.png
+icon: https://cryptologos.cc/logos/ergo-erg-logo.svg
 category: Mining Nodes
 version: "1.0.0"
 port: 5026

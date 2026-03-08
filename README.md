@@ -6,9 +6,15 @@
 
 ## Где моя панель? Где иконки?
 
-**Моя панель** — это приложение **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard»). Оно есть в списке приложений магазина **Umbrel Pool**: установите его, откройте по выданному порту (8560) — это и есть ваша панель с 4 блоками статистики, Your Wallet и графиками.
+**Моя панель** — приложение **sert-umbrel-pool-poolui** («Моя панель — Pool Dashboard»). Оно входит в магазин **Umbrel Pool**.
 
-**Иконки** приложений берутся из полей `icon` и `gallery` в каждом `umbrel-app.yml`. Если иконки не отображаются в Umbrel, проверьте доступ в интернет с устройства; для вашей панели и пула добавлены иконки из репозитория в папке **icons/** — в манифестах используются ссылки на `raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/icons/...`, чтобы они грузились с вашего GitHub.
+**Если «Моя панель — Pool Dashboard» не появилась в Umbrel:**  
+1. В Umbrel откройте **Settings → Community App Stores**.  
+2. Добавьте источник: `https://github.com/Sert1985n/umbrel-pool-app-store` (если ещё нет).  
+3. Нажмите **Update** / **Refresh** у магазина Umbrel Pool.  
+4. В списке приложений магазина должно появиться приложение **«Моя панель — Pool Dashboard»** — установите его, откройте по порту 8560.
+
+**Иконки** в манифестах указаны с [cryptologos.cc](https://cryptologos.cc/) и, где есть, из папки **icons/** в репозитории. Если иконки не грузятся, проверьте доступ в интернет с устройства Umbrel.
 
 ---
 
@@ -56,7 +62,8 @@
 | **guides/CONFIG-DAEMONS.md** | Таблица host для config.json (daemons), исправление XEC в coins.json |
 | **COINS-SETUP-GUIDE.md** | Настройка монет, пути Umbrel |
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
-| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; заменить копирайт на public-pool-btc.ru (userscript) |
+| **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; копирайт public-pool-btc.ru (userscript или букмарклет) |
+| **guides/POOL-CONFIGURATION-COINS.md** | Почему в Pool Configuration нет ваших монет; как добавить монеты для Wallet и config (coins.json, Refresh Master Coin List) |
 | **coins-reference.json** | Master Coin List: id, coin, stratum, rpcPort (для панели и скриптов) |
 
 ---

@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-bch-node
 name: Bitcoin Cash (BCH) Node
 tagline: Нода Bitcoin Cash для пула или соло-майнинга
-icon: https://bitcoincash.org/img/green/bitcoin-cash-circle.svg
+icon: https://cryptologos.cc/logos/bitcoin-cash-bch-logo.svg
 category: Mining Nodes
 version: "1.0.0"
 port: 5007
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/bitcoin-cash
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://bitcoincash.org/img/green/bitcoin-cash-circle.svg
+  - https://cryptologos.cc/logos/bitcoin-cash-bch-logo.svg
 releaseNotes: "На базе Retro Mike. RPC 9002, ZMQ 7002."
 dependencies: []
 path: ""

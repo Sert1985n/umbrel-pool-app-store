@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-ppc-node
 name: Peercoin (PPC) Node
 tagline: Нода Peercoin для пула или соло-майнинга
-icon: https://cryptologos.cc/logos/peercoin-ppc-logo.png
+icon: https://cryptologos.cc/logos/peercoin-ppc-logo.svg
 category: Mining Nodes
 version: "1.0.1"
 port: 5016
