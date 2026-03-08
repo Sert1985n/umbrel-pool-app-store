@@ -954,8 +954,14 @@ async function renderBlocks(poolIdMaybe){
   const arr = Array.isArray(data?.blocks) ? data.blocks : (Array.isArray(data)?data:(Array.isArray(data?.results)?data.results:[]));
   const blocks = arr.slice(0,50);
 
-  const orphanCount = asNumberOrNull(pool?.poolStats?.orphanBlocks ?? pool?.blockStats?.orphan ?? 0) ?? 0;
-  const statsRows = `<tr><td>${fmtNumber(n.blocks)}</td><td>${n.effort != null ? n.effort.toFixed(0) + '%' : '—'}</td><td>${fmtNumber(orphanCount)}</td></tr>`;
+  const BLOCK_WINDOWS = [64, 128, 256, 1024];
+  const effortByWindow = pool?.poolStats?.effortByWindow ?? pool?.blockStats?.effort ?? [];
+  const orphanByWindow = pool?.poolStats?.orphanByWindow ?? pool?.blockStats?.orphanPct ?? [];
+  const statsRows = BLOCK_WINDOWS.map((n, i) => {
+    const effort = Array.isArray(effortByWindow) && effortByWindow[i] != null ? (effortByWindow[i].toFixed ? effortByWindow[i].toFixed(1) + '%' : effortByWindow[i]) : null;
+    const orphan = Array.isArray(orphanByWindow) && orphanByWindow[i] != null ? (orphanByWindow[i].toFixed ? orphanByWindow[i].toFixed(0) + '%' : orphanByWindow[i]) : '0%';
+    return `<tr><td>${n}</td><td><span class="effort-dash">${effort != null ? effort : '—'}</span></td><td>${orphan}</td></tr>`;
+  }).join('');
 
   const rows = blocks.length ? blocks.map(b=>{
     const height = b.blockHeight ?? b.height ?? '—';
