@@ -6,7 +6,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md**. **Моя панель** — это приложение **«MiningCore Web UI»** (порт 8559): в нём раздаётся ваш poolui из папки `sert-umbrel-pool-miningcore-webui/www`. Отдельного приложения «Моя панель» в списке нет. Referral/Support/копирайт в родном Web UI — только через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Подробно: **guides/POOLUI-ИЗМЕНЕНИЯ.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
+См. **QUICK-FIX.md**. Если магазин пустой или приложения не появляются — **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **Моя панель** — это приложение **«MiningCore Web UI»** (порт 8559): в нём раздаётся ваш poolui из папки `sert-umbrel-pool-miningcore-webui/www`. Отдельного приложения «Моя панель» в списке нет. Referral/Support/копирайт в родном Web UI — только через userscript: **guides/NATIVE-WEBUI-CUSTOMIZE.md**. Подробно: **guides/POOLUI-ИЗМЕНЕНИЯ.md**. **Все правки в GitHub**; обновите магазин (Update/Refresh).
 
 ---
 

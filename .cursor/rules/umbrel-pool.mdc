@@ -1,0 +1,15 @@
+---
+description: Правило для проекта Umbrel Pool App Store
+globs: 
+alwaysApply: true
+---
+
+# Umbrel Pool App Store — правила
+
+1. **GitHub:** После любых изменений в файлах проекта (README, guides, umbrel-app.yml, docker-compose, www и т.д.) сразу выполнять:
+   - `git add` (изменённые файлы или `git add -A`)
+   - `git commit -m "краткое описание"`
+   - `git push`
+   Репозиторий: https://github.com/Sert1985n/umbrel-pool-app-store
+
+2. **Локальная папка проекта:** `C:\Users\WIN-10\Desktop\Umbrel-Pool-Project` — все правки вносить только здесь; после правок — commit и push (п. 1).
