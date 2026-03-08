@@ -721,6 +721,9 @@ async function renderPools(){
   setHeaderBadges(totalBlocks, totalMiners);
 
   const rows = poolsTableRows();
+  const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
+    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Настройте пулы: откройте <a href="http://' + window.location.hostname + ':8562/PoolConfiguration" target="_blank" rel="noopener">Pool Config (8562)</a> или <a href="http://' + window.location.hostname + ':8563/" target="_blank" rel="noopener">Pool Config наши монеты (8563)</a> → Setup Database Schema → Refresh Master Coin List → Generate Pool Config File, затем перезапустите MiningCore.</td></tr>'
+    : (rows || '<tr><td colspan="8">—</td></tr>');
 
   $('#app').innerHTML=`
     <section class="surface">
@@ -734,7 +737,7 @@ async function renderPools(){
             <th>Pool</th><th>Algorithm</th><th>Miners</th><th>Hashrate</th>
             <th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Reward</th>
           </tr></thead>
-          <tbody id="poolsTbody">${rows || '<tr><td colspan="8">—</td></tr>'}</tbody>
+          <tbody id="poolsTbody">${emptyMsg}</tbody>
         </table>
       </div>
     </section>
@@ -765,7 +768,11 @@ function poolsTableRows(){
 function updatePoolsDOM(){
   const tb = $('#poolsTbody');
   if(!tb) return;
-  tb.innerHTML = poolsTableRows() || '<tr><td colspan="8">—</td></tr>';
+  const rows = poolsTableRows();
+  const emptyMsg = !rows && Array.isArray(POOLS) && POOLS.length === 0
+    ? '<tr><td colspan="8" class="empty-pools-msg"><strong>Пулов нет.</strong> Настройте пулы: <a href="http://' + window.location.hostname + ':8562/PoolConfiguration" target="_blank" rel="noopener">8562</a> или <a href="http://' + window.location.hostname + ':8563/" target="_blank" rel="noopener">8563</a> → Setup Database Schema → Generate Pool Config File → перезапуск MiningCore.</td></tr>'
+    : (rows || '<tr><td colspan="8">—</td></tr>');
+  tb.innerHTML = emptyMsg;
 }
 
 async function renderCoin(poolId){

@@ -6,13 +6,19 @@ const app = express();
 const COINS_FILE = process.env.COINS_FILE || '/app/miningcore/coins.json';
 const PORT = 8080;
 
+// Только наши 28 монет из репозитория (id из coins.json)
+const OUR_COIN_IDS = [
+  'bitcoin', 'bitcoin-cash', 'bitcoin-ii', 'bitcoin-sv', 'bitcoin-silver',
+  'digibyte-sha256', 'dogecoin', 'ecash', 'neurai', 'peercoin', 'ravencoin',
+  'vertcoin', 'litecoin', 'groestlcoin', 'fractalbitcoin-sha', 'monero', 'ergo',
+  'ethereumclassic', 'ethereumpow', 'zephyr', 'spacecoin', 'xelis', 'octaspace',
+  'zcash', 'horizen', 'flux', 'firo', 'kaspa', 'nexa'
+];
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Health check для Umbrel (быстрый 200)
-app.get('/health', (req, res) => {
-  res.status(200).send('ok');
-});
+app.get('/health', (req, res) => { res.status(200).send('ok'); });
 
 app.get('/api/coins', (req, res) => {
   try {
@@ -21,11 +27,13 @@ app.get('/api/coins', (req, res) => {
     }
     const raw = fs.readFileSync(COINS_FILE, 'utf8');
     const data = JSON.parse(raw);
-    const list = Object.entries(data).map(([id, c]) => ({
-      id,
-      name: c.name || id,
-      symbol: (c.symbol || '').toUpperCase()
-    }));
+    const list = Object.entries(data)
+      .filter(([id]) => OUR_COIN_IDS.includes(id))
+      .map(([id, c]) => ({
+        id,
+        name: c.name || id,
+        symbol: (c.symbol || '').toUpperCase()
+      }));
     res.json({ coins: list });
   } catch (e) {
     res.json({ coins: [], error: String(e.message) });

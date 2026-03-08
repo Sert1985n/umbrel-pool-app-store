@@ -34,7 +34,7 @@
     </nav>
     <main>
       <h1>Mining Pool Configuration</h1>
-      <p>Список монет из <strong>/home/umbrel/.miningcore/coins.json</strong> (все 28 монет из репозитория).</p>
+      <p>Показаны только <strong>наши 28 монет</strong> из coins.json (остальные отфильтрованы). Монеты добавляем из этого списка.</p>
       <div class="buttons">
         <button class="btn primary" id="refreshBtn">Refresh Master Coin List</button>
         <a href="#" id="btnWebUi" target="_blank" class="btn">Setup Database Schema / Generate Pool Config File →</a>
@@ -42,7 +42,7 @@
       <div id="loading">Загрузка списка монет…</div>
       <div id="coinList" class="coin-list" style="display:none;"></div>
       <div class="note">
-        <strong>Примечание.</strong> Setup Database Schema и Generate Pool Config File выполняются в панели MiningCore Web UI (кнопка выше). Здесь отображается актуальный список из вашего coins.json. После изменения coins.json на сервере нажмите «Refresh Master Coin List».
+        <strong>Как работает Pool Configuration.</strong> Кнопка «Setup Database Schema / Generate Pool Config File» открывает <strong>MiningCore Web UI на порту 8562</strong> — там создаёте кошельки, подставляете адреса вместо «xxx» и генерируете config.json. Монеты для настройки берутся из списка выше (наш coins.json). После обновления coins.json на сервере нажмите «Refresh Master Coin List» здесь и в 8562.
       </div>
     </main>
   </div>
