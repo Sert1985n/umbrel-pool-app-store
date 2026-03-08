@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-pool-config
-name: Pool Config
-tagline: Отдельная панель: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet
+name: Pool Config (MiningCore Web UI)
+tagline: Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, Wallet
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: SOLO Crypto Mining
 version: "2.5.0"
