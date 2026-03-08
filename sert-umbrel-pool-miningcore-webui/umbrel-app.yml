@@ -7,9 +7,7 @@ category: SOLO Crypto Mining
 version: "2.5.0"
 port: 8559
 description: |
-  Родная панель MiningCore: Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Подключите coins.json и config.json на сервере (/home/umbrel/.miningcore/). Сначала установите MiningCore.
-
-  Список монет для генерации — в coins.json на сервере; справочник монет в репозитории: coins-reference.json.
+  Родная панель MiningCore: Pool Configuration, Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Подключите coins.json и config.json на сервере (/home/umbrel/.miningcore/). Для работы с пулом установите MiningCore (приложения независимы).
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
@@ -20,8 +18,7 @@ gallery:
   - https://raw.githubusercontent.com/TheRetroMike/retromike-umbrel-app-store/master/retro-mike-miningcore-webui/webui.png
 releaseNotes: |
   На базе Retro Mike MiningCore Web UI. Порт 8559. Referral/Support — в оригинальном образе; для своей панели используйте приложение «Pool Dashboard».
-dependencies:
-  - sert-umbrel-pool-miningcore
+dependencies: []
 widgets:
   - id: "page1"
     type: "list"

@@ -1,6 +1,6 @@
 # Umbrel Pool App Store
 
-Магазин приложений для майнинг-пула на **Umbrel**. Проект переписан по [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): Miningcore и родной MiningCore Web UI сохранены, порты и имена контейнеров — под **sert-umbrel-pool**. Добавлена ваша панель **Pool Dashboard** (poolui). Настройка daemons и XEC — по документу «как мы добавили монету XEC в приложение umbrel».
+Магазин приложений для майнинг-пула на **Umbrel**. Проект переписан по [TheRetroMike/retromike-umbrel-app-store](https://github.com/TheRetroMike/retromike-umbrel-app-store): Miningcore и родной MiningCore Web UI сохранены, порты и имена контейнеров — под **sert-umbrel-pool**. Добавлена ваша панель **Pool Dashboard** (poolui). **Приложения независимы** — MiningCore Web UI и Pool Dashboard можно ставить без обязательной установки MiningCore (как у Retro Mike). Настройка daemons и XEC — по документу «как мы добавили монету XEC в приложение umbrel».
 
 ---
 

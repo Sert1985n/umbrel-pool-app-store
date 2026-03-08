@@ -7,9 +7,7 @@ category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8561
 description: |
-  Кастомная панель пула (poolui): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Подключается к API MiningCore. Сначала установите MiningCore и MiningCore Web UI.
-
-  Без Referral/Support — свой интерфейс. Для настройки пула (Setup Database Schema, Refresh Master Coin List, Generate Pool Config) используйте приложение «MiningCore Web UI».
+  Кастомная панель пула (poolui): POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Подключается к API MiningCore. Для полной работы установите MiningCore (приложения независимы). Без Referral/Support.
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
 submitter: Sert1985n
@@ -20,8 +18,7 @@ gallery:
   - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 releaseNotes: |
   Панель из poolui. Порт 8561. API проксируется к MiningCore.
-dependencies:
-  - sert-umbrel-pool-miningcore
+dependencies: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""
