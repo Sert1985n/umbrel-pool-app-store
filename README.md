@@ -23,7 +23,7 @@
 
 ## Краткая шпаргалка по типичным проблемам
 
-См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **8563** — родная MiningCore Web UI (Setup DB, Generate Config). **8561** — ваша WEB UI (Pool Dashboard). **guides/COINS-JSON-SETUP.md**. Сеть и порты: **guides/NETWORK-PORTS.md**.
+См. **QUICK-FIX.md** и **ЕСЛИ-НЕ-РАБОТАЕТ.md**. **8563** — родная MiningCore Web UI (Setup DB, Generate Config). **8561** — ваша WEB UI (Pool Dashboard). **guides/COINS-JSON-SETUP.md**. Сеть и порты: **guides/NETWORK-PORTS.md**. Полный справочник портов и контейнеров без конфликтов: **guides/PORTS-AND-CONTAINERS.md**. Проверка перед сборкой: из корня запусти **`.\build.ps1`** (PowerShell) — проверяет порты, при наличии Docker — docker-compose и сборку образа Pool Dashboard. Только порты: **`.\scripts\validate-ports.ps1`** или **`node scripts/validate-ports.js`**.
 
 ---
 
@@ -31,9 +31,9 @@
 
 | Приложение | Порт | Описание |
 |------------|------|----------|
-| **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул (Dozzle в UI; API на 4000 внутри) |
-| **sert-umbrel-pool-miningcore-webui** | 8563 | **MiningCore Web UI (родная)** — Setup DB, Refresh Coin List, Generate Config. Иконка: шестерёнка. |
-| **sert-umbrel-pool-poolui** | 8561 | **Моя WEB UI — Pool Dashboard** — статистика, графики, кошелёк. Иконка: дашборд. |
+| **sert-umbrel-pool-miningcore** | 8560 | MiningCore — пул. Иконка: [MiningCore logo](https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png). |
+| **sert-umbrel-pool-miningcore-webui** | 8563 | **Miningcore Web UI** — Setup DB, Refresh Coin List, Generate Config. Иконка: webui.png. |
+| **sert-umbrel-pool-poolui** | 8561 | **Pool Dashboard (моя панель)** — статистика, графики, кошелёк. Своя иконка в репо. |
 | **sert-umbrel-pool-btc-node** | — | Нода Bitcoin |
 | **sert-umbrel-pool-bch-node** | — | Нода Bitcoin Cash |
 | **sert-umbrel-pool-bsv-node** | — | Нода Bitcoin SV |
@@ -77,6 +77,7 @@
 | **FIX-XEC-DAEMON.md** | Ошибки XEC: host, coinTemplates (hasCoinbaseStakingReward и т.д.) |
 | **guides/NATIVE-WEBUI-CUSTOMIZE.md** | Убрать Referral Links, Support Me; заменить копирайт на public-pool-btc.ru (userscript/букмарклет) |
 | **templates/README.md** | Инструкция по копированию coins.json для списка монет в Pool Configuration |
+| **GITHUB-CLEANUP.md** | Как удалить лишние Releases и Packages на GitHub, пуш в репозиторий |
 | **guides/POOL-CONFIGURATION-COINS.md** | Как добавить монеты в MiningCore Web UI (coins.json, Refresh Master Coin List) |
 | **guides/NETWORK-PORTS.md** | Порты и имена контейнеров (miningcore, webui, dashboard, ноды) |
 | **guides/POOLUI-ИЗМЕНЕНИЯ.md** | Изменения в poolui; папка Desktop\\www\\poolui; список монет и нод |

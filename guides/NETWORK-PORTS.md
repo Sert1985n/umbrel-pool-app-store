@@ -14,7 +14,7 @@
 
 - **MiningCore API:** `sert-umbrel-pool-miningcore_server_1` (порт 4000)
 - **MiningCore Web UI (родная):** `sert-umbrel-pool-miningcore-webui_web_1` (порт 8080)
-- **Моя WEB UI (poolui):** `sert-umbrel-pool-poolui_web_1` (порт 80)
+- **Моя WEB UI (poolui):** `sert-umbrel-pool-poolui_server_1` (порт 80)
 
 Ноды монет (для daemons в config.json):
 
@@ -30,7 +30,7 @@
 
 ## Stratum-порты (внешние)
 
-В `config.json` пула указаны порты 6001–6028 (и диапазоны 6201–6228, 6301–6328, 6401–6428). Они пробрасываются с контейнера **sert-umbrel-pool-miningcore_server_1** на хост. Соответствие монета → stratum порт — в **coins-reference.json**.
+В `config.json` пула указаны stratum-порты 6001–6080 (и диапазоны 6201–6280, 6301–6380, 6401–6480). Они пробрасываются с контейнера **sert-umbrel-pool-miningcore_server_1** на хост. Соответствие монета → stratum/rpcPort — в **coins-reference.json**. Конфликтов портов нет: каждая монета имеет уникальные stratum и rpcPort.
 
 ## Монеты и config.json / coins.json
 

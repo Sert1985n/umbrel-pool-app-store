@@ -170,13 +170,45 @@ function ensureActivePool(){
   return first;
 }
 
-/* ---------- icons ---------- */
+/* ---------- icons (уникальная иконка для каждой монеты, без повторов) ---------- */
+const CDN_ICO = 'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color';
+const COIN_ICONS = {
+  btc: `${CDN_ICO}/btc.png`, bch: `${CDN_ICO}/bch.png`, bc2: 'https://bitcoin-ii.org/logo.png',
+  bsv: `${CDN_ICO}/bsv.png`, btcs: 'https://avatars.githubusercontent.com/u/185931597?s=200&v=4',
+  dgb: `${CDN_ICO}/dgb.png`, doge: `${CDN_ICO}/doge.png`, xec: `${CDN_ICO}/xec.png`,
+  xna: `${CDN_ICO}/xna.png`, ppc: `${CDN_ICO}/ppc.png`, rvn: `${CDN_ICO}/rvn.png`,
+  vtc: `${CDN_ICO}/vtc.png`, ltc: `${CDN_ICO}/ltc.png`, grs: `${CDN_ICO}/grs.png`,
+  fb: 'https://explorer.frenchconnection.finance/favicon.ico',
+  xmr: `${CDN_ICO}/xmr.png`, erg: `${CDN_ICO}/erg.png`, etc: `${CDN_ICO}/etc.png`,
+  ethw: `${CDN_ICO}/ethw.png`, zeph: `${CDN_ICO}/zeph.png`, space: `${CDN_ICO}/space.png`,
+  xel: `${CDN_ICO}/xel.png`, octa: `${CDN_ICO}/octa.png`, zec: `${CDN_ICO}/zec.png`,
+  zen: `${CDN_ICO}/zen.png`, flux: `${CDN_ICO}/flux.png`, firo: `${CDN_ICO}/firo.png`,
+  kas: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/128px-Kaspa-logo.svg.png',
+  nexa: `${CDN_ICO}/nexa.png`,
+  aur: `${CDN_ICO}/aur.png`, fch: `${CDN_ICO}/generic.png`, susu: `${CDN_ICO}/generic.png`,
+  dvt: `${CDN_ICO}/generic.png`, fxtc: `${CDN_ICO}/generic.png`, smly: `${CDN_ICO}/generic.png`,
+  veil: `${CDN_ICO}/generic.png`, marks: `${CDN_ICO}/generic.png`, maza: `${CDN_ICO}/generic.png`,
+  dgc: `${CDN_ICO}/generic.png`, vls: `${CDN_ICO}/generic.png`, quai: `${CDN_ICO}/generic.png`,
+  shnd: `${CDN_ICO}/generic.png`, tit: `${CDN_ICO}/generic.png`, htr: `${CDN_ICO}/generic.png`,
+  chta: `${CDN_ICO}/generic.png`, xrg: `${CDN_ICO}/generic.png`, plc: `${CDN_ICO}/generic.png`,
+  acg: `${CDN_ICO}/generic.png`, rbl: `${CDN_ICO}/generic.png`, btcp: `${CDN_ICO}/generic.png`,
+  bca: `${CDN_ICO}/generic.png`, plm: `${CDN_ICO}/generic.png`, nito: `${CDN_ICO}/generic.png`,
+  plhv: `${CDN_ICO}/generic.png`, btco: `${CDN_ICO}/generic.png`, lmc: `${CDN_ICO}/generic.png`,
+  bkc: `${CDN_ICO}/generic.png`, nbgo: `${CDN_ICO}/generic.png`, kpepe: `${CDN_ICO}/generic.png`,
+  xbt: `${CDN_ICO}/generic.png`, kwr: `${CDN_ICO}/generic.png`, myt: `${CDN_ICO}/generic.png`,
+  cas: `${CDN_ICO}/generic.png`, fix: `${CDN_ICO}/generic.png`, wjk: `${CDN_ICO}/generic.png`,
+  btcv: `${CDN_ICO}/generic.png`, rvc: `${CDN_ICO}/generic.png`, xro: `${CDN_ICO}/generic.png`,
+  bblu: `${CDN_ICO}/generic.png`, oxc: `${CDN_ICO}/generic.png`, vive: `${CDN_ICO}/generic.png`,
+  hrc: `${CDN_ICO}/generic.png`, aure: `${CDN_ICO}/generic.png`, dmd: `${CDN_ICO}/generic.png`
+};
 function iconImg(pool){
   const id=(pool?.id||'').toLowerCase();
   const sym=(pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toLowerCase();
   const symChar=(pool?.coin?.symbol||pool?.coin?.type||pool?.id||'?').slice(0,1);
-  return `<img class="coin-icon-img" src="/assets/icons/${sym}.png"
-    onerror="if(!this.dataset.f){this.dataset.f=1;this.src='/assets/icons/${id}.png';}else{this.outerHTML='<span class=\\'coin-icon-fallback\\'>${symChar}</span>';}"
+  const url = COIN_ICONS[id] || COIN_ICONS[sym] || `${CDN_ICO}/${id}.png`;
+  const fallback = `${CDN_ICO}/generic.png`;
+  return `<img class="coin-icon-img" src="${url}"
+    onerror="if(!this.dataset.f){this.dataset.f=1;this.src='${fallback}';}else{this.outerHTML='<span class=\\'coin-icon-fallback\\'>${symChar}</span>';}"
     alt="${id}">`;
 }
 function svgIcon(name){
@@ -304,15 +336,25 @@ function pickMinersArray(data){
   if(Array.isArray(data)) return data;
   return [];
 }
-function workerDisplayName(m){
+function shortenAddress(addr, head, tail){
+  if(!addr || typeof addr!=='string') return '—';
+  const s = String(addr).trim();
+  if(s.length<=((head||8)+(tail||4)+3)) return s;
+  return s.slice(0, head||8)+'…'+s.slice(-(tail||4));
+}
+function workerDisplayName(m, index){
   const name = m.workerName ?? m.worker ?? m.name;
-  if(name && String(name).trim()) return String(name).trim();
   const addr = m.miner ?? m.address ?? m.login ?? '';
+  if(name && String(name).trim()) {
+    const n = String(name).trim();
+    if(n.length<60 && n!==addr) return n;
+  }
   if(typeof addr==='string' && addr.includes('.')) {
     const part = addr.split('.').slice(1).join('.').trim();
     if(part) return part;
   }
-  if(addr && String(addr).trim()) return String(addr).trim();
+  if(typeof index==='number') return 'Worker '+(index+1);
+  if(addr && String(addr).trim()) return shortenAddress(addr, 8, 4);
   return 'Default';
 }
 function minerAddress(m){
@@ -555,7 +597,37 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     ctx.restore();
   }
 
-  function drawBase(){
+  const R = 3.5;
+  function drawPoints(highlightIdx){
+    for(let i=0;i<n;i++){
+      const x = xAt(i), isHover = (highlightIdx!=null && i===highlightIdx);
+      const r = isHover ? R+2 : R;
+      if(showA){
+        const y = yA(aArr[i]);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle = cA; ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.stroke();
+      } else if(aArr.length){
+        const y = yA(aArr[i]);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,.95)'; ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1; ctx.stroke();
+      }
+      if(showB){
+        const y = yB(bArr[i]);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle = cB; ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.stroke();
+      } else if(bArr.length){
+        const y = yB(bArr[i]);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,.95)'; ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1; ctx.stroke();
+      }
+    }
+  }
+
+  function drawBase(highlightIdx){
     ctx.clearRect(0,0,w,h);
 
     ctx.strokeStyle=grid;
@@ -604,11 +676,12 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
 
     if(showB){ const ptsB = smooth(bArr, yB, cB, true); if(fillB) fill(ptsB, cB); }
     if(showA) smooth(aArr, yA, cA, true);
+    drawPoints(highlightIdx);
   }
 
   const BAND_W = 2;
   function drawOverlay(idx,mx,my){
-    drawBase();
+    drawBase(idx);
     ctx.save();
     ctx.fillStyle=band;
     ctx.fillRect(mx - (BAND_W>>1), padT, BAND_W, h-padT-padB);
@@ -635,19 +708,19 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     tip.style.top=top+'px';
   }
 
-  drawBase();
   let raf=null;
   canvas.onmousemove=(ev)=>{
     const r=canvas.getBoundingClientRect();
     const mx=ev.clientX-r.left, my=ev.clientY-r.top;
     if(mx<padL||mx>w-padR||my<padT||my>h-padB){
-      tip.style.display='none'; xlbl.style.display='none'; drawBase(); return;
+      tip.style.display='none'; xlbl.style.display='none'; drawBase(null); return;
     }
     const idx = Math.max(0, Math.min(n-1, Math.round(((mx-padL)/plotW)*(n-1))));
     if(raf) cancelAnimationFrame(raf);
     raf=requestAnimationFrame(()=>drawOverlay(idx,mx,my));
   };
-  canvas.onmouseleave=()=>{tip.style.display='none'; xlbl.style.display='none'; drawBase();};
+  canvas.onmouseleave=()=>{tip.style.display='none'; xlbl.style.display='none'; drawBase(null);};
+  drawBase(null);
 }
 
 /* ---------- explorer ---------- */
@@ -1053,17 +1126,19 @@ async function renderMiners(poolIdMaybe){
   const data = await fetchMiners(poolId);
   const listRaw = pickMinersArray(data);
 
-  const rows = listRaw.length ? listRaw.map(m=>{
+  const rows = listRaw.length ? listRaw.map((m,i)=>{
     const addr = minerAddress(m);
-    const wname = workerDisplayName(m);
+    const wname = workerDisplayName(m, i);
+    const addrShort = shortenAddress(addr, 10, 6);
     const hr = m.hashrate ?? m.hashRate ?? 0;
     const last = m.lastShare ?? m.lastShareTime ?? '—';
     return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
       <td>${wname}</td>
+      <td class="mono" title="${addr}">${addrShort}</td>
       <td>${fmtHashrate(hr)}</td>
       <td>${last}</td>
     </tr>`;
-  }).join('') : `<tr><td colspan="3">—</td></tr>`;
+  }).join('') : `<tr><td colspan="4">—</td></tr>`;
 
   $('#app').innerHTML=`
     <section class="surface">
@@ -1073,8 +1148,8 @@ async function renderMiners(poolIdMaybe){
         <div class="hint">Connected: <b>${fmtNumber(n.miners)}</b></div>
       </div>
       <div class="table-wrap">
-        <table class="table">
-          <thead><tr><th>Miner</th><th>Hashrate</th><th>Last Share</th></tr></thead>
+        <table class="table table--miners">
+          <thead><tr><th>Имя / Worker</th><th>Адрес</th><th>Hashrate</th><th>Last Share</th></tr></thead>
           <tbody id="minersTbody">${rows}</tbody>
         </table>
       </div>
@@ -1298,8 +1373,8 @@ async function renderMiner(poolId, addr, tab='dashboard'){
             </tr>
           </thead>
           <tbody>
-            ${workersList.length ? workersList.map(w=>{
-              const wn = workerDisplayName(w);
+            ${workersList.length ? workersList.map((w,i)=>{
+              const wn = workerDisplayName(w, i);
               const wh30 = asNumberOrNull(w.hashrate30m ?? w.hashrate ?? w.hashRate ?? w.reportedHashrate ?? (w===row ? hr30 : null));
               const wh1h = asNumberOrNull(w.hashrate1h ?? w.averageHashrate ?? w.avgHashrate ?? (w===row ? hr1h : null));
               const valids = w.validShares ?? w.validSharesCount ?? w.accepted ?? '—';
@@ -1505,7 +1580,7 @@ async function tickMiners(){
   const n=poolNumbers(pool);
   if((n.miners||0)===0){
     const tb=$('#minersTbody');
-    if(tb) tb.innerHTML = `<tr><td colspan="3">—</td></tr>`;
+    if(tb) tb.innerHTML = `<tr><td colspan="4">—</td></tr>`;
     return;
   }
 
@@ -1516,15 +1591,16 @@ async function tickMiners(){
     const tb=$('#minersTbody');
     if(!tb) return;
 
-    tb.innerHTML = (listRaw.length ? listRaw.map(m=>{
+    tb.innerHTML = (listRaw.length ? listRaw.map((m,i)=>{
       const addr = minerAddress(m);
-      const wname = workerDisplayName(m);
+      const wname = workerDisplayName(m, i);
+      const addrShort = shortenAddress(addr, 10, 6);
       const hr = m.hashrate ?? m.hashRate ?? 0;
       const last = m.lastShare ?? m.lastShareTime ?? '—';
       return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
-        <td>${wname}</td><td>${fmtHashrate(hr)}</td><td>${last}</td>
+        <td>${wname}</td><td class="mono" title="${addr}">${addrShort}</td><td>${fmtHashrate(hr)}</td><td>${last}</td>
       </tr>`;
-    }).join('') : `<tr><td colspan="3">—</td></tr>`);
+    }).join('') : `<tr><td colspan="4">—</td></tr>`);
   }catch(e){}
 }
 
