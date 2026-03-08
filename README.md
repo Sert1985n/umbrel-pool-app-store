@@ -56,6 +56,7 @@
 | **sert-umbrel-pool-nexa-node** | — | Nexa (NEXA) |
 | **sert-umbrel-pool-erg-node** | — | Ergo (ERG) |
 | **sert-umbrel-pool-fb-node** | — | Fractal Bitcoin (FB) |
+| **sert-umbrel-pool-etc-node** … **sert-umbrel-pool-dmd-node** | — | Ноды для остальных монет из coins-reference (ETC, ETHW, ZEC, FLUX, AUR, FCH, и др. — всего 74 монеты) |
 | **sert-umbrel-pool-postgres** | 5050 | PostgreSQL + pgAdmin |
 | **sert-umbrel-pool-dozzle** | — | Просмотр логов контейнеров |
 

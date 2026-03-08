@@ -1,0 +1,24 @@
+manifestVersion: 1
+id: sert-umbrel-pool-aur-node
+name: Auroracoin (AUR) Node
+tagline: Нода для пула или соло-майнинга
+icon: https://cryptologos.cc/logos/auroracoin-aur-logo.svg
+category: Mining Nodes
+version: "1.0.0"
+port: 5036
+description: |
+  РќРѕРґР° Auroracoin (AUR). Р’ config.json РїСѓР»Р° СѓРєР°Р¶РёС‚Рµ host: sert-umbrel-pool-aur-node_node_1, port: 9051.
+  Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ: https://github.com/Sert1985n/umbrel-pool-app-store
+
+developer: Sert1985n
+website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery: []
+releaseNotes: RPC. Замените image на реальный daemon при наличии.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
