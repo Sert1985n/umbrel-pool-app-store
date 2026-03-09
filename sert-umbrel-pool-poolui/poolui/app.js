@@ -702,8 +702,13 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
       ctx.fillText(times[i], xAt(i)-14, h-10);
     }
 
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(padL, padT, plotW, plotH);
+    ctx.clip();
     if(showB){ const ptsB = smooth(bArr, yB, cB, true); if(fillB) fill(ptsB, cB); }
     if(showA && maxA > 0) smooth(aArr, yA, cA, true);
+    ctx.restore();
   }
 
   const BAND_W = 2;
