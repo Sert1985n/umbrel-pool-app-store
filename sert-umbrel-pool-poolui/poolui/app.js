@@ -139,6 +139,15 @@ let POOL_BY_ID=new Map();
 let PRICE_CACHE={};
 let CURRENT={page:'pools', poolId:null, addr:null, tab:null};
 
+async function fetchPoolStats(poolId){
+  const p = encodeURIComponent(poolId);
+  const out = await tryJson([
+    `${API}/pools/${p}`,
+    `${API}/pool/${p}`,
+  ]);
+  return out && typeof out === 'object' ? out : null;
+}
+
 async function loadPools(){
   let data;
   try {
@@ -161,6 +170,23 @@ async function loadPools(){
     POOLS = [];
   }
   POOL_BY_ID = new Map(POOLS.map(p=>[String(p.id), p]));
+
+  const needStats = POOLS.filter(p => {
+    const ps = p.poolStats || {};
+    const hasPoolHash = (ps.poolHashrate ?? ps.poolHashRate ?? ps.hashrate ?? ps.hashRate) != null;
+    return !hasPoolHash;
+  });
+  if (needStats.length > 0) {
+    const results = await Promise.allSettled(needStats.map(p => fetchPoolStats(p.id)));
+    results.forEach((res, i) => {
+      if (res.status !== 'fulfilled' || !res.value) return;
+      const full = res.value;
+      const pool = needStats[i];
+      if (full.poolStats && typeof full.poolStats === 'object') pool.poolStats = { ...pool.poolStats, ...full.poolStats };
+      if (full.networkStats && typeof full.networkStats === 'object') pool.networkStats = { ...pool.networkStats, ...full.networkStats };
+      if (full.coin && !pool.coin) pool.coin = full.coin;
+    });
+  }
 }
 function ensureActivePool(){
   const cur=getActivePool();
@@ -313,9 +339,9 @@ function getBlockReward(pool){
   const sym = poolSymbol(pool);
   const ns = pool?.networkStats || {};
   const ps = pool?.poolStats || {};
-  const v = asNumberOrNull(pool?.coin?.blockReward ?? ns.blockReward ?? ps.blockReward ?? null);
+  const v = asNumberOrNull(pool?.coin?.blockReward ?? ns.blockReward ?? ps.blockReward ?? pool?.blockReward ?? null);
   if (v != null) return v;
-  return BLOCK_REWARD_FALLBACK[sym] ?? BLOCK_REWARD_FALLBACK[pool?.id] ?? null;
+  return BLOCK_REWARD_FALLBACK[sym] ?? BLOCK_REWARD_FALLBACK[pool?.id] ?? BLOCK_REWARD_FALLBACK[pool?.coin?.type] ?? null;
 }
 function fmtReward(pool){
   const symU = (pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toUpperCase();
@@ -357,8 +383,53 @@ function workerDisplayName(m, index){
   if(addr && String(addr).trim()) return shortenAddress(addr, 8, 4);
   return 'Default';
 }
+function workerNameOnly(m, index){
+  const name = m.workerName ?? m.worker ?? m.name;
+  const addr = m.miner ?? m.address ?? m.login ?? '';
+  if(name && String(name).trim()) {
+    const n = String(name).trim();
+    if(n.length<60 && n!==addr) return n;
+  }
+  if(typeof addr==='string' && addr.includes('.')) {
+    const part = addr.split('.').slice(1).join('.').trim();
+    if(part) return part;
+  }
+  if(typeof index==='number') return 'Worker '+(index+1);
+  return '—';
+}
 function minerAddress(m){
   return m.miner ?? m.address ?? m.login ?? '—';
+}
+function workerHashrate30m(w, fallback){
+  return asNumberOrNull(w.hashrate30m ?? w.hashrate ?? w.hashRate ?? w.reportedHashrate ?? w.hr30m ?? w.currentHashrate ?? fallback) ?? null;
+}
+function workerHashrate1h(w, fallback){
+  return asNumberOrNull(w.hashrate1h ?? w.averageHashrate ?? w.avgHashrate ?? w.hashrate1h ?? w.hr1h ?? fallback) ?? null;
+}
+function workerValids(w){
+  const v = w.validShares ?? w.validSharesCount ?? w.accepted ?? w.acceptedShares ?? w.valid ?? w.shares;
+  return v != null ? fmtNumber(v) : '—';
+}
+function workerInvalid(w){
+  const v = w.invalidShares ?? w.invalidSharesCount ?? w.rejected ?? w.rejectedShares ?? w.invalid;
+  return v != null ? fmtNumber(v) : '—';
+}
+function workerStale(w){
+  const v = w.staleShares ?? w.staleSharesCount ?? w.stale;
+  return v != null ? fmtNumber(v) : '—';
+}
+function workerBestShare(w){
+  const v = w.bestShare ?? w.bestShareDifficulty ?? w.difficulty ?? w.bestShareDiff;
+  if (v == null) return '—';
+  return typeof v === 'number' ? fmtCompact(v) : String(v);
+}
+function workerPort(w){
+  const v = w.port ?? w.portName ?? w.portDifficulty ?? w.portDiff;
+  return (v != null && v !== '') ? String(v) : '—';
+}
+function workerLastShare(w){
+  const v = w.lastShare ?? w.lastShareTime ?? w.lastSeen ?? w.lastShareAt;
+  return (v != null && v !== '') ? String(v) : '—';
 }
 async function fetchMiners(poolId){
   const p=encodeURIComponent(poolId);
@@ -499,10 +570,11 @@ function pushMinerPoint(key, instOrHr30, hr1hOptional){
 function catmullRomToBezier(ctx, pts){
   if(pts.length<2) return;
   ctx.moveTo(pts[0].x, pts[0].y);
+  const tension = 1/6;
   for(let i=0;i<pts.length-1;i++){
     const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
-    const cp1x=p1.x+(p2.x-p0.x)/6, cp1y=p1.y+(p2.y-p0.y)/6;
-    const cp2x=p2.x-(p3.x-p1.x)/6, cp2y=p2.y-(p3.y-p1.y)/6;
+    const cp1x=p1.x+(p2.x-p0.x)*tension, cp1y=p1.y+(p2.y-p0.y)*tension;
+    const cp2x=p2.x-(p3.x-p1.x)*tension, cp2y=p2.y-(p3.y-p1.y)*tension;
     ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,p2.x,p2.y);
   }
 }
@@ -542,7 +614,8 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
   const unitA=pickUnitHps(Math.max(maxA, 1));
   const unitB=axisBRight ? pickUnitCompact(Math.max(maxB, 1)) : pickUnitHps(Math.max(maxB, 1));
 
-  const maxAU=(maxA/unitA.v)*1.10, minAU=Math.max(0,(minA/unitA.v)*0.90);
+  let maxAU=(maxA/unitA.v)*1.10, minAU=Math.max(0,(minA/unitA.v)*0.90);
+  if (showA && maxA === 0 && minA === 0) { minAU = 0; maxAU = 1; }
   const maxBU=(maxB/unitB.v)*1.10, minBU=Math.max(0,(minB/unitB.v)*0.90);
 
   function yA(v){
@@ -587,7 +660,7 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
   function fill(pts,color){
     ctx.save();
     ctx.fillStyle=color;
-    ctx.globalAlpha=0.22;
+    ctx.globalAlpha=0.6;
     ctx.beginPath();
     ctx.moveTo(pts[0].x, h-padB);
     catmullRomToBezier(ctx, pts);
@@ -595,36 +668,6 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     ctx.closePath();
     ctx.fill();
     ctx.restore();
-  }
-
-  const R = 3.5;
-  function drawPoints(highlightIdx){
-    for(let i=0;i<n;i++){
-      const x = xAt(i), isHover = (highlightIdx!=null && i===highlightIdx);
-      const r = isHover ? R+2 : R;
-      if(showA){
-        const y = yA(aArr[i]);
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-        ctx.fillStyle = cA; ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.stroke();
-      } else if(aArr.length){
-        const y = yA(aArr[i]);
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,.95)'; ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1; ctx.stroke();
-      }
-      if(showB){
-        const y = yB(bArr[i]);
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-        ctx.fillStyle = cB; ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.stroke();
-      } else if(bArr.length){
-        const y = yB(bArr[i]);
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,.95)'; ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1; ctx.stroke();
-      }
-    }
   }
 
   function drawBase(highlightIdx){
@@ -676,7 +719,6 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
 
     if(showB){ const ptsB = smooth(bArr, yB, cB, true); if(fillB) fill(ptsB, cB); }
     if(showA) smooth(aArr, yA, cA, true);
-    drawPoints(highlightIdx);
   }
 
   const BAND_W = 2;
@@ -769,16 +811,20 @@ function coinMenu(poolId, active){
   </div>`;
 }
 
-/* ---------- pool numbers ---------- */
+/* ---------- pool numbers (all common API field names for real-time stats) ---------- */
 function poolNumbers(pool){
   const ps=pool?.poolStats||{};
   const ns=pool?.networkStats||{};
   const effort = asNumberOrNull(ps.blockEffort ?? ps.effort ?? ps.currentEffort ?? null);
+  const miners = asNumberOrNull(ps.connectedMiners ?? ps.connectedPeers ?? ps.miners ?? ps.minerCount ?? pool.connectedMiners ?? pool.miners) ?? 0;
+  const poolHash = asNumberOrNull(ps.poolHashrate ?? ps.poolHashRate ?? ps.hashrate ?? ps.hashRate ?? ps.poolHash ?? pool.poolHashrate ?? pool.hashrate) ?? 0;
+  const netHash = asNumberOrNull(ns.networkHashrate ?? ns.networkHashRate ?? ns.hashrate ?? ns.hashRate ?? pool.networkHashrate ?? pool.networkHashRate) ?? 0;
+  const netDiff = asNumberOrNull(ns.networkDifficulty ?? ns.difficulty ?? ns.networkDiff ?? pool.networkDifficulty ?? pool.difficulty) ?? 0;
   return {
-    miners: ps.connectedMiners ?? ps.miners ?? 0,
-    poolHash: ps.poolHashrate ?? ps.poolHashRate ?? ps.hashrate ?? ps.hashRate ?? 0,
-    netHash: ns.networkHashrate ?? ns.networkHashRate ?? ns.hashrate ?? ns.hashRate ?? 0,
-    netDiff: ns.networkDifficulty ?? ns.difficulty ?? ns.networkDiff ?? 0,
+    miners,
+    poolHash,
+    netHash,
+    netDiff,
     height: ns.blockHeight ?? ns.height ?? 0,
     blocks: ps.totalBlocksFound ?? ps.totalBlocks ?? ps.blocksFound ?? 0,
     effort: effort != null ? effort : null,
@@ -802,8 +848,8 @@ async function renderPools(){
   }
 
   if (!Array.isArray(POOLS)) POOLS = [];
-  const totalBlocks = POOLS.reduce((a,p)=>a+(Number(p.poolStats?.totalBlocksFound ?? p.poolStats?.totalBlocks ?? 0)||0),0);
-  const totalMiners = POOLS.reduce((a,p)=>a+(Number(p.poolStats?.connectedMiners ?? p.poolStats?.miners ?? 0)||0),0);
+  const totalBlocks = POOLS.reduce((a,p)=>a+((poolNumbers(p).blocks)||0),0);
+  const totalMiners = POOLS.reduce((a,p)=>a+((poolNumbers(p).miners)||0),0);
   setHeaderBadges(totalBlocks, totalMiners);
 
   const rows = poolsTableRows();
@@ -925,8 +971,8 @@ async function renderCoin(poolId){
           </div>
           <div class="expander__body">
             <div class="legend legend--toggles">
-              <label class="legend-item"><input type="checkbox" id="coinChartPool" checked/><span class="dot"></span> Pool Hashrate</label>
-              <label class="legend-item"><input type="checkbox" id="coinChartDiff" checked/><span class="dot dot--avg"></span> Network Difficulty</label>
+              <span class="legend-item" id="legendPool" data-visible="true" role="button" tabindex="0"><span class="dot"></span> Pool Hashrate</span>
+              <span class="legend-item" id="legendDiff" data-visible="true" role="button" tabindex="0"><span class="dot dot--avg"></span> Network Difficulty</span>
             </div>
             <div class="chart" id="chartBox">
               <canvas id="chartCanvas"></canvas>
@@ -968,9 +1014,10 @@ async function renderCoin(poolId){
   }
   pushCoinPoint(poolId, n.poolHash, n.netDiff);
   drawCoinChart(poolId);
-  const poolCb=$('#coinChartPool'), diffCb=$('#coinChartDiff');
-  if(poolCb) poolCb.onchange=()=>drawCoinChart(poolId);
-  if(diffCb) diffCb.onchange=()=>drawCoinChart(poolId);
+  const legPool=$('#legendPool'), legDiff=$('#legendDiff');
+  function toggleLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawCoinChart(poolId); }
+  if(legPool) legPool.onclick=()=>toggleLegend(legPool);
+  if(legDiff) legDiff.onclick=()=>toggleLegend(legDiff);
 }
 
 function ensureCoinDifficultySeries(poolId){
@@ -988,8 +1035,8 @@ function drawCoinChart(poolId){
   ensureCoinDifficultySeries(poolId);
   const s = SERIES.coin.get(poolId);
   if(!s || s.a.length<2) return;
-  const showA = !$('#coinChartPool') || $('#coinChartPool').checked;
-  const showB = !$('#coinChartDiff') || $('#coinChartDiff').checked;
+  const showA = ($('#legendPool')?.getAttribute('data-visible') ?? 'true') === 'true';
+  const showB = ($('#legendDiff')?.getAttribute('data-visible') ?? 'true') === 'true';
   if(!showA && !showB) return;
   const bArr = s.bRaw.length === s.a.length ? s.bRaw : s.a.map(() => s.bRaw[s.bRaw.length-1] ?? 0);
   renderChartDual({
@@ -1128,15 +1175,15 @@ async function renderMiners(poolIdMaybe){
 
   const rows = listRaw.length ? listRaw.map((m,i)=>{
     const addr = minerAddress(m);
-    const wname = workerDisplayName(m, i);
+    const wname = workerNameOnly(m, i);
     const addrShort = shortenAddress(addr, 10, 6);
-    const hr = m.hashrate ?? m.hashRate ?? 0;
-    const last = m.lastShare ?? m.lastShareTime ?? '—';
+    const hr = asNumberOrNull(m.hashrate ?? m.hashRate ?? m.hashrate30m ?? m.reportedHashrate) ?? 0;
+    const last = workerLastShare(m);
     return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
       <td>${wname}</td>
       <td class="mono" title="${addr}">${addrShort}</td>
       <td>${fmtHashrate(hr)}</td>
-      <td>${last}</td>
+      <td class="mono">${last}</td>
     </tr>`;
   }).join('') : `<tr><td colspan="4">—</td></tr>`;
 
@@ -1149,7 +1196,7 @@ async function renderMiners(poolIdMaybe){
       </div>
       <div class="table-wrap">
         <table class="table table--miners">
-          <thead><tr><th>Имя / Worker</th><th>Адрес</th><th>Hashrate</th><th>Last Share</th></tr></thead>
+          <thead><tr><th>Worker</th><th>Адрес</th><th>Hashrate</th><th>Last Share</th></tr></thead>
           <tbody id="minersTbody">${rows}</tbody>
         </table>
       </div>
@@ -1245,8 +1292,8 @@ function drawMinerChart(poolId, addr){
   const key=`${poolId}:${addr}`;
   const s=SERIES.miner.get(key);
   if(!s || s.a.length<2) return;
-  const showA = !$('#minerChart30m') || $('#minerChart30m').checked;
-  const showB = !$('#minerChart1h') || $('#minerChart1h').checked;
+  const showA = ($('#legendMiner30m')?.getAttribute('data-visible') ?? 'true') === 'true';
+  const showB = ($('#legendMiner1h')?.getAttribute('data-visible') ?? 'true') === 'true';
   if(!showA && !showB) return;
   renderChartDual({
     aArr: s.a,
@@ -1306,7 +1353,7 @@ async function renderMiner(poolId, addr, tab='dashboard'){
   const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? null;
   const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? null;
   const portDiff = st.portDifficulty ?? st.port ?? pool?.ports?.[Object.keys(pool.ports||{})[0]]?.difficulty ?? null;
-  const workerName = row ? workerDisplayName(row) : workerDisplayName({ miner: addr });
+  const workerName = row ? workerNameOnly(row, 0) : '—';
   const workersList = Array.isArray(st.workers) ? st.workers : (row && row.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
 
   const extAddr = explorerAddr(poolId, addr);
@@ -1346,8 +1393,8 @@ async function renderMiner(poolId, addr, tab='dashboard'){
         </div>
         <div class="expander__body">
           <div class="legend legend--toggles">
-            <label class="legend-item"><input type="checkbox" id="minerChart30m" checked/><span class="dot"></span> Current Hashrate (30m)</label>
-            <label class="legend-item"><input type="checkbox" id="minerChart1h" checked/><span class="dot dot--avg"></span> Average Hashrate (1h)</label>
+            <span class="legend-item" id="legendMiner30m" data-visible="true" role="button" tabindex="0"><span class="dot"></span> Current Hashrate (30m)</span>
+            <span class="legend-item" id="legendMiner1h" data-visible="true" role="button" tabindex="0"><span class="dot dot--avg"></span> Average Hashrate (1h)</span>
           </div>
           <div class="chart" id="chartBox">
             <canvas id="chartCanvas"></canvas>
@@ -1372,18 +1419,12 @@ async function renderMiner(poolId, addr, tab='dashboard'){
               <th>Valids</th><th>Invalid</th><th>Stale</th><th>Best Share</th><th>Port</th><th>Last Share</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="minerWorkersTbody">
             ${workersList.length ? workersList.map((w,i)=>{
-              const wn = workerDisplayName(w, i);
-              const wh30 = asNumberOrNull(w.hashrate30m ?? w.hashrate ?? w.hashRate ?? w.reportedHashrate ?? (w===row ? hr30 : null));
-              const wh1h = asNumberOrNull(w.hashrate1h ?? w.averageHashrate ?? w.avgHashrate ?? (w===row ? hr1h : null));
-              const valids = w.validShares ?? w.validSharesCount ?? w.accepted ?? '—';
-              const inv = w.invalidShares ?? w.invalidSharesCount ?? w.rejected ?? '—';
-              const stale = w.staleShares ?? w.staleSharesCount ?? '—';
-              const bshare = w.bestShare ?? w.bestShareDifficulty ?? w.difficulty ?? '—';
-              const port = w.port ?? w.portName ?? '—';
-              const lastSh = w.lastShare ?? w.lastShareTime ?? '—';
-              return `<tr><td>${wn}</td><td>${wh30==null?'—':fmtHashrate(wh30)}</td><td>${wh1h==null?'—':fmtHashrate(wh1h)}</td><td>${fmtNumber(valids)}</td><td>${fmtNumber(inv)}</td><td>${fmtNumber(stale)}</td><td>${typeof bshare==='number'?fmtCompact(bshare):(bshare!=''&&bshare!=null?String(bshare):'—')}</td><td>${port==null||port===''?'—':String(port)}</td><td class="mono">${lastSh==null||lastSh===''?'—':String(lastSh)}</td></tr>`;
+              const wn = workerNameOnly(w, i);
+              const wh30 = workerHashrate30m(w, w===row ? hr30 : null);
+              const wh1h = workerHashrate1h(w, w===row ? hr1h : null);
+              return `<tr><td>${wn}</td><td>${wh30==null?'—':fmtHashrate(wh30)}</td><td>${wh1h==null?'—':fmtHashrate(wh1h)}</td><td>${workerValids(w)}</td><td>${workerInvalid(w)}</td><td>${workerStale(w)}</td><td>${workerBestShare(w)}</td><td>${workerPort(w)}</td><td class="mono">${workerLastShare(w)}</td></tr>`;
             }).join('') : `<tr><td>${workerName}</td><td>${hr30==null?'—':fmtHashrate(hr30)}</td><td>${hr1h==null?'—':fmtHashrate(hr1h)}</td><td>—</td><td>—</td><td>—</td><td>${bestShare==null?'—':fmtCompact(bestShare)}</td><td>${portDiff==null?'—':String(portDiff)}</td><td class="mono">${lastBestShare==null?'—':String(lastBestShare)}</td></tr>`}
           </tbody>
         </table>
@@ -1440,9 +1481,10 @@ async function renderMiner(poolId, addr, tab='dashboard'){
 
   if(tab==='dashboard'){
     drawMinerChart(poolId, addr);
-    const m30=$('#minerChart30m'), m1h=$('#minerChart1h');
-    if(m30) m30.onchange=()=>drawMinerChart(poolId, addr);
-    if(m1h) m1h.onchange=()=>drawMinerChart(poolId, addr);
+    const leg30=$('#legendMiner30m'), leg1h=$('#legendMiner1h');
+    function toggleMinerLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawMinerChart(poolId, addr); }
+    if(leg30) leg30.onclick=()=>toggleMinerLegend(leg30);
+    if(leg1h) leg1h.onclick=()=>toggleMinerLegend(leg1h);
   }
 }
 
@@ -1475,6 +1517,37 @@ function updateCoinDOM(poolId){
   drawCoinChart(poolId);
 }
 
+function buildMinerWorkersTableRows(workersList, row, hr30, hr1h, bestShare, portDiff, lastBestShare, workerName){
+  if(!workersList.length){
+    return `<tr><td>${workerName}</td><td>${hr30==null?'—':fmtHashrate(hr30)}</td><td>${hr1h==null?'—':fmtHashrate(hr1h)}</td><td>—</td><td>—</td><td>—</td><td>${bestShare==null?'—':fmtCompact(bestShare)}</td><td>${portDiff==null?'—':String(portDiff)}</td><td class="mono">${lastBestShare==null?'—':String(lastBestShare)}</td></tr>`;
+  }
+  return workersList.map((w,i)=>{
+    const wn = workerNameOnly(w, i);
+    const wh30 = workerHashrate30m(w, w===row ? hr30 : null);
+    const wh1h = workerHashrate1h(w, w===row ? hr1h : null);
+    return `<tr><td>${wn}</td><td>${wh30==null?'—':fmtHashrate(wh30)}</td><td>${wh1h==null?'—':fmtHashrate(wh1h)}</td><td>${workerValids(w)}</td><td>${workerInvalid(w)}</td><td>${workerStale(w)}</td><td>${workerBestShare(w)}</td><td>${workerPort(w)}</td><td class="mono">${workerLastShare(w)}</td></tr>`;
+  }).join('');
+}
+
+async function updateMinerWorkersTable(){
+  const poolId = CURRENT.poolId, addr = CURRENT.addr;
+  const tb = document.getElementById('minerWorkersTbody');
+  if(!tb || !poolId || !addr) return;
+  try{
+    const [minersData, st] = await Promise.all([fetchMiners(poolId), fetchMinerStats(poolId, addr)]);
+    const miners = pickMinersArray(minersData);
+    const row = miners.find(x => (x.miner||x.address||x.login) === addr) || null;
+    const hr30 = row ? workerHashrate30m(row, null) : null;
+    const hr1h = row ? workerHashrate1h(row, null) : null;
+    const bestShare = st.bestShare ?? st.bestShareDifficulty ?? row?.bestShare ?? null;
+    const portDiff = st.portDifficulty ?? st.port ?? null;
+    const lastBestShare = st.lastBestShare ?? st.lastShare ?? null;
+    const workerName = row ? workerNameOnly(row, 0) : '—';
+    const workersList = Array.isArray(st.workers) ? st.workers : (row?.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
+    tb.innerHTML = buildMinerWorkersTableRows(workersList, row, hr30, hr1h, bestShare, portDiff, lastBestShare, workerName);
+  }catch(e){}
+}
+
 async function tickMinerRealtime(){
   if(!(CURRENT.page==='miner' && CURRENT.poolId && CURRENT.addr && CURRENT.tab==='dashboard')) return;
   const pool=POOL_BY_ID.get(CURRENT.poolId);
@@ -1489,17 +1562,18 @@ async function tickMinerRealtime(){
     const row = miners.find(x => (x.miner||x.address||x.login) === CURRENT.addr) || null;
     if(!row) return;
 
-    const apiHr30 = asNumberOrNull(row.hashrate30m ?? row.hashrate ?? row.hashRate ?? null);
-    const apiHr1h = asNumberOrNull(row.hashrate1h ?? row.averageHashrate ?? row.avgHashrate ?? row.hashrate30m ?? row.hashrate ?? row.hashRate ?? null);
-    if(apiHr30==null && apiHr1h==null) return;
-
-    pushMinerPoint(`${CURRENT.poolId}:${CURRENT.addr}`, apiHr30 ?? apiHr1h ?? 0, apiHr1h);
+    const apiHr30 = workerHashrate30m(row, null);
+    const apiHr1h = workerHashrate1h(row, null);
+    if(apiHr30!=null || apiHr1h!=null){
+      pushMinerPoint(`${CURRENT.poolId}:${CURRENT.addr}`, apiHr30 ?? apiHr1h ?? 0, apiHr1h);
+    }
 
     const s=SERIES.miner.get(`${CURRENT.poolId}:${CURRENT.addr}`);
     const el30=$('#mHr30'), el1h=$('#mHr1h');
     if(el30 && s?.a?.length) el30.textContent=fmtHashrate(s.a[s.a.length-1]);
     if(el1h && s?.b?.length) el1h.textContent=fmtHashrate(s.b[s.b.length-1]);
     drawMinerChart(CURRENT.poolId, CURRENT.addr);
+    await updateMinerWorkersTable();
   }catch(e){}
 }
 
@@ -1554,8 +1628,8 @@ async function tickPools(){
   try{
     await loadPools();
     if(CURRENT.page==='pools'){
-      const totalBlocks = POOLS.reduce((a,p)=>a+(Number(p.poolStats?.totalBlocksFound ?? p.poolStats?.totalBlocks ?? 0)||0),0);
-      const totalMiners = POOLS.reduce((a,p)=>a+(Number(p.poolStats?.connectedMiners ?? p.poolStats?.miners ?? 0)||0),0);
+      const totalBlocks = POOLS.reduce((a,p)=>a+((poolNumbers(p).blocks)||0),0);
+      const totalMiners = POOLS.reduce((a,p)=>a+((poolNumbers(p).miners)||0),0);
       setHeaderBadges(totalBlocks, totalMiners);
       updatePoolsDOM();
     }
@@ -1593,12 +1667,12 @@ async function tickMiners(){
 
     tb.innerHTML = (listRaw.length ? listRaw.map((m,i)=>{
       const addr = minerAddress(m);
-      const wname = workerDisplayName(m, i);
+      const wname = workerNameOnly(m, i);
       const addrShort = shortenAddress(addr, 10, 6);
-      const hr = m.hashrate ?? m.hashRate ?? 0;
-      const last = m.lastShare ?? m.lastShareTime ?? '—';
+      const hr = asNumberOrNull(m.hashrate ?? m.hashRate ?? m.hashrate30m ?? m.reportedHashrate) ?? 0;
+      const last = workerLastShare(m);
       return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
-        <td>${wname}</td><td class="mono" title="${addr}">${addrShort}</td><td>${fmtHashrate(hr)}</td><td>${last}</td>
+        <td>${wname}</td><td class="mono" title="${addr}">${addrShort}</td><td>${fmtHashrate(hr)}</td><td class="mono">${last}</td>
       </tr>`;
     }).join('') : `<tr><td colspan="4">—</td></tr>`);
   }catch(e){}
