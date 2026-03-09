@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-bsv-node
 name: Bitcoin SV (BSV) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/bitcoin-sv-bsv-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/bsv.png
 category: Mining Nodes
 version: "1.0.4"
 port: 5010
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/bitcoin-sv
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/bitcoin-sv-bsv-logo.png
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/bsv.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

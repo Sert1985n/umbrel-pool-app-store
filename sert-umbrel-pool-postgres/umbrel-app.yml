@@ -5,7 +5,7 @@ tagline: PostgreSQL и веб-интерфейс pgAdmin для пула
 category: Databases
 version: "1.0.10"
 port: 5050
-icon: https://raw.githubusercontent.com/TriLogic/umbrel-store/refs/heads/main/umbrel-store-postgre-pgadmin/icon.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/postgres.png
 description: |
   PostgreSQL и pgAdmin 4 для хранения данных MiningCore (если используете persistence в БД).
 

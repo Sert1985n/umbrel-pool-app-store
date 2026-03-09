@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-aur-node
 name: Auroracoin (AUR) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/auroracoin-aur-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/aur.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5036

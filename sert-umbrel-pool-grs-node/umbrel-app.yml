@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-grs-node
 name: Groestlcoin (GRS) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/groestlcoin-grs-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/grs.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5020
@@ -17,7 +17,7 @@ submitter: Sert1985n
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/grs.png
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/grs.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

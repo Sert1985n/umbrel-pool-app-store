@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-bc2-node
 name: BitcoinII (BC2) Node
 tagline: "Node for pool or solo mining"
-icon: https://bitcoin-ii.org/logo.png
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/bc2.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5011
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/BitcoinII
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://bitcoin-ii.org/logo.png
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/bc2.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

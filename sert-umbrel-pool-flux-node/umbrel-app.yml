@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-flux-node
 name: Flux (FLUX) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/flux-flux-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/flux.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5035

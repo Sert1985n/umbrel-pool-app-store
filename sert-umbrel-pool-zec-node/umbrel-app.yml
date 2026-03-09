@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-zec-node
 name: Zcash (ZEC) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/zcash-zec-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/zec.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5034

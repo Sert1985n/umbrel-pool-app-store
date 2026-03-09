@@ -196,46 +196,16 @@ function ensureActivePool(){
   return first;
 }
 
-/* ---------- icons (уникальная иконка для каждой монеты, без повторов) ---------- */
-const CDN_ICO = 'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color';
-const COIN_ICONS = {
-  btc: `${CDN_ICO}/btc.png`, bch: `${CDN_ICO}/bch.png`, bc2: 'https://bitcoin-ii.org/logo.png',
-  bsv: `${CDN_ICO}/bsv.png`, btcs: 'https://avatars.githubusercontent.com/u/185931597?s=200&v=4',
-  dgb: `${CDN_ICO}/dgb.png`, doge: `${CDN_ICO}/doge.png`, xec: `${CDN_ICO}/xec.png`,
-  xna: `${CDN_ICO}/xna.png`, ppc: `${CDN_ICO}/ppc.png`, rvn: `${CDN_ICO}/rvn.png`,
-  vtc: `${CDN_ICO}/vtc.png`, ltc: `${CDN_ICO}/ltc.png`, grs: `${CDN_ICO}/grs.png`,
-  fb: 'https://explorer.frenchconnection.finance/favicon.ico',
-  xmr: `${CDN_ICO}/xmr.png`, erg: `${CDN_ICO}/erg.png`, etc: `${CDN_ICO}/etc.png`,
-  ethw: `${CDN_ICO}/ethw.png`, zeph: `${CDN_ICO}/zeph.png`, space: `${CDN_ICO}/space.png`,
-  xel: `${CDN_ICO}/xel.png`, octa: `${CDN_ICO}/octa.png`, zec: `${CDN_ICO}/zec.png`,
-  zen: `${CDN_ICO}/zen.png`, flux: `${CDN_ICO}/flux.png`, firo: `${CDN_ICO}/firo.png`,
-  kas: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/128px-Kaspa-logo.svg.png',
-  nexa: `${CDN_ICO}/nexa.png`,
-  aur: `${CDN_ICO}/aur.png`, fch: `${CDN_ICO}/generic.png`, susu: `${CDN_ICO}/generic.png`,
-  dvt: `${CDN_ICO}/generic.png`, fxtc: `${CDN_ICO}/generic.png`, smly: `${CDN_ICO}/generic.png`,
-  veil: `${CDN_ICO}/generic.png`, marks: `${CDN_ICO}/generic.png`, maza: `${CDN_ICO}/generic.png`,
-  dgc: `${CDN_ICO}/generic.png`, vls: `${CDN_ICO}/generic.png`, quai: `${CDN_ICO}/generic.png`,
-  shnd: `${CDN_ICO}/generic.png`, tit: `${CDN_ICO}/generic.png`, htr: `${CDN_ICO}/generic.png`,
-  chta: `${CDN_ICO}/generic.png`, xrg: `${CDN_ICO}/generic.png`, plc: `${CDN_ICO}/generic.png`,
-  acg: `${CDN_ICO}/generic.png`, rbl: `${CDN_ICO}/generic.png`, btcp: `${CDN_ICO}/generic.png`,
-  bca: `${CDN_ICO}/generic.png`, plm: `${CDN_ICO}/generic.png`, nito: `${CDN_ICO}/generic.png`,
-  plhv: `${CDN_ICO}/generic.png`, btco: `${CDN_ICO}/generic.png`, lmc: `${CDN_ICO}/generic.png`,
-  bkc: `${CDN_ICO}/generic.png`, nbgo: `${CDN_ICO}/generic.png`, kpepe: `${CDN_ICO}/generic.png`,
-  xbt: `${CDN_ICO}/generic.png`, kwr: `${CDN_ICO}/generic.png`, myt: `${CDN_ICO}/generic.png`,
-  cas: `${CDN_ICO}/generic.png`, fix: `${CDN_ICO}/generic.png`, wjk: `${CDN_ICO}/generic.png`,
-  btcv: `${CDN_ICO}/generic.png`, rvc: `${CDN_ICO}/generic.png`, xro: `${CDN_ICO}/generic.png`,
-  bblu: `${CDN_ICO}/generic.png`, oxc: `${CDN_ICO}/generic.png`, vive: `${CDN_ICO}/generic.png`,
-  hrc: `${CDN_ICO}/generic.png`, aure: `${CDN_ICO}/generic.png`, dmd: `${CDN_ICO}/generic.png`
-};
+/* ---------- icons: только локальные, одна иконка на монету (img/<id>.png) ---------- */
+const ICON_BASE = 'img/';
 function iconImg(pool){
-  const id=(pool?.id||'').toLowerCase();
-  const sym=(pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toLowerCase();
-  const symChar=(pool?.coin?.symbol||pool?.coin?.type||pool?.id||'?').slice(0,1);
-  const url = COIN_ICONS[id] || COIN_ICONS[sym] || `${CDN_ICO}/${id}.png`;
-  const fallback = `${CDN_ICO}/generic.png`;
+  const id = (pool?.id || pool?.coin?.symbol || pool?.coin?.type || '').toLowerCase().trim();
+  const symChar = (pool?.coin?.symbol || pool?.coin?.type || pool?.id || '?').slice(0, 1);
+  const url = id ? (ICON_BASE + id + '.png') : (ICON_BASE + 'generic.png');
+  const fallback = ICON_BASE + 'generic.png';
   return `<img class="coin-icon-img" src="${url}"
     onerror="if(!this.dataset.f){this.dataset.f=1;this.src='${fallback}';}else{this.outerHTML='<span class=\\'coin-icon-fallback\\'>${symChar}</span>';}"
-    alt="${id}">`;
+    alt="${id || 'coin'}">`;
 }
 function svgIcon(name){
   if(name==='home') return `<svg viewBox="0 0 24 24" class="ico"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5 10.5V20h14v-9.5"></path></svg>`;
@@ -290,6 +260,7 @@ const COINGECKO_BY_KEY = {
   firo: "firo", firo: "firo",
   kas: "kaspa", kaspa: "kaspa",
   nexa: "nexa", nexa: "nexa",
+  xfc: "french-connection-finance", pepew: "pepe-chain",
 };
 
 // Block reward fallback (монета -> значение), если API не отдаёт
@@ -314,21 +285,30 @@ const BLOCK_REWARD_FALLBACK = {
   zec: 1.25, zcash: 1.25,
   zen: 6.25, horizen: 6.25,
   flux: 37.5, firo: 6.25, kas: 100, nexa: 50,
+  pepew: 1000, xfc: 6.25,
 };
 
 async function refreshPrices(){
-  const ids = (POOLS || []).map(p => COINGECKO_BY_KEY[poolSymbol(p)] || null).filter(Boolean);
+  const ids = (POOLS || []).map(p => COINGECKO_BY_KEY[poolSymbol(p)] || COINGECKO_BY_KEY[(p?.coin?.symbol||p?.id||'').toLowerCase()] || null).filter(Boolean);
   const uniq = [...new Set(ids)];
-  if (!uniq.length) { PRICE_CACHE = {}; return; }
-  const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,${encodeURIComponent(uniq.join(','))}&vs_currencies=usd&include_24hr_change=true`;
+  const allIds = ['bitcoin', ...uniq.filter(Boolean)].filter((v,i,a)=>a.indexOf(v)===i);
+  if (!allIds.length) { PRICE_CACHE = {}; return; }
+  const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${allIds.join(',')}&vs_currencies=usd&include_24hr_change=true`;
   try {
-    const data = await fetchJson(url);
-    PRICE_CACHE = data && typeof data === 'object' ? data : {};
-  } catch (e) { PRICE_CACHE = {}; }
+    const data = await fetchJson(priceUrl);
+    if (data && typeof data === 'object') { PRICE_CACHE = data; return; }
+  } catch (e) {}
+  for (const base of ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?']) {
+    try {
+      const data = await fetchJson(base + encodeURIComponent(priceUrl));
+      if (data && typeof data === 'object') { PRICE_CACHE = data; return; }
+    } catch (e) {}
+  }
+  PRICE_CACHE = {};
 }
 function priceForPool(pool){
   const sym = poolSymbol(pool);
-  const gid = COINGECKO_BY_KEY[sym] || COINGECKO_BY_KEY[pool?.id] || null;
+  const gid = COINGECKO_BY_KEY[sym] || COINGECKO_BY_KEY[pool?.id] || COINGECKO_BY_KEY[(pool?.coin?.symbol||'').toLowerCase()] || COINGECKO_BY_KEY[(pool?.coin?.type||'').toLowerCase().replace(/\s+/g,'')] || null;
   const g = gid ? PRICE_CACHE[gid] : null;
   const btcUsd = PRICE_CACHE?.bitcoin?.usd;
   const usd = g?.usd ?? null;
@@ -340,17 +320,17 @@ function getBlockReward(pool){
   const ns = pool?.networkStats || {};
   const ps = pool?.poolStats || {};
   const v = asNumberOrNull(pool?.coin?.blockReward ?? ns.blockReward ?? ps.blockReward ?? pool?.blockReward ?? null);
-  if (v != null) return v;
-  return BLOCK_REWARD_FALLBACK[sym] ?? BLOCK_REWARD_FALLBACK[pool?.id] ?? BLOCK_REWARD_FALLBACK[pool?.coin?.type] ?? null;
+  if (v != null && v > 0) return v;
+  return BLOCK_REWARD_FALLBACK[sym] ?? BLOCK_REWARD_FALLBACK[pool?.id] ?? BLOCK_REWARD_FALLBACK[pool?.coin?.type] ?? BLOCK_REWARD_FALLBACK[(pool?.coin?.symbol||'').toLowerCase()] ?? (v === 0 ? null : v);
 }
 function fmtReward(pool){
   const symU = (pool?.coin?.symbol||pool?.coin?.type||pool?.id||'').toUpperCase();
   const r = getBlockReward(pool);
   if(r==null) return '—';
   const pr = priceForPool(pool);
-  const usd = (asNumberOrNull(pr.usd)!=null) ? (pr.usd * r) : null;
+  const usdPerBlock = (asNumberOrNull(pr.usd) != null && r > 0) ? (pr.usd * r) : null;
   const coinText = `${fmtCoinAmt(r)} ${symU}`;
-  return (usd!=null) ? `${coinText} (${fmtMoneyUsd(usd)})` : coinText;
+  return (usdPerBlock != null) ? `${coinText} (${fmtMoneyUsd(usdPerBlock)}/block)` : coinText;
 }
 
 /* ---------- miningcore endpoints ---------- */
@@ -662,9 +642,11 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     ctx.fillStyle=color;
     ctx.globalAlpha=0.6;
     ctx.beginPath();
-    ctx.moveTo(pts[0].x, h-padB);
+    ctx.moveTo(padL, h-padB);
+    ctx.lineTo(padL, pts[0].y);
     catmullRomToBezier(ctx, pts);
-    ctx.lineTo(pts[pts.length-1].x, h-padB);
+    ctx.lineTo(w-padR, pts[pts.length-1].y);
+    ctx.lineTo(w-padR, h-padB);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
@@ -1016,8 +998,8 @@ async function renderCoin(poolId){
   drawCoinChart(poolId);
   const legPool=$('#legendPool'), legDiff=$('#legendDiff');
   function toggleLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawCoinChart(poolId); }
-  if(legPool) legPool.onclick=()=>toggleLegend(legPool);
-  if(legDiff) legDiff.onclick=()=>toggleLegend(legDiff);
+  if(legPool){ legPool.onclick=function(e){ e.stopPropagation(); toggleLegend(legPool); }; }
+  if(legDiff){ legDiff.onclick=function(e){ e.stopPropagation(); toggleLegend(legDiff); }; }
 }
 
 function ensureCoinDifficultySeries(poolId){
@@ -1483,8 +1465,8 @@ async function renderMiner(poolId, addr, tab='dashboard'){
     drawMinerChart(poolId, addr);
     const leg30=$('#legendMiner30m'), leg1h=$('#legendMiner1h');
     function toggleMinerLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawMinerChart(poolId, addr); }
-    if(leg30) leg30.onclick=()=>toggleMinerLegend(leg30);
-    if(leg1h) leg1h.onclick=()=>toggleMinerLegend(leg1h);
+    if(leg30){ leg30.onclick=function(e){ e.stopPropagation(); toggleMinerLegend(leg30); }; }
+    if(leg1h){ leg1h.onclick=function(e){ e.stopPropagation(); toggleMinerLegend(leg1h); }; }
   }
 }
 

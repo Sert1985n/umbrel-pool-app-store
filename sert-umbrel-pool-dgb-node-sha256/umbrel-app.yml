@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-dgb-node-sha256
 name: Digibyte (DGB) Node - SHA256
 tagline: "Node for pool or solo mining"
-icon: https://github.com/DigiByte-Core/digibyte-logos/blob/master/Logos%20Bitmap/transparent%20bg/ClearBg%20DigiByte.png?raw=true
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/dgb.png
 category: Mining Nodes
 version: "1.0.1"
 port: 5006
@@ -15,7 +15,7 @@ submission: https://github.com/TheRetroMike/digibyte
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://github.com/DigiByte-Core/digibyte-logos/blob/master/Logos%20Bitmap/transparent%20bg/ClearBg%20DigiByte.png?raw=true
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/dgb.png
 releaseNotes: "Retro Mike base. RPC 9001, ZMQ 7001. Service in compose: digibyted."
 dependencies: []
 path: ""

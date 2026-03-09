@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-xec-node
 name: eCash (XEC) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/ecash-xec-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/xec.png
 category: Mining Nodes
 version: "1.0.1"
 port: 5012
@@ -18,7 +18,7 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/TheRetroMike/ecash
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/ecash-xec-logo.png?v=040
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/xec.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
   На базе Retro Mike eCash node. RPC 9007, ZMQ 7007.
 dependencies: []

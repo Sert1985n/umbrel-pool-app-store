@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-ltc-node
 name: Litecoin (LTC) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/litecoin-ltc-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/ltc.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5018
@@ -17,7 +17,7 @@ submitter: Sert1985n
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/litecoin-ltc-logo.svg
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/ltc.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

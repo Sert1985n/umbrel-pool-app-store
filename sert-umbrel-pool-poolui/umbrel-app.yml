@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-poolui
 name: Pool Dashboard
 tagline: "Stats, charts, wallet - your pool panel (v1.0.4)"
-icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/sert-umbrel-pool-poolui/icon.png
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/poolui.png
 category: SOLO Crypto Mining
 version: "1.0.4"
 port: 8561

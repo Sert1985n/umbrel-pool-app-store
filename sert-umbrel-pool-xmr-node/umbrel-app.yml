@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-xmr-node
 name: Monero (XMR) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/monero-xmr-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/xmr.png
 category: Mining Nodes
 version: "1.0.3"
 port: 5014
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/monero
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/monero-xmr-logo.png
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/xmr.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

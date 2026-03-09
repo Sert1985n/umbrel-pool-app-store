@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-xmr-wallet
 name: Monero (XMR) Wallet
 tagline: Monero Wallet RPC для выплат пула (нужна нода XMR из этого магазина)
-icon: https://cryptologos.cc/logos/monero-xmr-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/xmr.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5015

@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-ppc-node
 name: Peercoin (PPC) Node
 tagline: "Node for pool or solo mining"
-icon: https://cryptologos.cc/logos/peercoin-ppc-logo.svg
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/ppc.png
 category: Mining Nodes
 version: "1.0.1"
 port: 5016
@@ -18,7 +18,7 @@ submission: https://github.com/TheRetroMike/peercoin
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://cryptologos.cc/logos/peercoin-ppc-logo.png
+  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/ppc.png
 releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""

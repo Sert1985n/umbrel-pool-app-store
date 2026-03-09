@@ -1,8 +1,8 @@
-manifestVersion: 1
+﻿manifestVersion: 1
 id: sert-umbrel-pool-smly-node
 name: Smiley (SMLY) Node
 tagline: "Node for pool or solo mining"
-icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/smly.png
+icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/smly.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5041
