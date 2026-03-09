@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-miningcore
 name: MiningCore
 tagline: MiningCore Mining Pool
-icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/miningcore.png
+icon: https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
 category: SOLO Crypto Mining
 version: "1.4.0"
 port: 8560
@@ -15,7 +15,7 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://hub.docker.com/r/theretromike/miningcore
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
-  - https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/miningcore.png
+  - https://raw.githubusercontent.com/oliverw/miningcore/master/logo.png
 releaseNotes: "Retro Mike Miningcore base. Config: /home/umbrel/.miningcore/config.json and coins.json"
 dependencies: []
 path: ""

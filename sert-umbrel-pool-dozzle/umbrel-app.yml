@@ -2,7 +2,7 @@ manifestVersion: 1
 id: sert-umbrel-pool-dozzle
 name: Dozzle
 tagline: Просмотр логов контейнеров Docker в реальном времени
-icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/store-icons/dozzle.png
+icon: https://cdn.jsdelivr.net/gh/bigbeartechworld/big-bear-universal-apps/apps/dozzle/logo.png
 category: Utilities
 version: "8.12.8"
 port: 8558

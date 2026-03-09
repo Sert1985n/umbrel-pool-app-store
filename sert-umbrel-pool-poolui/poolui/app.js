@@ -559,7 +559,7 @@ function catmullRomToBezier(ctx, pts){
   }
 }
 
-function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=true,showA=true,showB=true}){
+function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=true,fillAlpha=0.6,showA=true,showB=true}){
   const canvas=$('#chartCanvas'), box=$('#chartBox'), tip=$('#chartTip'), xlbl=$('#chartXLabel');
   if(!canvas||!box||!tip||!xlbl) return;
   if(aArr.length<2){ tip.style.display='none'; xlbl.style.display='none'; return; }
@@ -640,7 +640,7 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
   function fill(pts,color){
     ctx.save();
     ctx.fillStyle=color;
-    ctx.globalAlpha=0.6;
+    ctx.globalAlpha=fillAlpha;
     ctx.beginPath();
     ctx.moveTo(padL, h-padB);
     ctx.lineTo(padL, pts[0].y);
@@ -666,7 +666,7 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     }
 
     ctx.textAlign='left';
-    if(showA){
+    if(showA && maxA > 0){
       for(let i=0;i<=4;i++){
         const val = maxAU - (i/4)*(maxAU-minAU);
         const y = padT + (i/4)*plotH;
@@ -700,7 +700,7 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
     }
 
     if(showB){ const ptsB = smooth(bArr, yB, cB, true); if(fillB) fill(ptsB, cB); }
-    if(showA) smooth(aArr, yA, cA, true);
+    if(showA && maxA > 0) smooth(aArr, yA, cA, true);
   }
 
   const BAND_W = 2;
@@ -997,9 +997,9 @@ async function renderCoin(poolId){
   pushCoinPoint(poolId, n.poolHash, n.netDiff);
   drawCoinChart(poolId);
   const legPool=$('#legendPool'), legDiff=$('#legendDiff');
-  function toggleLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawCoinChart(poolId); }
-  if(legPool){ legPool.onclick=function(e){ e.stopPropagation(); toggleLegend(legPool); }; }
-  if(legDiff){ legDiff.onclick=function(e){ e.stopPropagation(); toggleLegend(legDiff); }; }
+  function toggleLegend(el){ if(!el) return; const v=el.getAttribute('data-visible'); el.setAttribute('data-visible', v==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawCoinChart(poolId); }
+  if(legPool){ legPool.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggleLegend(e.currentTarget||legPool); }; }
+  if(legDiff){ legDiff.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggleLegend(e.currentTarget||legDiff); }; }
 }
 
 function ensureCoinDifficultySeries(poolId){
@@ -1017,8 +1017,11 @@ function drawCoinChart(poolId){
   ensureCoinDifficultySeries(poolId);
   const s = SERIES.coin.get(poolId);
   if(!s || s.a.length<2) return;
-  const showA = ($('#legendPool')?.getAttribute('data-visible') ?? 'true') === 'true';
-  const showB = ($('#legendDiff')?.getAttribute('data-visible') ?? 'true') === 'true';
+  const chartRoot = document.getElementById('chartBox')?.closest('.expander__body') || document;
+  const legPoolEl = chartRoot.querySelector?.('#legendPool') || $('#legendPool');
+  const legDiffEl = chartRoot.querySelector?.('#legendDiff') || $('#legendDiff');
+  const showA = (legPoolEl?.getAttribute('data-visible') ?? 'true') === 'true';
+  const showB = (legDiffEl?.getAttribute('data-visible') ?? 'true') === 'true';
   if(!showA && !showB) return;
   const bArr = s.bRaw.length === s.a.length ? s.bRaw : s.a.map(() => s.bRaw[s.bRaw.length-1] ?? 0);
   renderChartDual({
@@ -1274,8 +1277,11 @@ function drawMinerChart(poolId, addr){
   const key=`${poolId}:${addr}`;
   const s=SERIES.miner.get(key);
   if(!s || s.a.length<2) return;
-  const showA = ($('#legendMiner30m')?.getAttribute('data-visible') ?? 'true') === 'true';
-  const showB = ($('#legendMiner1h')?.getAttribute('data-visible') ?? 'true') === 'true';
+  const chartRoot = document.getElementById('chartBox')?.closest('.expander__body') || document;
+  const leg30El = chartRoot.querySelector?.('#legendMiner30m') || $('#legendMiner30m');
+  const leg1hEl = chartRoot.querySelector?.('#legendMiner1h') || $('#legendMiner1h');
+  const showA = (leg30El?.getAttribute('data-visible') ?? 'true') === 'true';
+  const showB = (leg1hEl?.getAttribute('data-visible') ?? 'true') === 'true';
   if(!showA && !showB) return;
   renderChartDual({
     aArr: s.a,
@@ -1286,6 +1292,7 @@ function drawMinerChart(poolId, addr){
     fmtB: (v)=>fmtHashrate(v),
     axisBRight: false,
     fillB: true,
+    fillAlpha: 0.28,
     showA,
     showB
   });
@@ -1358,7 +1365,7 @@ async function renderMiner(poolId, addr, tab='dashboard'){
         <div class="card"><div class="card__title">WORK</div><div class="card__body"><div class="kv">
           <div class="k">Share Sum</div><div class="v mono">${pendingShares==null?'—':fmtNumber(pendingShares)}</div>
           <div class="k">Personal Effort</div><div class="v">${minerEffort==null?'—':(Number(minerEffort).toFixed(3)+'%')}</div>
-          <div class="k">Blocks</div><div class="v">${blocksFound==null?'—':fmtNumber(blocksFound)}</div>
+          <div class="k">Found</div><div class="v">${blocksFound==null?'—':fmtNumber(blocksFound)}</div>
         </div></div></div>
 
         <div class="card"><div class="card__title">REWARD</div><div class="card__body"><div class="kv">
@@ -1374,6 +1381,12 @@ async function renderMiner(poolId, addr, tab='dashboard'){
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="expander__body">
+          <div class="miner-chart-info" style="display:flex;flex-wrap:wrap;gap:12px 20px;padding:8px 12px;font-size:12px;color:var(--muted, rgba(255,255,255,.6));align-items:center;">
+            <span><strong style="color:inherit;opacity:0.9;">Height</strong> <span id="mChartHeight" class="mono">${n.height!=null?fmtNumber(n.height):'—'}</span></span>
+            <span><strong style="color:inherit;opacity:0.9;">Difficulty</strong> <span id="mChartDiff">${netDiffStr}</span></span>
+            <span><strong style="color:inherit;opacity:0.9;">Block</strong> <span id="mChartBlock" class="mono">${n.height!=null?fmtNumber(n.height):'—'}</span></span>
+            <span><strong style="color:inherit;opacity:0.9;">Time</strong> <span id="mChartTime" class="mono">${n.lastBlock!=null?String(n.lastBlock):'—'}</span></span>
+          </div>
           <div class="legend legend--toggles">
             <span class="legend-item" id="legendMiner30m" data-visible="true" role="button" tabindex="0"><span class="dot"></span> Current Hashrate (30m)</span>
             <span class="legend-item" id="legendMiner1h" data-visible="true" role="button" tabindex="0"><span class="dot dot--avg"></span> Average Hashrate (1h)</span>
@@ -1464,9 +1477,9 @@ async function renderMiner(poolId, addr, tab='dashboard'){
   if(tab==='dashboard'){
     drawMinerChart(poolId, addr);
     const leg30=$('#legendMiner30m'), leg1h=$('#legendMiner1h');
-    function toggleMinerLegend(el){ if(!el) return; el.setAttribute('data-visible', el.getAttribute('data-visible')==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawMinerChart(poolId, addr); }
-    if(leg30){ leg30.onclick=function(e){ e.stopPropagation(); toggleMinerLegend(leg30); }; }
-    if(leg1h){ leg1h.onclick=function(e){ e.stopPropagation(); toggleMinerLegend(leg1h); }; }
+    function toggleMinerLegend(el){ if(!el) return; const v=el.getAttribute('data-visible'); el.setAttribute('data-visible', v==='true' ? 'false' : 'true'); el.classList.toggle('legend-item--off', el.getAttribute('data-visible')==='false'); drawMinerChart(poolId, addr); }
+    if(leg30){ leg30.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggleMinerLegend(e.currentTarget||leg30); }; }
+    if(leg1h){ leg1h.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggleMinerLegend(e.currentTarget||leg1h); }; }
   }
 }
 
@@ -1554,6 +1567,11 @@ async function tickMinerRealtime(){
     const el30=$('#mHr30'), el1h=$('#mHr1h');
     if(el30 && s?.a?.length) el30.textContent=fmtHashrate(s.a[s.a.length-1]);
     if(el1h && s?.b?.length) el1h.textContent=fmtHashrate(s.b[s.b.length-1]);
+    const setM=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+    setM('mChartHeight', n.height!=null?fmtNumber(n.height):'—');
+    setM('mChartDiff', n.netDiff!=null?fmtCompact(n.netDiff):'—');
+    setM('mChartBlock', n.height!=null?fmtNumber(n.height):'—');
+    setM('mChartTime', n.lastBlock!=null?String(n.lastBlock):'—');
     drawMinerChart(CURRENT.poolId, CURRENT.addr);
     await updateMinerWorkersTable();
   }catch(e){}
