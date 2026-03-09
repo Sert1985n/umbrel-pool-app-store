@@ -1,10 +1,10 @@
 const API="/api";
 
 /* ---- polling ---- */
-const POLL_POOLS_MS  = 2000;
-const POLL_MINERS_MS = 2000;
-const POLL_PRICE_MS  = 20000;
-const PUSH_MS        = 3000;
+const POLL_POOLS_MS  = 1500;
+const POLL_MINERS_MS = 1500;
+const POLL_PRICE_MS  = 15000;
+const PUSH_MS        = 2000;
 
 /* ---------- helpers ---------- */
 function $(q,root=document){return root.querySelector(q)}
@@ -919,12 +919,12 @@ async function renderCoin(poolId){
   const n=poolNumbers(pool);
   const pr=priceForPool(pool);
 
-  const priceUsd = pr.usd==null?'—':fmtMoneyUsd(pr.usd);
+  const priceUsd = pr.usd==null ? '$0' : fmtMoneyUsd(pr.usd);
   const chg = pr.chg==null?'':` <span class="chg ${(Number(pr.chg)||0)>=0?'up':'down'}">${fmtPct(Number(pr.chg)||0)} ${(Number(pr.chg)||0)>=0?'↑':'↓'}</span>`;
-  const priceBtc = pr.btc != null ? (pr.btc.toFixed(8) + ' BTC') : '—';
+  const priceBtc = pr.btc != null ? (pr.btc.toFixed(8) + ' BTC') : '0.00000000 BTC';
   const chgBtc = pr.chg==null?'':` <span class="chg ${(Number(pr.chg)||0)>=0?'up':'down'}">${fmtPct(Number(pr.chg)||0)}</span>`;
-  const lastBlockStr = n.lastBlock != null ? String(n.lastBlock) : '—';
-  const effortStr = n.effort != null ? (n.effort.toFixed(0) + '%') : '—';
+  const lastBlockStr = n.lastBlock != null ? String(n.lastBlock) : '0';
+  const effortStr = n.effort != null ? (n.effort.toFixed(0) + '%') : '0%';
 
   $('#app').innerHTML=`
     <section class="surface surface--compact">
@@ -1058,7 +1058,7 @@ function drawCoinChart(poolId){
     fmtA: (v)=>fmtHashrate(v),
     fmtB: (v)=>fmtCompact(v),
     axisBRight: true,
-    fillB: true,
+    fillB: false,
     showA,
     showB
   });
@@ -1091,19 +1091,19 @@ async function renderBlocks(poolIdMaybe){
   const statsRows = BLOCK_WINDOWS.map((n, i) => {
     const effort = Array.isArray(effortByWindow) && effortByWindow[i] != null ? (effortByWindow[i].toFixed ? effortByWindow[i].toFixed(1) + '%' : effortByWindow[i]) : null;
     const orphan = Array.isArray(orphanByWindow) && orphanByWindow[i] != null ? (orphanByWindow[i].toFixed ? orphanByWindow[i].toFixed(0) + '%' : orphanByWindow[i]) : '0%';
-    return `<tr><td>${n}</td><td><span class="effort-dash">${effort != null ? effort : '—'}</span></td><td>${orphan}</td></tr>`;
+    return `<tr><td>${n}</td><td><span class="effort-dash">${effort != null ? effort : '0%'}</span></td><td>${orphan}</td></tr>`;
   }).join('');
 
   const rows = blocks.length ? blocks.map(b=>{
-    const height = b.blockHeight ?? b.height ?? '—';
-    const type = b.type ?? '—';
+    const height = b.blockHeight ?? b.height ?? '0';
+    const type = b.type ?? b.blockType ?? 'n/a';
     const status = fmtBlockStatus(b.status ?? b.state);
-    const time = b.created ?? b.createdAt ?? b.time ?? '—';
-    const server = b.server ?? '—';
-    const miner = b.miner ?? b.minerAddress ?? b.worker ?? '—';
-    const effort = b.effort ?? b.effortPercent ?? '—';
-    const sol = b.solution ?? b.shareDifficulty ?? '—';
-    const reward = b.reward ?? b.blockReward ?? '—';
+    const time = b.created ?? b.createdAt ?? b.time ?? 'n/a';
+    const server = b.server ?? b.host ?? 'n/a';
+    const miner = b.miner ?? b.minerAddress ?? b.worker ?? 'n/a';
+    const effort = b.effort != null ? (typeof b.effort === 'number' ? b.effort.toFixed(4) : b.effort) : (b.effortPercent != null ? b.effortPercent : '0');
+    const sol = b.solution ?? b.shareDifficulty ?? b.solver ?? 'n/a';
+    const reward = b.reward ?? b.blockReward ?? '0';
     return `<tr>
       <td>${fmtNumber(height)}</td>
       <td>${type}</td>
@@ -1403,9 +1403,9 @@ async function renderMiner(poolId, addr, tab='dashboard'){
         </div></div></div>
 
         <div class="card"><div class="card__title">REWARD</div><div class="card__body"><div class="kv">
-          <div class="k">Unconfirmed</div><div class="v mono">${unconfirmed==null?'—':String(unconfirmed)}</div>
-          <div class="k">Balance</div><div class="v mono">${balance==null?'—':String(balance)}</div>
-          <div class="k">Pending</div><div class="v mono">${pendingBalance==null?'—':String(pendingBalance)}</div>
+          <div class="k">Unconfirmed</div><div class="v mono">${unconfirmed==null||unconfirmed===''?'0':String(unconfirmed)}</div>
+          <div class="k">Balance</div><div class="v mono">${balance==null||balance===''?'0':String(balance)}</div>
+          <div class="k">Pending</div><div class="v mono">${pendingBalance==null||pendingBalance===''?'0':String(pendingBalance)}</div>
         </div></div></div>
       </div>
 
@@ -1529,8 +1529,8 @@ function updateCoinDOM(poolId){
   setTxt('cMiners', fmtNumber(n.miners));
   setTxt('cPoolHash', fmtHashrate(n.poolHash));
   setTxt('cBlocks', fmtNumber(n.blocks));
-  setTxt('cEffort', n.effort != null ? (n.effort.toFixed(0) + '%') : '—');
-  setTxt('cLastBlock', n.lastBlock != null ? String(n.lastBlock) : '—');
+  setTxt('cEffort', n.effort != null ? (n.effort.toFixed(0) + '%') : '0%');
+  setTxt('cLastBlock', n.lastBlock != null ? String(n.lastBlock) : '0');
   setTxt('cNetDiff', fmtCompact(n.netDiff));
   setTxt('cNetHash', fmtHashrate(n.netHash));
   setTxt('cHeight', fmtNumber(n.height));
