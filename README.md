@@ -66,6 +66,7 @@
 
 | Файл | Описание |
 |------|----------|
+| **docs/PROJECT-FULL-REPORT.md** | **Полный отчёт по проекту** — как создавали, что настраивали, все изменения в панели, инструкция по созданию с нуля |
 | **SETUP-FULL.md** | **Полная настройка одним разом** — приложения, coins.json, Pool Config, кошельки, дашборд |
 | **guides/WEBUI-STATIC-AND-DATA-FLOW.md** | Статика не «как в обычном сайте» у Pool Config (8562): wwwroot, серверные страницы; coins.json, wallet, fee/rewardRecipients (панель 83); Pool Dashboard без изменений |
 | **QUICK-FIX.md** | Кратко: нет панели/иконок, Referral/копирайт (букмарклет), монеты в Pool Configuration, запись в GitHub |
