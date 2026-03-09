@@ -1,14 +1,12 @@
 manifestVersion: 1
 id: sert-umbrel-pool-flux-node
 name: Flux (FLUX) Node
-tagline: Нода для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cryptologos.cc/logos/flux-flux-logo.svg
 category: Mining Nodes
 version: "1.0.0"
 port: 5035
-description: |
-  Нода Flux (FLUX). В config.json пула укажите host: sert-umbrel-pool-flux-node_node_1, port: 16124.
-  Документация: https://github.com/Sert1985n/umbrel-pool-app-store
+description: "Node for pool or solo mining. In pool config.json set host to this app node container and port from coins-reference. Docs https://github.com/Sert1985n/umbrel-pool-app-store"
 
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
@@ -17,7 +15,7 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery: []
-releaseNotes: RPC 16124. Замените image на реальный daemon при наличии.
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

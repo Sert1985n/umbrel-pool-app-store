@@ -1,15 +1,20 @@
 manifestVersion: 1
 id: sert-umbrel-pool-poolui
-name: Pool Dashboard (моя панель)
-tagline: Статистика, графики, кошелёк — ваша панель (v1.0.4)
+name: Pool Dashboard
+tagline: "Stats, charts, wallet - your pool panel (v1.0.4)"
 icon: https://raw.githubusercontent.com/Sert1985n/umbrel-pool-app-store/main/sert-umbrel-pool-poolui/icon.png
 category: SOLO Crypto Mining
 version: "1.0.4"
 port: 8561
-description: |
-  Ваша личная панель пула. POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, графики. Контент из sert-umbrel-pool-dashboard/www. Для работы с данными установите MiningCore.
+description: "Your pool panel. POOL STATISTICS, BLOCK STATISTICS, CURRENT PRICE, NETWORK STATISTICS, Your Wallet, charts. Requires MiningCore. Docs https://github.com/Sert1985n/umbrel-pool-app-store"
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery: []
+releaseNotes: "Pool stats, block stats, price, network stats, wallet, charts."
 dependencies: []
 path: ""
 defaultUsername: ""

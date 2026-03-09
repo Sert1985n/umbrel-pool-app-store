@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-erg-node
 name: Ergo (ERG) Node
-tagline: Нода Ergo для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cryptologos.cc/logos/ergo-erg-logo.svg
 category: Mining Nodes
 version: "1.0.0"
@@ -18,7 +18,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/erg.png
-releaseNotes: "Образ ergoplatform/ergo. RPC 9050."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

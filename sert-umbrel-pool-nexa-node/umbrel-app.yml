@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-nexa-node
 name: Nexa (NEXA) Node
-tagline: Нода Nexa для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/nexa.png
 category: Mining Nodes
 version: "1.0.0"
@@ -18,7 +18,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/nexa.png
-releaseNotes: "Образ bchunlimited/nexad-rostrum. RPC 7227."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

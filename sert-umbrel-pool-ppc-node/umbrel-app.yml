@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-ppc-node
 name: Peercoin (PPC) Node
-tagline: Нода Peercoin для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cryptologos.cc/logos/peercoin-ppc-logo.svg
 category: Mining Nodes
 version: "1.0.1"
@@ -19,7 +19,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cryptologos.cc/logos/peercoin-ppc-logo.png
-releaseNotes: "На базе Retro Mike. RPC 9012, ZMQ 7012."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

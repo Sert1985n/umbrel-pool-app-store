@@ -6,10 +6,15 @@ icon: https://raw.githubusercontent.com/TheRetroMike/retromike-umbrel-app-store/
 category: SOLO Crypto Mining
 version: "1.0.0"
 port: 8563
-description: |
-  MiningCore Web UI (theretromike/miningcorewebui). Setup Database Schema, Refresh Master Coin List, Generate Pool Config File, замена "xxx". Без привязки к MiningCore — ставится отдельно. Список монет из coins.json.
+description: "MiningCore Web UI. Setup Database Schema, Refresh Master Coin List, Generate Pool Config File. Install separately. Coin list from coins.json. Docs https://github.com/Sert1985n/umbrel-pool-app-store"
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
+submitter: Sert1985n
+submission: https://github.com/Sert1985n/umbrel-pool-app-store
+repo: https://github.com/Sert1985n/umbrel-pool-app-store
+support: https://github.com/Sert1985n/umbrel-pool-app-store
+gallery: []
+releaseNotes: "Setup DB, Refresh Coin List, Generate Pool Config."
 dependencies: []
 path: ""
 defaultUsername: ""

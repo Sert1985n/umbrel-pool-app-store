@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-vtc-node
 name: Vertcoin (VTC) Node
-tagline: Нода Vertcoin для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cryptologos.cc/logos/vertcoin-vtc-logo.svg
 category: Mining Nodes
 version: "1.0.0"
@@ -19,7 +19,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cryptologos.cc/logos/vertcoin-vtc-logo.png
-releaseNotes: "На базе Retro Mike. RPC 9008, ZMQ 7008."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

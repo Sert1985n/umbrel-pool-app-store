@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-btc-node
 name: Bitcoin (BTC) Node
-tagline: Нода Bitcoin для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cryptologos.cc/logos/bitcoin-btc-logo.svg
 category: Mining Nodes
 version: "1.0.0"
@@ -19,7 +19,7 @@ repo: https://github.com/TheRetroMike/bitcoin
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://cryptologos.cc/logos/bitcoin-btc-logo.svg
-releaseNotes: |
+releaseNotes: "RPC port. Replace image with real daemon when available."
   На базе Retro Mike Bitcoin node. RPC 9004, ZMQ 7004.
 dependencies: []
 path: ""

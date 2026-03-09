@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-btcs-node
 name: Bitcoin Silver (BTCS) Node
-tagline: Нода Bitcoin Silver для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://avatars.githubusercontent.com/u/185931597?s=200&v=4
 category: Mining Nodes
 version: "1.0.0"
@@ -19,7 +19,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://avatars.githubusercontent.com/u/185931597?s=200&v=4
-releaseNotes: "На базе Retro Mike. RPC 9015, ZMQ 7015."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

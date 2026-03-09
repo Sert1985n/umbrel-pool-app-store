@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: sert-umbrel-pool-kas-node
 name: Kaspa (KAS) Node
-tagline: Нода Kaspa для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/250px-Kaspa-logo.svg.png
 category: Mining Nodes
 version: "1.0.0"
@@ -18,7 +18,7 @@ repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery:
   - https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kaspa-logo.svg/250px-Kaspa-logo.svg.png
-releaseNotes: "Образ kaspanet/rusty-kaspad. RPC 16110."
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""

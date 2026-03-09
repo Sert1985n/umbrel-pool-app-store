@@ -1,14 +1,12 @@
 manifestVersion: 1
 id: sert-umbrel-pool-fch-node
 name: FCH Node
-tagline: Нода для пула или соло-майнинга
+tagline: "Node for pool or solo mining"
 icon: https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/128/color/fch.png
 category: Mining Nodes
 version: "1.0.0"
 port: 5037
-description: |
-  РќРѕРґР° FCH. Р’ config.json РїСѓР»Р° СѓРєР°Р¶РёС‚Рµ host: sert-umbrel-pool-fch-node_node_1, port: 9052.
-  Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ: https://github.com/Sert1985n/umbrel-pool-app-store
+description: "Node for pool or solo mining. In pool config.json set host to this app node container and port from coins-reference. Docs https://github.com/Sert1985n/umbrel-pool-app-store"
 
 developer: Sert1985n
 website: https://github.com/Sert1985n/umbrel-pool-app-store
@@ -17,7 +15,7 @@ submission: https://github.com/Sert1985n/umbrel-pool-app-store
 repo: https://github.com/Sert1985n/umbrel-pool-app-store
 support: https://github.com/Sert1985n/umbrel-pool-app-store
 gallery: []
-releaseNotes: RPC. Замените image на реальный daemon при наличии.
+releaseNotes: "RPC port. Replace image with real daemon when available."
 dependencies: []
 path: ""
 defaultUsername: ""
