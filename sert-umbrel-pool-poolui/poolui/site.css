@@ -169,17 +169,20 @@ a{color:inherit;text-decoration:none}
   vertical-align:middle;overflow:visible;
   word-wrap:break-word;
 }
-.surface--compact .table th,.surface--compact .table td{padding:6px 10px;font-size:12px}
-.surface--compact .table-wrap{padding:0 10px 10px}
-.surface--compact .card__title{padding:6px 10px;font-size:11px}
-.surface--compact .card__body{padding:8px 10px}
-.surface--compact .grid-2,.surface--compact .grid-4,.surface--compact .coin-page-stats-grid{gap:10px;padding:10px}
-.surface--compact .miner-extra,.surface--compact .coin-page-chart-row,.surface--compact .coin-page-meta,.surface--compact .coin-page-wallet{padding:0 10px 10px}
-.surface--compact .surface__head{padding:10px 12px}
-.surface--compact .surface__head h1{font-size:16px}
-.surface--compact .kv{gap:6px 10px;font-size:13px}
-.surface--compact .expander__head,.surface--compact .expander__body{padding:8px 10px}
-.surface--compact .miner-chart-info{padding:6px 10px;font-size:11px;gap:8px 14px}
+.surface--compact .table th,.surface--compact .table td{padding:4px 8px;font-size:11px}
+.surface--compact .table-wrap{padding:0 8px 8px}
+.surface--compact .card__title{padding:4px 8px;font-size:10px}
+.surface--compact .card__body{padding:6px 8px}
+.surface--compact .grid-2,.surface--compact .grid-4,.surface--compact .coin-page-stats-grid{gap:6px;padding:6px}
+.surface--compact .miner-extra,.surface--compact .coin-page-chart-row,.surface--compact .coin-page-meta,.surface--compact .coin-page-wallet{padding:0 8px 8px}
+.surface--compact .surface__head{padding:8px 10px}
+.surface--compact .surface__head h1{font-size:15px}
+.surface--compact .kv{gap:4px 8px;font-size:12px}
+.surface--compact .expander__head,.surface--compact .expander__body{padding:6px 8px}
+.surface--compact .miner-chart-info{padding:4px 8px;font-size:10px;gap:6px 12px}
+.surface--compact .tabs .tab{padding:8px 6px;font-size:11px}
+.surface--compact .wallet__row .input,.surface--compact .wallet__row .btn{height:36px;padding:0 12px}
+.surface--compact .chart{min-height:180px}
 .table .mono{word-break:break-all}
 .table thead th{font-weight:700;background:var(--head);border-bottom:1px solid var(--border);white-space:nowrap}
 .table td+td,.table th+th{border-left:1px solid var(--border)}
