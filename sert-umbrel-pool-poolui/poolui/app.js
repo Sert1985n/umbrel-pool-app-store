@@ -773,14 +773,36 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
   drawBase(null);
 }
 
-/* ---------- explorer ---------- */
+/* ---------- explorer (click on address/block -> open explorer for current coin) ---------- */
 function explorerAddr(poolId, addr){
+  if(!addr || addr==='n/a'||addr==='—') return '#';
   const id=(poolId||'').toLowerCase();
   if(id==='bch') return `https://blockchair.com/bitcoin-cash/address/${encodeURIComponent(addr)}`;
   if(id==='xec') return `https://explorer.e.cash/address/${encodeURIComponent(addr)}`;
   if(id==='bc2') return `https://explorer.bitcoinii.org/address/${encodeURIComponent(addr)}`;
   if(id==='fb') return `https://explorer.frenchconnection.finance/address/${encodeURIComponent(addr)}`;
+  if(id==='bsv') return `https://whatsonchain.com/address/${encodeURIComponent(addr)}`;
+  if(id==='doge') return `https://dogechain.info/address/${encodeURIComponent(addr)}`;
+  if(id==='ltc') return `https://blockchair.com/litecoin/address/${encodeURIComponent(addr)}`;
+  if(id==='rvn') return `https://ravencoin.asset-explorer.net/address/${encodeURIComponent(addr)}`;
+  if(id==='vtc') return `https://explorer.vertcoin.org/address/${encodeURIComponent(addr)}`;
+  if(id==='xmr') return `https://xmrchain.net/search?value=${encodeURIComponent(addr)}`;
+  if(id==='flux') return `https://explorer.runonflux.io/address/${encodeURIComponent(addr)}`;
+  if(id==='kas') return `https://explorer.kaspa.org/addresses/${encodeURIComponent(addr)}`;
   return `https://www.blockchain.com/explorer/addresses/btc/${encodeURIComponent(addr)}`;
+}
+function explorerBlock(poolId, height){
+  if(height==null||height===''||height==='n/a') return '#';
+  const id=(poolId||'').toLowerCase();
+  if(id==='xec') return `https://explorer.e.cash/block/${encodeURIComponent(height)}`;
+  if(id==='bch') return `https://blockchair.com/bitcoin-cash/block/${encodeURIComponent(height)}`;
+  if(id==='bc2') return `https://explorer.bitcoinii.org/block/${encodeURIComponent(height)}`;
+  if(id==='fb') return `https://explorer.frenchconnection.finance/block/${encodeURIComponent(height)}`;
+  if(id==='btc') return `https://www.blockchain.com/explorer/blocks/btc/${encodeURIComponent(height)}`;
+  if(id==='bsv') return `https://whatsonchain.com/block-height/${encodeURIComponent(height)}`;
+  if(id==='ltc') return `https://blockchair.com/litecoin/block/${encodeURIComponent(height)}`;
+  if(id==='doge') return `https://dogechain.info/block/${encodeURIComponent(height)}`;
+  return `https://www.blockchain.com/explorer/blocks/btc/${encodeURIComponent(height)}`;
 }
 function explorerTx(poolId, tx){
   const id=(poolId||'').toLowerCase();
@@ -789,6 +811,10 @@ function explorerTx(poolId, tx){
   if(id==='bc2') return `https://explorer.bitcoinii.org/tx/${encodeURIComponent(tx)}`;
   if(id==='fb') return `https://explorer.frenchconnection.finance/tx/${encodeURIComponent(tx)}`;
   return `https://www.blockchain.com/explorer/transactions/btc/${encodeURIComponent(tx)}`;
+}
+function openWalletExplorer(poolId){
+  const el=document.getElementById('walletInput');
+  if(el&&el.value&&el.value.trim()) window.open(explorerAddr(poolId,el.value.trim()),'_blank');
 }
 
 /* ---------- UI skeleton ---------- */
@@ -969,6 +995,7 @@ async function renderCoin(poolId){
         <div class="wallet__row">
           <input id="walletInput" class="input mono" placeholder="Enter your wallet address" value="${getSavedWallet(poolId)}" />
           <button class="btn" id="walletGo" type="button">Search</button>
+          <a href="#" id="walletExplorerLink" class="copy-btn" title="Open in explorer" onclick="event.preventDefault();openWalletExplorer('${poolId}');return false;">${svgIcon('ext')}</a>
         </div>
       </div>
 
@@ -1101,16 +1128,19 @@ async function renderBlocks(poolIdMaybe){
     const status = fmtBlockStatus(b.status ?? b.state);
     const time = b.created ?? b.createdAt ?? b.time ?? 'n/a';
     const server = b.server ?? b.host ?? 'n/a';
-    const miner = b.miner ?? b.minerAddress ?? b.worker ?? 'n/a';
+    const minerRaw = b.miner ?? b.minerAddress ?? b.worker ?? 'n/a';
+    const miner = minerRaw;
     const effort = b.effort != null ? (typeof b.effort === 'number' ? b.effort.toFixed(4) : b.effort) : (b.effortPercent != null ? b.effortPercent : '0');
     const sol = b.solution ?? b.shareDifficulty ?? b.solver ?? 'n/a';
     const reward = b.reward ?? b.blockReward ?? '0';
+    const heightLink = (height!='n/a'&&height!='') ? `<a href="${explorerBlock(poolId, height)}" target="_blank" rel="noopener" class="mono">${fmtNumber(height)}</a>` : fmtNumber(height);
+    const minerLink = (miner!='n/a'&&miner!='') ? `<a href="${explorerAddr(poolId, miner)}" target="_blank" rel="noopener" class="mono" onclick="event.stopPropagation()">${miner}</a>` : miner;
     return `<tr>
-      <td>${fmtNumber(height)}</td>
+      <td>${heightLink}</td>
       <td>${type}</td>
       <td class="mono">${time}</td>
       <td class="mono">${server}</td>
-      <td class="mono">${miner}</td>
+      <td class="mono">${minerLink}</td>
       <td>${effort}</td>
       <td>${sol}</td>
       <td>${status}</td>
@@ -1190,8 +1220,9 @@ async function renderMiners(poolIdMaybe){
     const addrShort = shortenAddress(addr, 10, 6);
     const hr = asNumberOrNull(m.hashrate ?? m.hashRate ?? m.hashrate30m ?? m.reportedHashrate) ?? 0;
     const last = workerLastShare(m);
+    const addrLink = `<a href="${explorerAddr(poolId, addr)}" target="_blank" rel="noopener" class="mono" onclick="event.stopPropagation()" title="${addr}">${addrShort}</a>`;
     return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
-      <td class="mono" title="${addr}">${addrShort}</td>
+      <td class="mono" title="${addr}">${addrLink}</td>
       <td>${fmtHashrate(hr)}</td>
       <td class="mono">${last==='—'?'0':last}</td>
     </tr>`;
@@ -1498,7 +1529,7 @@ async function renderMiner(poolId, addr, tab='dashboard'){
       </div>
 
       <div style="padding:10px 14px; display:flex; align-items:center; justify-content:center; gap:10px;">
-        <div class="mono" style="font-weight:900;overflow:hidden;text-overflow:ellipsis;max-width:80%;">${addr}</div>
+        <a class="mono" href="${extAddr}" target="_blank" rel="noopener" title="Open in explorer" style="font-weight:900;overflow:hidden;text-overflow:ellipsis;max-width:80%;color:inherit;text-decoration:underline;">${addr}</a>
         <a class="copy-btn" href="${extAddr}" target="_blank" rel="noopener" title="Open in explorer">${svgIcon('ext')}</a>
       </div>
 
@@ -1716,10 +1747,11 @@ async function tickMiners(){
     tb.innerHTML = (listRaw.length ? listRaw.map((m,i)=>{
       const addr = minerAddress(m);
       const addrShort = shortenAddress(addr, 10, 6);
+      const addrLink = `<a href="${explorerAddr(poolId, addr)}" target="_blank" rel="noopener" class="mono" onclick="event.stopPropagation()" title="${addr}">${addrShort}</a>`;
       const hr = asNumberOrNull(m.hashrate ?? m.hashRate ?? m.hashrate30m ?? m.reportedHashrate) ?? 0;
       const last = workerLastShare(m);
       return `<tr class="row-link" onclick="location.hash='#/miner/${encodeURIComponent(poolId)}/${encodeURIComponent(addr)}/dashboard'">
-        <td class="mono" title="${addr}">${addrShort}</td><td>${fmtHashrate(hr)}</td><td class="mono">${last==='—'?'0':last}</td>
+        <td class="mono" title="${addr}">${addrLink}</td><td>${fmtHashrate(hr)}</td><td class="mono">${last==='—'?'0':last}</td>
       </tr>`;
     }).join('') : `<tr><td colspan="3">0</td></tr>`);
   }catch(e){}
