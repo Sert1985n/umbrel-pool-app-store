@@ -71,12 +71,12 @@ function fmtCompact(n){
   return (x/v).toFixed(3)+u;
 }
 function fmtShareSum(n){
+  if(typeof n==='string' && !isPlainNumberString(n)) return n;
   const x=asNumberOrNull(n); if(x==null) return '—';
   if(x===0) return '0';
-  const u=[{u:'',v:1},{u:'K',v:1e3},{u:'M',v:1e6},{u:'G',v:1e9},{u:'T',v:1e12},{u:'P',v:1e15},{u:'E',v:1e18}];
-  let c=u[0]; for(const it of u){ if(Math.abs(x)>=it.v) c=it; }
-  const val=(x/c.v); const s=val>=1000?val.toFixed(0):(val>=1?val.toFixed(2):val.toFixed(3));
-  return (c.u ? s+' '+c.u : s);
+  const {u,v}=pickUnitCompact(x);
+  if(u==='') return fmtNumber(x);
+  return (x/v).toFixed(2)+u;
 }
 function fmtMoneyUsd(n){
   const x=asNumberOrNull(n); if(x==null) return '—';
@@ -373,7 +373,7 @@ function workerDisplayName(m, index){
 }
 function workerNameOnly(m, index){
   const workerObj = m.worker && typeof m.worker === 'object' ? m.worker.name ?? m.worker.label : null;
-  const raw = m.workerName ?? m.name ?? m.label ?? m.worker_name ?? (typeof m.worker === 'string' ? m.worker : null) ?? workerObj ?? m.workerId ?? null;
+  const raw = m.workerName ?? m.name ?? m.label ?? (typeof m.worker === 'string' ? m.worker : null) ?? workerObj ?? m.workerId ?? null;
   const addr = m.miner ?? m.address ?? m.login ?? '';
   if(raw && String(raw).trim()) {
     const n = String(raw).trim();
@@ -396,29 +396,29 @@ function workerHashrate1h(w, fallback){
   return asNumberOrNull(w.hashrate1h ?? w.averageHashrate ?? w.avgHashrate ?? w.hashrate1h ?? w.hr1h ?? fallback) ?? null;
 }
 function workerValids(w){
-  const v = w.validShares ?? w.validSharesCount ?? w.accepted ?? w.acceptedShares ?? w.valid ?? w.shares ?? w.validShareCount;
+  const v = w.validShares ?? w.validSharesCount ?? w.accepted ?? w.acceptedShares ?? w.valid ?? w.shares ?? w.acceptedSharesCount;
   return v != null ? fmtNumber(v) : '0';
 }
 function workerInvalid(w){
-  const v = w.invalidShares ?? w.invalidSharesCount ?? w.rejected ?? w.rejectedShares ?? w.invalid ?? w.invalidShareCount;
+  const v = w.invalidShares ?? w.invalidSharesCount ?? w.rejected ?? w.rejectedShares ?? w.invalid ?? w.rejectedSharesCount;
   return v != null ? fmtNumber(v) : '0';
 }
 function workerStale(w){
-  const v = w.staleShares ?? w.staleSharesCount ?? w.stale ?? w.staleShareCount;
+  const v = w.staleShares ?? w.staleSharesCount ?? w.stale ?? w.staleSharesCount;
   return v != null ? fmtNumber(v) : '0';
 }
 function workerBestShare(w){
-  const v = w.bestShare ?? w.bestShareDifficulty ?? w.difficulty ?? w.bestShareDiff ?? w.bestShareValue;
-  if (v == null) return '0';
+  const v = w.bestShare ?? w.bestShareDifficulty ?? w.difficulty ?? w.bestShareDiff ?? w.bestDifficulty;
+  if (v == null) return '—';
   return typeof v === 'number' ? fmtCompact(v) : String(v);
 }
 function workerPort(w){
   const v = w.port ?? w.portName ?? w.portDifficulty ?? w.portDiff ?? w.portId;
-  return (v != null && v !== '') ? String(v) : '0';
+  return (v != null && v !== '') ? String(v) : '—';
 }
 function workerLastShare(w){
   const v = w.lastShare ?? w.lastShareTime ?? w.lastSeen ?? w.lastShareAt ?? w.lastSeenAt;
-  return (v != null && v !== '') ? String(v) : '0';
+  return (v != null && v !== '') ? String(v) : '—';
 }
 async function fetchMiners(poolId){
   const p=encodeURIComponent(poolId);
@@ -877,14 +877,14 @@ async function renderPools(){
 
 function poolsTableRows(){
   if(!Array.isArray(POOLS)) return '';
-  const sorted = [...POOLS].sort((a,b)=>{
-    const idA = (a.id||a.coin?.symbol||'').toLowerCase();
-    const idB = (b.id||b.coin?.symbol||'').toLowerCase();
-    if(idA==='btc'||idA==='bitcoin') return -1;
-    if(idB==='btc'||idB==='bitcoin') return 1;
+  const btcFirst = [...POOLS].sort((a,b)=>{
+    const aid=(a.id||a.coin?.symbol||a.coin?.type||'').toLowerCase();
+    const bid=(b.id||b.coin?.symbol||b.coin?.type||'').toLowerCase();
+    if(aid==='btc'||aid==='bitcoin') return -1;
+    if(bid==='btc'||bid==='bitcoin') return 1;
     return 0;
   });
-  return sorted.map(p=>{
+  return btcFirst.map(p=>{
     const n=poolNumbers(p);
     const pr=priceForPool(p);
     const priceUsd = pr.usd==null?'—':fmtMoneyUsd(pr.usd);
@@ -1299,6 +1299,15 @@ function tabsMiner(poolId, addr, activeTab){
       <div class="tab ${activeTab==='payouts'?'is-active':''}" onclick="location.hash='${base}/payouts'">PAYOUTS</div>
     </div>`;
 }
+function smoothChartSeries(arr){
+  if(!arr || arr.length<3) return arr;
+  const out = arr.slice();
+  for(let i=1;i<out.length-1;i++){
+    const a=asNumberOrNull(out[i-1]); const b=asNumberOrNull(out[i]); const c=asNumberOrNull(out[i+1]);
+    if(a!=null && b!=null && c!=null) out[i]=(a+b+c)/3;
+  }
+  return out;
+}
 function drawMinerChart(poolId, addr){
   const key=`${poolId}:${addr}`;
   const s=SERIES.miner.get(key);
@@ -1310,8 +1319,8 @@ function drawMinerChart(poolId, addr){
   const showB = (leg1hEl?.getAttribute('data-visible') ?? 'true') === 'true';
   if(!showA && !showB) return;
   renderChartDual({
-    aArr: s.a,
-    bArr: s.b,
+    aArr: smoothChartSeries(s.a),
+    bArr: smoothChartSeries(s.b),
     tArr: s.t,
     labels: ['Current Hashrate (30m)','Average Hashrate (1h)'],
     fmtA: (v)=>fmtHashrate(v),
@@ -1356,16 +1365,16 @@ async function renderMiner(poolId, addr, tab='dashboard'){
   const hr1h = apiHr1h ?? (ss?.b?.length ? ss.b[ss.b.length-1] : null);
 
   const st = await fetchMinerStats(poolId, addr);
-  const pendingShares = st.pendingShares ?? st.pendingShare ?? st.shares ?? st.totalShares ?? st.shareSum ?? st.accumulatedShareDifficulty ?? null;
+  const pendingShares = st.pendingShares ?? null;
   const unconfirmed = st.unconfirmed ?? st.unconfirmedBalance ?? null;
   const pendingBalance = st.pendingBalance ?? st.pending ?? null;
   const balance = st.balance ?? null;
   const totalPaid = st.totalPaid ?? null;
   const todayPaid = st.todayPaid ?? null;
   const minerEffort = st.minerEffort ?? null;
-  const blocksFound = st.blocksFound ?? st.blocks ?? st.blocksFoundCount ?? null;
-  const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? st.lastShareDifficulty ?? st.lastShareAt ?? null;
-  const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? st.bestShareDiff ?? row?.bestShare ?? row?.bestShareDifficulty ?? null;
+  const blocksFound = st.blocksFound ?? st.blocks ?? null;
+  const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? st.lastShareDifficulty ?? row?.lastBestShare ?? row?.lastShare ?? null;
+  const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? row?.bestShareDifficulty ?? row?.difficulty ?? null;
   const portDiff = st.portDifficulty ?? st.port ?? pool?.ports?.[Object.keys(pool.ports||{})[0]]?.difficulty ?? null;
   const workerName = row ? workerNameOnly(row, 0) : '—';
   const workersList = Array.isArray(st.workers) ? st.workers : (row && row.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
@@ -1388,15 +1397,15 @@ async function renderMiner(poolId, addr, tab='dashboard'){
         </div></div></div>
 
         <div class="card"><div class="card__title">WORK</div><div class="card__body"><div class="kv">
-          <div class="k">Share Sum</div><div class="v mono">${pendingShares==null?'0':fmtShareSum(pendingShares)}</div>
-          <div class="k">Personal Effort</div><div class="v">${minerEffort==null?'0.000%':(Number(minerEffort).toFixed(3)+'%')}</div>
-          <div class="k">Found</div><div class="v">${blocksFound==null?'0':fmtNumber(blocksFound)}</div>
+          <div class="k">Share Sum</div><div class="v" id="mShareSum">${pendingShares==null?'—':fmtShareSum(pendingShares)}</div>
+          <div class="k">Personal Effort</div><div class="v" id="mEffort">${minerEffort==null?'—':(Number(minerEffort).toFixed(3)+'%')}</div>
+          <div class="k">Found</div><div class="v" id="mFound">${blocksFound==null||blocksFound===''?fmtNumber(0):fmtNumber(blocksFound)}</div>
         </div></div></div>
 
         <div class="card"><div class="card__title">REWARD</div><div class="card__body"><div class="kv">
-          <div class="k">Unconfirmed</div><div class="v mono">${unconfirmed==null?'0':String(unconfirmed)}</div>
-          <div class="k">Balance</div><div class="v mono">${balance==null?'0':String(balance)}</div>
-          <div class="k">Pending</div><div class="v mono">${pendingBalance==null?'0':String(pendingBalance)}</div>
+          <div class="k">Unconfirmed</div><div class="v mono">${unconfirmed==null?'—':String(unconfirmed)}</div>
+          <div class="k">Balance</div><div class="v mono">${balance==null?'—':String(balance)}</div>
+          <div class="k">Pending</div><div class="v mono">${pendingBalance==null?'—':String(pendingBalance)}</div>
         </div></div></div>
       </div>
 
@@ -1425,8 +1434,8 @@ async function renderMiner(poolId, addr, tab='dashboard'){
       </div>
 
       <div class="grid-4 miner-extra">
-        <div class="card"><div class="card__title">Last Best Share</div><div class="card__body"><div class="v mono">${lastBestShare==null?'0':String(lastBestShare)}</div></div></div>
-        <div class="card"><div class="card__title">Best Share</div><div class="card__body"><div class="v">${bestShare==null?'0':fmtCompact(bestShare)}</div></div></div>
+        <div class="card"><div class="card__title">Last Best Share</div><div class="card__body"><div class="v mono">${lastBestShare==null||lastBestShare===''?'—':String(lastBestShare)}</div></div></div>
+        <div class="card"><div class="card__title">Best Share</div><div class="card__body"><div class="v">${bestShare==null||bestShare===''?'—':(Number(bestShare)===0?'0':fmtCompact(bestShare))}</div></div></div>
         <div class="card"><div class="card__title">Network Difficulty</div><div class="card__body"><div class="v">${netDiffStr}</div></div></div>
         <div class="card"><div class="card__title">Port Difficulty</div><div class="card__body"><div class="v">${portDiff==null?'—':fmtNumber(portDiff)}</div></div></div>
       </div>
@@ -1445,7 +1454,7 @@ async function renderMiner(poolId, addr, tab='dashboard'){
               const wh30 = workerHashrate30m(w, w===row ? hr30 : null);
               const wh1h = workerHashrate1h(w, w===row ? hr1h : null);
               return `<tr><td>${wn}</td><td>${wh30==null?'—':fmtHashrate(wh30)}</td><td>${wh1h==null?'—':fmtHashrate(wh1h)}</td><td>${workerValids(w)}</td><td>${workerInvalid(w)}</td><td>${workerStale(w)}</td><td>${workerBestShare(w)}</td><td>${workerPort(w)}</td><td class="mono">${workerLastShare(w)}</td></tr>`;
-            }).join('') : `<tr><td>${workerName}</td><td>${hr30==null?'0':fmtHashrate(hr30)}</td><td>${hr1h==null?'0':fmtHashrate(hr1h)}</td><td>0</td><td>0</td><td>0</td><td>${bestShare==null?'0':fmtCompact(bestShare)}</td><td>${portDiff==null?'0':String(portDiff)}</td><td class="mono">${lastBestShare==null?'0':String(lastBestShare)}</td></tr>`}
+            }).join('') : `<tr><td>${workerName}</td><td>${hr30==null?'—':fmtHashrate(hr30)}</td><td>${hr1h==null?'—':fmtHashrate(hr1h)}</td><td>—</td><td>—</td><td>—</td><td>${bestShare==null?'—':fmtCompact(bestShare)}</td><td>${portDiff==null?'—':String(portDiff)}</td><td class="mono">${lastBestShare==null?'—':String(lastBestShare)}</td></tr>`}
           </tbody>
         </table>
       </div>
@@ -1538,14 +1547,20 @@ function updateCoinDOM(poolId){
 }
 
 function buildMinerWorkersTableRows(workersList, row, hr30, hr1h, bestShare, portDiff, lastBestShare, workerName){
+  function wValids(w){ return workerValids(w===row && row ? { ...row, validShares: row.validShares ?? row.accepted ?? w.validShares } : w); }
+  function wInvalid(w){ return workerInvalid(w===row && row ? { ...row, invalidShares: row.invalidShares ?? row.rejected ?? w.invalidShares } : w); }
+  function wStale(w){ return workerStale(w===row && row ? { ...row, staleShares: row.staleShares ?? w.staleShares } : w); }
+  function wBestShare(w){ return workerBestShare(w===row && row ? { ...row, bestShare: row.bestShare ?? w.bestShare } : w); }
+  function wPort(w){ return workerPort(w===row && row ? { ...row, port: row.port ?? w.port } : w); }
+  function wLastShare(w){ return workerLastShare(w===row && row ? { ...row, lastShare: row.lastShare ?? w.lastShare } : w); }
   if(!workersList.length){
-    return `<tr><td>${workerName}</td><td>${hr30==null?'0':fmtHashrate(hr30)}</td><td>${hr1h==null?'0':fmtHashrate(hr1h)}</td><td>0</td><td>0</td><td>0</td><td>${bestShare==null?'0':fmtCompact(bestShare)}</td><td>${portDiff==null?'0':String(portDiff)}</td><td class="mono">${lastBestShare==null?'0':String(lastBestShare)}</td></tr>`;
+    return `<tr><td>${workerName}</td><td>${hr30==null?'—':fmtHashrate(hr30)}</td><td>${hr1h==null?'—':fmtHashrate(hr1h)}</td><td>${row?wValids(row):'0'}</td><td>${row?wInvalid(row):'0'}</td><td>${row?wStale(row):'0'}</td><td>${bestShare==null?'—':fmtCompact(bestShare)}</td><td>${portDiff==null?'—':String(portDiff)}</td><td class="mono">${lastBestShare==null?'—':String(lastBestShare)}</td></tr>`;
   }
   return workersList.map((w,i)=>{
     const wn = workerNameOnly(w, i);
     const wh30 = workerHashrate30m(w, w===row ? hr30 : null);
     const wh1h = workerHashrate1h(w, w===row ? hr1h : null);
-    return `<tr><td>${wn}</td><td>${wh30==null?'0':fmtHashrate(wh30)}</td><td>${wh1h==null?'0':fmtHashrate(wh1h)}</td><td>${workerValids(w)}</td><td>${workerInvalid(w)}</td><td>${workerStale(w)}</td><td>${workerBestShare(w)}</td><td>${workerPort(w)}</td><td class="mono">${workerLastShare(w)}</td></tr>`;
+    return `<tr><td>${wn}</td><td>${wh30==null?'—':fmtHashrate(wh30)}</td><td>${wh1h==null?'—':fmtHashrate(wh1h)}</td><td>${wValids(w)}</td><td>${wInvalid(w)}</td><td>${wStale(w)}</td><td>${wBestShare(w)}</td><td>${wPort(w)}</td><td class="mono">${wLastShare(w)}</td></tr>`;
   }).join('');
 }
 
@@ -1561,7 +1576,7 @@ async function updateMinerWorkersTable(){
     const hr1h = row ? workerHashrate1h(row, null) : null;
     const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? null;
     const portDiff = st.portDifficulty ?? st.port ?? null;
-    const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? st.lastShareDifficulty ?? null;
+    const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? null;
     const workerName = row ? workerNameOnly(row, 0) : '—';
     const workersList = Array.isArray(st.workers) ? st.workers : (row?.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
     tb.innerHTML = buildMinerWorkersTableRows(workersList, row, hr30, hr1h, bestShare, portDiff, lastBestShare, workerName);
@@ -1597,6 +1612,15 @@ async function tickMinerRealtime(){
     setM('mChartDiff', n.netDiff!=null?fmtCompact(n.netDiff):'—');
     setM('mChartBlock', n.height!=null?fmtNumber(n.height):'—');
     setM('mChartTime', n.lastBlock!=null?String(n.lastBlock):'—');
+    try{
+      const st=await fetchMinerStats(CURRENT.poolId, CURRENT.addr);
+      const ps=st.pendingShares??null;
+      const bf=st.blocksFound??st.blocks??null;
+      const me=st.minerEffort??null;
+      setM('mShareSum', ps==null?'—':fmtShareSum(ps));
+      setM('mFound', bf==null||bf===''?fmtNumber(0):fmtNumber(bf));
+      setM('mEffort', me==null?'—':(Number(me).toFixed(3)+'%'));
+    }catch(e){}
     drawMinerChart(CURRENT.poolId, CURRENT.addr);
     await updateMinerWorkersTable();
   }catch(e){}
