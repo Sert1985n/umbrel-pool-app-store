@@ -1,10 +1,10 @@
 const API="/api";
 
 /* ---- polling ---- */
-const POLL_POOLS_MS  = 10000;
-const POLL_MINERS_MS = 10000;
-const POLL_PRICE_MS  = 60000;
-const PUSH_MS        = 10000;
+const POLL_POOLS_MS  = 3000;
+const POLL_MINERS_MS = 3000;
+const POLL_PRICE_MS  = 30000;
+const PUSH_MS        = 5000;
 
 /* ---------- helpers ---------- */
 function $(q,root=document){return root.querySelector(q)}
@@ -364,11 +364,12 @@ function workerDisplayName(m, index){
   return 'Default';
 }
 function workerNameOnly(m, index){
-  const name = m.workerName ?? m.worker ?? m.name;
+  const workerObj = m.worker && typeof m.worker === 'object' ? m.worker.name ?? m.worker.label : null;
+  const raw = m.workerName ?? m.name ?? m.label ?? (typeof m.worker === 'string' ? m.worker : null) ?? workerObj ?? m.workerId ?? null;
   const addr = m.miner ?? m.address ?? m.login ?? '';
-  if(name && String(name).trim()) {
-    const n = String(name).trim();
-    if(n.length<60 && n!==addr) return n;
+  if(raw && String(raw).trim()) {
+    const n = String(raw).trim();
+    if(n.length<60 && n!==addr && !/^Worker\s*\d+$/i.test(n)) return n;
   }
   if(typeof addr==='string' && addr.includes('.')) {
     const part = addr.split('.').slice(1).join('.').trim();
@@ -598,15 +599,17 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
   if (showA && maxA === 0 && minA === 0) { minAU = 0; maxAU = 1; }
   const maxBU=(maxB/unitB.v)*1.10, minBU=Math.max(0,(minB/unitB.v)*0.90);
 
+  const yMin=padT, yMax=padT+plotH;
+  function clampY(y){ return Math.max(yMin, Math.min(yMax, y)); }
   function yA(v){
     const vu=(v/unitA.v);
     const k=(vu-minAU)/((maxAU-minAU)||1);
-    return padT+(1-k)*plotH;
+    return clampY(padT+(1-k)*plotH);
   }
   function yB(v){
     const vu=(v/unitB.v);
     const k=(vu-minBU)/((maxBU-minBU)||1);
-    return padT+(1-k)*plotH;
+    return clampY(padT+(1-k)*plotH);
   }
 
   const st = getComputedStyle(document.documentElement);
@@ -717,8 +720,17 @@ function renderChartDual({aArr,bArr,tArr,labels,fmtA,fmtB,axisBRight=true,fillB=
 
     tip.style.display='block';
     const rowsTip = [];
-    if(showA) rowsTip.push(`<div class="row"><span>${labels[0]}</span><b>${fmtA(aArr[idx])}</b></div>`);
-    if(showB) rowsTip.push(`<div class="row"><span>${labels[1]}</span><b>${fmtB(bArr[idx], idx)}</b></div>`);
+    const yAat = showA ? yA(aArr[idx]) : 1e9;
+    const yBat = showB ? yB(bArr[idx]) : 1e9;
+    const distA = Math.abs(my - yAat);
+    const distB = Math.abs(my - yBat);
+    if(showA && showB){
+      if(distA <= distB) rowsTip.push(`<div class="row"><span>${labels[0]}</span><b>${fmtA(aArr[idx])}</b></div>`);
+      else rowsTip.push(`<div class="row"><span>${labels[1]}</span><b>${fmtB(bArr[idx], idx)}</b></div>`);
+    } else {
+      if(showA) rowsTip.push(`<div class="row"><span>${labels[0]}</span><b>${fmtA(aArr[idx])}</b></div>`);
+      if(showB) rowsTip.push(`<div class="row"><span>${labels[1]}</span><b>${fmtB(bArr[idx], idx)}</b></div>`);
+    }
     tip.innerHTML=`<div class="t">${times[idx]}</div>${rowsTip.join('')}`;
 
     const tw=tip.offsetWidth, th=tip.offsetHeight;
@@ -819,14 +831,9 @@ async function renderPools(){
   const app = document.getElementById('app');
   if (app) app.innerHTML = '<section class="surface"><div class="surface__head"><h1>Mining Pools</h1><div class="hint">Loading…</div></div><div style="padding:14px;color:var(--muted)">Loading…</div></section>';
   try {
-    await loadPools();
+    await Promise.all([loadPools(), refreshPrices()]);
   } catch (e) {
-    console.error('loadPools', e);
-  }
-  try {
-    await refreshPrices();
-  } catch (e) {
-    console.error('refreshPrices', e);
+    console.error('loadPools/refreshPrices', e);
   }
 
   if (!Array.isArray(POOLS)) POOLS = [];
@@ -837,7 +844,7 @@ async function renderPools(){
   const rows = poolsTableRows();
 
   $('#app').innerHTML=`
-    <section class="surface">
+    <section class="surface surface--compact">
       <div class="surface__head">
         <h1>Mining Pools</h1>
         <div class="hint"></div>
@@ -846,7 +853,7 @@ async function renderPools(){
         <table class="table">
           <thead><tr>
             <th>Pool</th><th>Algorithm</th><th>Miners</th><th>Hashrate</th>
-            <th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Reward</th>
+            <th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Price</th>
           </tr></thead>
           <tbody id="poolsTbody">${rows || '<tr><td colspan="8">—</td></tr>'}</tbody>
         </table>
@@ -861,7 +868,7 @@ function poolsTableRows(){
     const n=poolNumbers(p);
     const pr=priceForPool(p);
     const priceUsd = pr.usd==null?'—':fmtMoneyUsd(pr.usd);
-    const chg = pr.chg==null?'':` <span class="chg ${(Number(pr.chg)||0)>=0?'up':'down'}">(${fmtPct(Number(pr.chg)||0)} ${(Number(pr.chg)||0)>=0?'↑':'↓'})</span>`;
+    const chg = pr.chg==null?'':` <span class="chg ${(Number(pr.chg)||0)>=0?'up':'down'}">${fmtPct(Number(pr.chg)||0)}</span>`;
     const coinName=`${p.coin?.name || p.coin?.type || p.id} (${p.coin?.symbol || p.coin?.type || p.id})`;
     return `<tr class="row-link" data-pool="${p.id}" onclick="localStorage.setItem('${KEY_ACTIVE_POOL}','${p.id}'); location.hash='#/coin/${encodeURIComponent(p.id)}'">
       <td><div class="coin-cell">${iconImg(p)}<span>${coinName}</span></div></td>
@@ -871,7 +878,7 @@ function poolsTableRows(){
       <td>${fmtHashrate(n.netHash)}</td>
       <td>${fmtCompact(n.netDiff)}</td>
       <td>${priceUsd}${chg}</td>
-      <td>${fmtReward(p)}</td>
+      <td>${priceUsd}${chg}</td>
     </tr>`;
   }).join('');
 }
@@ -884,8 +891,7 @@ function updatePoolsDOM(){
 
 async function renderCoin(poolId){
   renderLoading("Coin");
-  await loadPools();
-  await refreshPrices();
+  await Promise.all([loadPools(), refreshPrices()]);
   if(!POOL_BY_ID.has(poolId)){ await renderPools(); return; }
   setActivePool(poolId);
 
@@ -901,7 +907,7 @@ async function renderCoin(poolId){
   const effortStr = n.effort != null ? (n.effort.toFixed(0) + '%') : '—';
 
   $('#app').innerHTML=`
-    <section class="surface">
+    <section class="surface surface--compact">
       ${coinMenu(poolId,'home')}
       <div class="surface__head">
         <h1>${iconImg(pool)} ${pool.coin?.name||pool.coin?.type||poolId} (${pool.coin?.symbol||pool.coin?.type||poolId})</h1>
@@ -1291,8 +1297,7 @@ function drawMinerChart(poolId, addr){
     fmtA: (v)=>fmtHashrate(v),
     fmtB: (v)=>fmtHashrate(v),
     axisBRight: false,
-    fillB: true,
-    fillAlpha: 0.28,
+    fillB: false,
     showA,
     showB
   });
@@ -1339,8 +1344,8 @@ async function renderMiner(poolId, addr, tab='dashboard'){
   const todayPaid = st.todayPaid ?? null;
   const minerEffort = st.minerEffort ?? null;
   const blocksFound = st.blocksFound ?? st.blocks ?? null;
-  const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? null;
-  const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? null;
+  const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? st.lastShareDifficulty ?? null;
+  const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? row?.bestShareDifficulty ?? null;
   const portDiff = st.portDifficulty ?? st.port ?? pool?.ports?.[Object.keys(pool.ports||{})[0]]?.difficulty ?? null;
   const workerName = row ? workerNameOnly(row, 0) : '—';
   const workersList = Array.isArray(st.workers) ? st.workers : (row && row.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
@@ -1457,7 +1462,7 @@ async function renderMiner(poolId, addr, tab='dashboard'){
   }
 
   $('#app').innerHTML=`
-    <section class="surface">
+    <section class="surface surface--compact">
       ${coinMenu(poolId,'miners')}
       <div class="surface__head">
         <h1>${iconImg(pool)} ${pool.coin?.name||poolId} — Miner</h1>
@@ -1534,9 +1539,9 @@ async function updateMinerWorkersTable(){
     const row = miners.find(x => (x.miner||x.address||x.login) === addr) || null;
     const hr30 = row ? workerHashrate30m(row, null) : null;
     const hr1h = row ? workerHashrate1h(row, null) : null;
-    const bestShare = st.bestShare ?? st.bestShareDifficulty ?? row?.bestShare ?? null;
+    const bestShare = st.bestShare ?? st.bestShareDifficulty ?? st.bestDifficulty ?? row?.bestShare ?? null;
     const portDiff = st.portDifficulty ?? st.port ?? null;
-    const lastBestShare = st.lastBestShare ?? st.lastShare ?? null;
+    const lastBestShare = st.lastBestShare ?? st.lastBestShareTime ?? st.lastShare ?? st.lastShareTime ?? null;
     const workerName = row ? workerNameOnly(row, 0) : '—';
     const workersList = Array.isArray(st.workers) ? st.workers : (row?.workers ? (Array.isArray(row.workers) ? row.workers : [row]) : (row ? [row] : []));
     tb.innerHTML = buildMinerWorkersTableRows(workersList, row, hr30, hr1h, bestShare, portDiff, lastBestShare, workerName);
@@ -1713,11 +1718,18 @@ function initHeaderDD(){
   async function runRoute(){
     try {
       await router();
+      scheduleImmediateRefresh();
     } catch (err) {
       console.error(err);
       const app = document.getElementById('app');
-      if (app) app.innerHTML = `<section class="surface"><div class="surface__head"><h1>Mining Pools</h1></div><div style="padding:14px;color:var(--muted)">Failed to load data. Check API /api/pools and console.</div><div class="table-wrap"><table class="table"><thead><tr><th>Pool</th><th>Algorithm</th><th>Miners</th><th>Hashrate</th><th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Reward</th></tr></thead><tbody><tr><td colspan="8">—</td></tr></tbody></table></div></section>`;
+      if (app) app.innerHTML = `<section class="surface surface--compact"><div class="surface__head"><h1>Mining Pools</h1></div><div style="padding:14px;color:var(--muted)">Failed to load data. Check API /api/pools and console.</div><div class="table-wrap"><table class="table"><thead><tr><th>Pool</th><th>Algorithm</th><th>Miners</th><th>Hashrate</th><th>Network Hashrate</th><th>Network Difficulty</th><th>Current Price</th><th>Price</th></tr></thead><tbody><tr><td colspan="8">—</td></tr></tbody></table></div></section>`;
     }
+  }
+  function scheduleImmediateRefresh(){
+    if(CURRENT.page==='pools'){ tickPools(); return; }
+    if(CURRENT.page==='coin' && CURRENT.poolId){ tickPools(); tickPrices(); return; }
+    if(CURRENT.page==='miners'){ tickMiners(); return; }
+    if(CURRENT.page==='miner'){ tickMinerRealtime(); return; }
   }
   runRoute();
   ensureTimers();
